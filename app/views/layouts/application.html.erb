@@ -11,6 +11,15 @@
   </head>
 
   <body>
+  <%= render 'shared/navbar' %>
     <%= yield %>
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
+  <div style="background-color: beige;">
+    <h1> Test </h1>
+    <p>Number of users: <%= User.count %></p>
+    <p>Number of trips: <%= Trip.count %></p>
+    <p>Number of activities: <%= Activity.count %></p>
+  </div>
   </body>
 </html>
