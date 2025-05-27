@@ -8,4 +8,15 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  resources :users, only: [:show, :edit, :update] do
+    resources :preferences, only: [:create]
+  end
+
+  resources :trips, only: [:create] do # location/budget/dates
+    resources :trip_users  # people going on the trip
+    resources :trip_activities  # itinerary
+  end
+
+  resources :activities, only: [:show] # activities that will be in the itinerary
+  resources :activity_reviews, only: [:create]
 end
