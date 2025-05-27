@@ -331,7 +331,7 @@ DEPENDENCIES
   font-awesome-sass (~> 6.1)
   importmap-rails
   jbuilder
-  pg (~> 1.1)
+  pg (~> 1.5)
   puma (>= 5.0)
   rails (~> 7.1.5, >= 7.1.5.1)
   sassc-rails
