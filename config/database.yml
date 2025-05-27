@@ -22,8 +22,8 @@ default: &default
 development:
   <<: *default
   database: plan_and_go_development
-  username: postgres  # or whatever your role is
-  password: yourpassword  # optional, but usually needed
+  username: postgres
+  password: yourpassword
   host: localhost
 
   # The specified database role being used to connect to PostgreSQL.
