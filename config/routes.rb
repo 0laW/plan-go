@@ -15,9 +15,9 @@ Rails.application.routes.draw do
   resources :preferences, only: [:new, :create]
 
   resources :trips, only: [:new, :create, :show] do # location/budget/dates
-    resources :trip_activities [:create]
+    resources :trip_activities, only: [:create]
   end
-  resources :trip_activities [:destroy]
+  resources :trip_activities, only:[:destroy]
   resources :activities do
     resources :activity_reviews, only: [:create]
   end
