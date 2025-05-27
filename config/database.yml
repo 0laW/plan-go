@@ -78,6 +78,7 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
+  url: <%= ENV['DATABASE_URL'] %>
   <<: *default
   database: plan_and_go_production
   username: plan_and_go
