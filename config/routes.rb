@@ -17,9 +17,7 @@ Rails.application.routes.draw do
   resources :trips, only: [:new, :create, :show] do # location/budget/dates
     resources :trip_activities [:create]
   end
-
   resources :trip_activities [:destroy]
-
   resources :activities do
     resources :activity_reviews, only: [:create]
   end
