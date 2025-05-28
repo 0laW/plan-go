@@ -1,0 +1,30 @@
+<footer class="footer">
+  <div class="container text-center">
+    <p>© 2025 PlanAndGo | Your AI-powered travel planner 🚀</p>
+    <nav>
+      <%= link_to "Home", root_path, class: "footer-link" %>
+      <%= link_to "Trips", trips_path, class: "footer-link" %>
+      <%= link_to "Activities", activities_path, class: "footer-link" %>
+      <%= link_to "Profile", class: "footer-link" %>
+      <%= link_to "Settings", class: "footer-link" %>
+      <%= link_to "Help", class: "footer-link" %>
+      <%= link_to "About", class: "footer-link" %>
+      <%= link_to "Contact", class: "footer-link" %>
+      <%= link_to "Privacy Policy", class: "footer-link" %>
+    </nav>
+    <div class="social-links">
+      <%= link_to "https://www.instagram.com/yourprofile", target: "_blank", rel: "noopener", class: "social-link" do %>
+        <i class="fa-brands fa-square-instagram"></i>
+      <% end %>
+      <%= link_to "https://www.facebook.com/yourprofile", target: "_blank", rel: "noopener", class: "social-link" do %>
+         <i class="fa-brands fa-square-facebook"></i>
+      <% end %>
+      <%= link_to "https://www.linkedin.com/in/yourprofile", target: "_blank", rel: "noopener", class: "social-link" do %>
+        <i class="fa-brands fa-square-linkedin"></i>
+      <% end %>
+      <%= link_to "https://twitter.com/yourprofile", target: "_blank", rel: "noopener", class: "social-link" do %>
+         <i class="fa-brands fa-square-twitter"></i>
+      <% end %>
+    </div>
+  </div>
+</footer>
