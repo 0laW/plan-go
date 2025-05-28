@@ -8,18 +8,18 @@
       <!-- Logo -->
       <%= link_to root_path do %>
       <!-- Image needs to be added -->
-        <%= image_tag "https://res.cloudinary.com/do2s320cj/image/upload/v1748448198/monkey_logo_q8aoke.png", alt: "Curious George", style: "height: 35px;" %>
+        <%= image_tag "TBC", alt: "Plan&Go Mascot name", style: "height: 35px;" %>
       <% end %>
 
       <!-- Plan -->
+      <%= link_to "Plan", trip_path, class: "text-style pt-1" %>
 
       <!-- Go/Search -->
+      <%= link_to "Go/Search", new_trip_path, class: "text-style pt-1" %>
 
       <!-- Sell (only if signed in) -->
       <% if user_signed_in? %>
-        <%#= link_to "About us", about_path, class: "text-style pt-1" %>
-        <%#= link_to "Plan", trip_path, class: "text-style pt-1" %>
-        <%= link_to "Go/Search", new_trip_path, class: "text-style pt-1" %>
+        <%= link_to "About us", about_path, class: "text-style pt-1" %>
       <% end %>
     </div>
 
@@ -31,7 +31,7 @@
         </button>
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" style="background: #000; color: white; box-shadow: 0 0px 15px rgba(0, 0, 0, 0.4);">
           <li class="pt-2 text-start"><%= link_to "My Profile", user_path(current_user), class: "dropdown-item text-style" %></li>
-          <li class="pt-2 text-start"><%#= link_to "My Trips/Activities", trip_path, class: "dropdown-item text-style" %></li>
+          <li class="pt-2 text-start"><%= link_to "My Trips/Activities", trip_path, class: "dropdown-item text-style" %></li>
           <li class="pt-2 text-start"><%= link_to "Log Out", destroy_user_session_path, class: "dropdown-item text-style", data: { turbo_method: :delete } %></li>
         </ul>
       </div>
