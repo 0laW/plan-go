@@ -1,0 +1,8 @@
+<div
+  data-controller="map"
+  data-map-api-key-value="<%= ENV['MAPBOX_PUBLIC_TOKEN'] %>"
+  data-map-markers-value="<%= @markers.to_json %>"
+  style="width: 100%; height: 500px;">
+</div>
+
+<%= debug @markers %>
