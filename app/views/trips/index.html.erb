@@ -1,2 +1,93 @@
-<h1>Trips#index</h1>
-<p>Find your trips here.</p>
+<div
+  class=" d-flex vh-100 vw-100 justify-content-center align-items-center text-center p-3"
+  style="background-color: black;"
+>
+  <div class="bg-white bg-opacity-75 rounded-4 p-4 shadow-lg" style="backdrop-filter: blur(50px); max-width: 800px; width: 90%; color: black;">
+    <h1 class="archivo-black fw-bold fs-3 mb-2">Plan your Perfect Route</h1>
+    <p class="archivo text-secondary fs-6 mb-4">Powered by AI and your preferences... ✨</p>
+
+    <form>
+      <div class="d-flex flex-wrap justify-content-center gap-3 mb-4 align-items-center">
+
+        <div class="bg-white bg-opacity-75 rounded-3 p-3 d-flex flex-column align-items-center justify-content-center" style="min-width: 180px; min-height: 110px; flex: 1;">
+          <label for="location" class="archivo-black form-label fw-semibold fs-7 mb-2">
+            <i class="bi bi-geo-alt-fill me-1"></i> Destination
+          </label>
+            <input type="text" id="location" class="form-control form-control-sm flatpickr-input border-secondary rounded-pill" style="min-width: 180px;" placeholder="e.g Madrid, Spain" />
+        </div>
+
+        <div class=" bg-white bg-opacity-75 rounded-3 p-3 d-flex flex-column align-items-center justify-content-center" style="min-width: 180px; min-height: 110px; flex: 1;">
+          <label for="budget-slider" class="archivo-black form-label fw-semibold fs-7 mb-2">
+            <i class="bi bi-cash-coin me-1"></i> Budget
+          </label>
+
+          <input type="range" id="budget-slider" class="form-range" min="0" max="5" step="1" value="0" style="width: 100%;" />
+
+          <div class="d-flex justify-content-between w-100 px-1 mt-1" style="font-size: 0.65rem; user-select: none;">
+            <span>Free</span>
+            <span>£10</span>
+            <span>£20</span>
+            <span>£30</span>
+            <span>£40</span>
+            <span>£50+</span>
+          </div>
+
+        </div>
+
+        <div class="bg-white bg-opacity-75 rounded-3 p-3 d-flex flex-column align-items-center justify-content-center" style="min-width: 180px; min-height: 110px; flex: 1;">
+          <label for="date" class="archivo-black form-label fw-semibold fs-7 mb-2">
+            <i class="bi bi-calendar-event me-1"></i> Choose Date
+          </label>
+            <input type="text" id="date" class="form-control form-control-sm flatpickr-input border-secondary rounded-pill" style="min-width: 180px;" placeholder="May 28, 2025" />
+        </div>
+
+      </div>
+
+      <button type="submit" class="archivo-black btn-lg btn-dark btn rounded-3" style="max-height: 50px;">Plan your trip</button>
+    </form>
+
+    <a href="#" class="archivo fw-bold text-black text-decoration-none border-bottom border-0 border-black"
+       onmouseover="thiss.style.borderBottom='2px solid black'" onmouseout="this.style.borderBottom='0'">
+      <br> Edit Preferences
+    </a>
+  </div>
+</div>
+
+<script>
+  // Google Places Autocomplete initialization
+  function initAutocomplete() {
+    const input = document.getElementById('location');
+    if (!input) return;
+
+    const autocomplete = new google.maps.places.Autocomplete(input, {
+      types: ['(cities)'],
+      strictBounds: false,
+    });
+
+    autocomplete.addListener('place_changed', () => {
+      const place = autocomplete.getPlace();
+      console.log('Place selected:', place.formatted_address || place.name);
+    });
+  }
+
+  window.initAutocomplete = initAutocomplete;
+</script>
+
+<style>
+.flatpickr-calendar {
+  transform: scale(0.7);
+  font-size: 16px;
+  padding: 0.25rem;
+}
+
+.archivo-black,
+.archivo-black * {
+  font-family: 'Archivo Black', sans-serif !important;
+}
+
+.archivo,
+.archivo * {
+  font-family: 'Archivo', sans-serif !important;
+}
+
+</style>
