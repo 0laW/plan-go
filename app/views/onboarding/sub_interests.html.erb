@@ -1,19 +1,19 @@
 <% content_for :hide_navbar, true %>
 
-<div class="d-flex vh-100 justify-content-center align-items-center" style="background-color: black;">
+<div class="d-flex vh-100 justify-content-center align-items-center" style="background-color: white;">
   <div class="bg-white bg-opacity-75 rounded-4 p-4 shadow-lg text-center" style="backdrop-filter: blur(50px); max-width: 600px; width: 90%; color: black;">
-    <h1 class="archivo-black fw-bold fs-3 mb-4">Refine your interests</h1>
+    <h1 class="archivo-black fw-bold fs-3 mb-4">Let's dive deeper...</h1>
 
     <%= form_with url: onboarding_save_sub_interests_path, method: :post, local: true do %>
       <div class="overflow-auto" style="max-height: 60vh;">
         <% @selected_category_ids.each do |cat_id| %>
           <% category = Category.find(cat_id) %>
-          <h5 class="archivo fw-semibold mt-3"><%= category.name %></h5>
+          <h5 class="archivo-black  mt-3"><%= category.name %></h5>
 
           <div class="d-flex flex-wrap gap-2 justify-content-center mb-5">
             <% @subcategories.where(category_id: cat_id).each do |subcat| %>
               <%= check_box_tag "subcategory_ids[]", subcat.id, false, class: "btn-check", id: "subcat_#{subcat.id}", autocomplete: "off" %>
-              <%= label_tag "subcat_#{subcat.id}", subcat.name, class: "btn btn-outline-primary rounded-pill px-4 py-2 archivo-black" %>
+              <%= label_tag "subcat_#{subcat.id}", subcat.name, class: "btn btn-outline-primary rounded-pill px-4 py-2 archivo fw-semibold" %>
             <% end %>
           </div>
         <% end %>
@@ -23,7 +23,7 @@
     <% end %>
 
     <div class="progress mt-4" style="height: 8px; border-radius: 4px;">
-      <div class="progress-bar bg-primary" style="width: 40%;"></div>
+      <div class="progress-bar bg-success" style="width: 50%;"></div>
     </div>
   </div>
 </div>
