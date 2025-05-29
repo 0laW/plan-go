@@ -1,38 +1,33 @@
-<!-- Bootstrap 5.3 CDN -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
-<!-- Flatpickr -->
 <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 
 <div style="background-image: url('https://i.natgeofe.com/k/a6c9f195-de20-445d-9d36-745ef56042c5/OG_Colosseum_Ancient-Rome_KIDS_1122_3x2.jpg');background-size: cover; background-position: center; background-repeat: no-repeat;"class="d-flex vh-100 justify-content-center align-items-center" style="background-color: black;">
-  <div class="bg-white bg-opacity-75 rounded-4 p-4 shadow-lg text-center" style="backdrop-filter: blur(50px); max-width: 800px; width: 90%; color: black;">
+  <div class="bg-white bg-opacity-75 rounded-4 p-4 shadow-lg text-center border border-white" style="backdrop-filter: blur(50px); max-width: 800px; width: 90%; color: black;">
     <h1 class="archivo-black fw-bold fs-3 mb-2">Plan your Perfect Route</h1>
     <p class="archivo text-secondary fs-6 mb-4">Powered by AI and your preferences... ✨</p>
 
     <form>
       <div class="d-flex flex-wrap justify-content-center gap-3 mb-4 align-items-stretch">
 
-        <!-- Start Date -->
-        <div class="bg-white bg-opacity-75 rounded-3 p-3 d-flex flex-column align-items-center justify-content-center" style="min-width: 180px; flex: 1 1 180px;">
+        <div class="bg-white bg-opacity-75 rounded-3 p-3 d-flex flex-column align-items-center justify-content-center border border-white" style="min-width: 180px; flex: 1 1 180px;">
           <label for="start-date" class="archivo form-label fw-semibold small mb-2">
             <i class="bi bi-calendar-event me-1"></i> Start Date
           </label>
           <input type="text" id="start-date" class="form-control form-control-sm border-secondary rounded-pill" placeholder="Select start date" />
         </div>
 
-        <!-- End Date -->
-        <div class="bg-white bg-opacity-75 rounded-3 p-3 d-flex flex-column align-items-center justify-content-center" style="min-width: 180px; flex: 1 1 180px;">
+        <div class="bg-white bg-opacity-75 rounded-3 p-3 d-flex flex-column align-items-center justify-content-center border border-white" style="min-width: 180px; flex: 1 1 180px;">
           <label for="end-date" class="archivo form-label fw-semibold small mb-2">
             <i class="bi bi-calendar-event me-1"></i> End Date
           </label>
           <input type="text" id="end-date" class="form-control form-control-sm border-secondary rounded-pill" placeholder="Select end date" />
         </div>
 
-        <!-- Budget -->
-        <div class="bg-white bg-opacity-75 rounded-3 p-3 d-flex flex-column align-items-center justify-content-center" style="min-width: 180px; flex: 1 1 180px;">
+        <div class="bg-white bg-opacity-75 rounded-3 p-3 d-flex flex-column align-items-center justify-content-center border border-white" style="min-width: 180px; flex: 1 1 180px;">
           <label for="budget-slider" class="archivo form-label fw-semibold small mb-2 d-flex align-items-center justify-content-center gap-2">
             <i class="bi bi-cash-coin me-1"></i> Budget
             <span id="budget-value" class="fw-semibold" style="font-size: 0.85rem; color: #0d6efd;">Free</span>
@@ -47,8 +42,7 @@
           </div>
         </div>
 
-        <!-- Destination -->
-        <div class="bg-white bg-opacity-75 rounded-3 p-3 d-flex flex-column align-items-center justify-content-center" style="min-width: 180px; flex: 1 1 180px;">
+        <div class="bg-white bg-opacity-75 rounded-3 p-3 d-flex flex-column align-items-center justify-content-center border border-white" style="min-width: 180px; flex: 1 1 180px;">
           <label for="location" class="archivo form-label fw-semibold small mb-2">
             <i class="bi bi-geo-alt-fill me-1"></i> Destination
           </label>
@@ -70,7 +64,6 @@
   </div>
 </div>
 
-<!-- Custom Scripts -->
 <script>
   const budgetSlider = document.getElementById('budget-slider');
   const budgetValue = document.getElementById('budget-value');
@@ -111,11 +104,14 @@
   }
 </script>
 
-<!-- Custom Fonts -->
 <style>
   .flatpickr-calendar {
     transform: scale(0.7);
     font-size: 16px;
     padding: 0.25rem;
+  }
+
+  .border {
+    border-width: 2px !important;
   }
 </style>
