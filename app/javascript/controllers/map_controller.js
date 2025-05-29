@@ -13,8 +13,12 @@ export default class extends Controller {
 
     this.map = new mapboxgl.Map({
       container: this.element,
-      style: "mapbox://styles/mapbox/streets-v10"
+      style: "mapbox://styles/mapbox/streets-v10",
+      center: [0, 51],
+      zoom: 4
     })
+
+    window.mapInstance = this.map
 
     // Just in case data was passed in as a JSON string
     if (typeof this.markersValue === "string") {
