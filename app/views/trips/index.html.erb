@@ -1,60 +1,93 @@
-<div
-  class=" d-flex vh-100 vw-100 justify-content-center align-items-center text-center p-3"
-  style="background-color: black;"
->
-  <div class="bg-white bg-opacity-75 rounded-4 p-4 shadow-lg" style="backdrop-filter: blur(50px); max-width: 800px; width: 90%; color: black;">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+<link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
+<div style="background-image: url('https://i.natgeofe.com/k/a6c9f195-de20-445d-9d36-745ef56042c5/OG_Colosseum_Ancient-Rome_KIDS_1122_3x2.jpg');background-size: cover; background-position: center; background-repeat: no-repeat;"class="d-flex vh-100 justify-content-center align-items-center" style="background-color: black;">
+  <div class="bg-white bg-opacity-75 rounded-4 p-4 shadow-lg text-center border border-white" style="backdrop-filter: blur(50px); max-width: 800px; width: 90%; color: black;">
     <h1 class="archivo-black fw-bold fs-3 mb-2">Plan your Perfect Route</h1>
     <p class="archivo text-secondary fs-6 mb-4">Powered by AI and your preferences... ✨</p>
 
     <form>
-      <div class="d-flex flex-wrap justify-content-center gap-3 mb-4 align-items-center">
+      <div class="d-flex flex-wrap justify-content-center gap-3 mb-4 align-items-stretch">
 
-        <div class="bg-white bg-opacity-75 rounded-3 p-3 d-flex flex-column align-items-center justify-content-center" style="min-width: 180px; min-height: 110px; flex: 1;">
-          <label for="location" class="archivo-black form-label fw-semibold fs-7 mb-2">
-            <i class="bi bi-geo-alt-fill me-1"></i> Destination
+        <div class="bg-white bg-opacity-75 rounded-3 p-3 d-flex flex-column align-items-center justify-content-center border border-white" style="min-width: 180px; flex: 1 1 180px;">
+          <label for="start-date" class="archivo form-label fw-semibold small mb-2">
+            <i class="bi bi-calendar-event me-1"></i> Start Date
           </label>
-            <input type="text" id="location" class="form-control form-control-sm flatpickr-input border-secondary rounded-pill" style="min-width: 180px;" placeholder="e.g Madrid, Spain" />
+          <input type="text" id="start-date" class="form-control form-control-sm border-secondary rounded-pill" placeholder="Select start date" />
         </div>
 
-        <div class=" bg-white bg-opacity-75 rounded-3 p-3 d-flex flex-column align-items-center justify-content-center" style="min-width: 180px; min-height: 110px; flex: 1;">
-          <label for="budget-slider" class="archivo-black form-label fw-semibold fs-7 mb-2">
+        <div class="bg-white bg-opacity-75 rounded-3 p-3 d-flex flex-column align-items-center justify-content-center border border-white" style="min-width: 180px; flex: 1 1 180px;">
+          <label for="end-date" class="archivo form-label fw-semibold small mb-2">
+            <i class="bi bi-calendar-event me-1"></i> End Date
+          </label>
+          <input type="text" id="end-date" class="form-control form-control-sm border-secondary rounded-pill" placeholder="Select end date" />
+        </div>
+
+        <div class="bg-white bg-opacity-75 rounded-3 p-3 d-flex flex-column align-items-center justify-content-center border border-white" style="min-width: 180px; flex: 1 1 180px;">
+          <label for="budget-slider" class="archivo form-label fw-semibold small mb-2 d-flex align-items-center justify-content-center gap-2">
             <i class="bi bi-cash-coin me-1"></i> Budget
+            <span id="budget-value" class="fw-semibold" style="font-size: 0.85rem; color: #0d6efd;">Free</span>
           </label>
 
-          <input type="range" id="budget-slider" class="form-range" min="0" max="5" step="1" value="0" style="width: 100%;" />
-
+          <input type="range" id="budget-slider" class="form-range" min="0" max="3" step="1" value="0" style="width: 100%;" />
           <div class="d-flex justify-content-between w-100 px-1 mt-1" style="font-size: 0.65rem; user-select: none;">
             <span>Free</span>
-            <span>£10</span>
-            <span>£20</span>
-            <span>£30</span>
-            <span>£40</span>
-            <span>£50+</span>
+            <span>Low</span>
+            <span>Basic</span>
+            <span>Huge</span>
           </div>
-
         </div>
 
-        <div class="bg-white bg-opacity-75 rounded-3 p-3 d-flex flex-column align-items-center justify-content-center" style="min-width: 180px; min-height: 110px; flex: 1;">
-          <label for="date" class="archivo-black form-label fw-semibold fs-7 mb-2">
-            <i class="bi bi-calendar-event me-1"></i> Choose Date
+        <div class="bg-white bg-opacity-75 rounded-3 p-3 d-flex flex-column align-items-center justify-content-center border border-white" style="min-width: 180px; flex: 1 1 180px;">
+          <label for="location" class="archivo form-label fw-semibold small mb-2">
+            <i class="bi bi-geo-alt-fill me-1"></i> Destination
           </label>
-            <input type="text" id="date" class="form-control form-control-sm flatpickr-input border-secondary rounded-pill" style="min-width: 180px;" placeholder="May 28, 2025" />
+          <input type="text" id="location" class="form-control form-control-sm border-secondary rounded-pill" placeholder="e.g. Madrid, Spain" />
         </div>
 
       </div>
 
-      <button type="submit" class="archivo-black btn-lg btn-dark btn rounded-3" style="max-height: 50px;">Plan your trip</button>
-    </form>
+      <button type="submit" class="btn btn-primary btn-lg rounded-pill archivo mb-2">Plan your trip →</button>
 
-    <a href="#" class="archivo fw-bold text-black text-decoration-none border-bottom border-0 border-black"
-       onmouseover="thiss.style.borderBottom='2px solid black'" onmouseout="this.style.borderBottom='0'">
-      <br> Edit Preferences
-    </a>
+      <br>
+      <br>
+      <a href="#" class="archivo  text-black text-decoration-none border-bottom border-0 border-black"
+         onmouseover="this.style.borderBottom='2px solid black'"
+         onmouseout="this.style.borderBottom='0'">
+        Edit Preferences
+      </a>
+    </form>
   </div>
 </div>
 
 <script>
-  // Google Places Autocomplete initialization
+  const budgetSlider = document.getElementById('budget-slider');
+  const budgetValue = document.getElementById('budget-value');
+  const budgetLabels = ["Free", "Low", "Basic", "Huge"];
+
+  budgetSlider.addEventListener('input', () => {
+    budgetValue.textContent = budgetLabels[budgetSlider.value];
+  });
+
+  const startDatePicker = flatpickr("#start-date", {
+    dateFormat: "M d, Y",
+    minDate: "today",
+    onChange: function (selectedDates) {
+      if (selectedDates.length > 0) {
+        endDatePicker.set('minDate', selectedDates[0]);
+      }
+    }
+  });
+
+  const endDatePicker = flatpickr("#end-date", {
+    dateFormat: "M d, Y",
+    minDate: "today",
+  });
+
   function initAutocomplete() {
     const input = document.getElementById('location');
     if (!input) return;
@@ -69,25 +102,16 @@
       console.log('Place selected:', place.formatted_address || place.name);
     });
   }
-
-  window.initAutocomplete = initAutocomplete;
 </script>
 
 <style>
-.flatpickr-calendar {
-  transform: scale(0.7);
-  font-size: 16px;
-  padding: 0.25rem;
-}
+  .flatpickr-calendar {
+    transform: scale(0.7);
+    font-size: 16px;
+    padding: 0.25rem;
+  }
 
-.archivo-black,
-.archivo-black * {
-  font-family: 'Archivo Black', sans-serif !important;
-}
-
-.archivo,
-.archivo * {
-  font-family: 'Archivo', sans-serif !important;
-}
-
+  .border {
+    border-width: 2px !important;
+  }
 </style>

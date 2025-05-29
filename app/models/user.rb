@@ -1,9 +1,15 @@
 class User < ApplicationRecord
+
+  has_many :preferences
+  has_many :trips
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
   has_many :activity_reviews
   has_many :trips
+  
+  validates :username, presence: true, uniqueness: true
 
   def level
     points = (activity_reviews.count * 2) + (trips.count * 5)

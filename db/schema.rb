@@ -10,7 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_29_110901) do
+
+ActiveRecord::Schema[7.1].define(version: 2025_05_28_224544) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -51,6 +53,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_29_110901) do
     t.bigint "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "latitude"
+    t.float "longitude"
     t.index ["category_id"], name: "index_activities_on_category_id"
   end
 
@@ -77,8 +81,17 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_29_110901) do
     t.bigint "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "subcategory_id"
     t.index ["category_id"], name: "index_preferences_on_category_id"
     t.index ["user_id"], name: "index_preferences_on_user_id"
+  end
+
+  create_table "subcategories", force: :cascade do |t|
+    t.string "name"
+    t.bigint "category_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_subcategories_on_category_id"
   end
 
   create_table "trip_activities", force: :cascade do |t|
@@ -107,6 +120,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_29_110901) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "latitude"
+    t.float "longitude"
     t.index ["user_id"], name: "index_trips_on_user_id"
   end
 
@@ -136,6 +151,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_29_110901) do
   add_foreign_key "activity_reviews", "users"
   add_foreign_key "preferences", "categories"
   add_foreign_key "preferences", "users"
+  add_foreign_key "subcategories", "categories"
   add_foreign_key "trip_activities", "activities"
   add_foreign_key "trip_activities", "trips"
   add_foreign_key "trip_users", "trips"

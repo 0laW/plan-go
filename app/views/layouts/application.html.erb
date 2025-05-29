@@ -8,6 +8,8 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css", media: "all" %>
+
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCR-Uj9tRILOCAWNAAr8bzAUOvn8ZH6irY&libraries=places&callback=initAutocomplete" async defer></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -19,18 +21,11 @@
   </head>
 
   <body>
-    <%= render 'shared/navbar' %>
+    <%= render('shared/navbar') unless content_for?(:hide_navbar) %>
     <%= yield %>
 
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
-
-    <div style="background-color: beige;">
-      <h1> Test </h1>
-      <p>Number of users: <%= User.count %></p>
-      <p>Number of trips: <%= Trip.count %></p>
-      <p>Number of activities: <%= Activity.count %></p>
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
@@ -43,10 +38,13 @@
         });
       });
     </script>
-
+    
     <turbo-frame
     id="contact_details"
     src="http://localhost:3000/contacts/9"
     complete=""></turbo-frame>
+
+    <%= render "shared/footer" %>
+
   </body>
 </html>
