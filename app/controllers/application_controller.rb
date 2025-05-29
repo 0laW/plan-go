@@ -3,6 +3,15 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  def after_sign_in_path_for(resource)
+    if session[:first_login].nil?
+      session[:first_login] = true
+      onboarding_welcome_path
+    else
+      super
+    end
+  end
+
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :user_image_url])
     devise_parameter_sanitizer.permit(:account_update, keys: [:username, :user_image_url])
