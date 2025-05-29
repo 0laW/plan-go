@@ -1,14 +1,14 @@
-<%= form_with url: users_path, method: :get, local: true, data: { controller: "search" } do %>
-  <%= label_tag :username, "Search a friend" %>
-  <%= text_field_tag :username, params[:username], data: { search_target: "input" } %>
-  <%= submit_tag "Search" %>
-<% end %>
+<div data-controller="search">
+  <%= label_tag :username, "Search by place or friend" %>
+  <%= text_field_tag :username, nil, placeholder: "e.g. jordang", data: { search_target: "input" } %>
+  <%= button_tag "Search", type: "button", data: { action: "click->search#submit" } %>
+</div>
 
 <div
   id="map"
   data-controller="map"
   data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"
-  data-map-markers-value='<%= raw(@markers.to_json) %>'
+  data-map-markers-value="<%= @markers.to_json %>"
   style="height: 500px; width: 100%;">
 </div>
 
