@@ -4,12 +4,12 @@
   <%= submit_tag "Search" %>
 <% end %>
 
-<%= tag.div id: "map",
-  class: "map",
-  data: {
-    controller: "map",
-    mapApiKeyValue: ENV["MAPBOX_API_KEY"],
-    mapMarkersValue: raw(@markers.to_json)
-  } %>
+<div
+  id="map"
+  data-controller="map"
+  data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"
+  data-map-markers-value='<%= raw(@markers.to_json) %>'
+  style="height: 500px; width: 100%;">
+</div>
 
 <%= debug @markers %>
