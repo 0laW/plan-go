@@ -1,0 +1,24 @@
+<h1>Your Trip Details</h1>
+<p><strong>Location:</strong> <%= @trip.location %></p>
+<p><strong>Start Date:</strong> <%= @trip.start_date %></p>
+<p><strong>End Date:</strong> <%= @trip.end_date %></p>
+<p><strong>Budget:</strong> <%= @trip.budget %></p>
+
+<hr>
+
+<h2>Your Preferences (TESTING)</h2>
+
+<% grouped = @preferences.group_by { |pref| pref.category.name } %>
+
+<% grouped.each do |category_name, prefs| %>
+  <% subcats = prefs.map(&:subcategory).compact.map(&:name) %>
+
+  <% if subcats.any? %>
+    <p><strong>Category:</strong> <%= category_name %></p>
+    <ul>
+      <% subcats.each do |subcat_name| %>
+        <li>Likes <%= subcat_name %></li>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>
