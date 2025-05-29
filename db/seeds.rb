@@ -1,14 +1,4 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
-
-puts "Seeding..."
+puts "🌱 Seeding..."
 
 # Clear existing data
 ActivityReview.destroy_all
@@ -16,6 +6,7 @@ TripActivity.destroy_all
 TripUser.destroy_all
 Preference.destroy_all
 Activity.destroy_all
+Subcategory.destroy_all
 Category.destroy_all
 Trip.destroy_all
 User.destroy_all
@@ -64,7 +55,7 @@ activity2 = Activity.create!(
   category: hiking
 )
 
-# Preferences (adding for Jordan and Diego)
+# Preferences
 user_jordan = User.find_by(first_name: "Jordan")
 user_diego = User.find_by(first_name: "Diego")
 
@@ -72,7 +63,7 @@ Preference.create!(user: user_jordan, category: beach)
 Preference.create!(user: user_jordan, category: food)
 Preference.create!(user: user_diego, category: hiking)
 
-# Trip (owned by Jordan)
+# Trip
 trip = Trip.create!(
   location: "Australia Adventure",
   start_date: Date.today,
@@ -81,12 +72,10 @@ trip = Trip.create!(
   user: user_jordan
 )
 
-# Trip Users (everyone joins the trip)
 User.all.each do |user|
   TripUser.create!(trip: trip, user: user)
 end
 
-# Trip Activities
 TripActivity.create!(trip: trip, activity: activity1)
 TripActivity.create!(trip: trip, activity: activity2)
 
@@ -106,5 +95,60 @@ ActivityReview.create!(
   comment: "Epic views and great hike.",
   date: Date.today - 1
 )
+
+# High-level Categories + Subcategories
+categories = [
+  { name: "🎨 Cultural", subcategories: ["🖼️ Art Museums", "🏛️ Historic Sites", "🎨 Street Art"] },
+  { name: "☕ Food & Drink", subcategories: ["🍜 Local Cuisine", "☕ Coffee Shops", "🍻 Bars & Pubs"] },
+  { name: "🎭 Entertainment", subcategories: ["🎶 Live Music", "🎟️ Theatre", "🤣 Comedy Shows"] },
+  { name: "🌿 Nature & Outdoors", subcategories: ["🥾 Hiking Trails", "🌳 Parks", "🏖️ Beaches"] },
+  { name: "🛍️ Shopping", subcategories: ["👗 Boutiques", "🛒 Markets", "🏬 Malls"] },
+  { name: "🧘 Wellness", subcategories: ["💆 Spas", "🧘 Yoga", "♨️ Hot Springs"] },
+  { name: "🎯 Experience Types", subcategories: ["🎨 Workshops", "🚌 Tours", "🎉 Festivals"] }
+]
+
+categories.each do |cat_data|
+  category = Category.create!(name: cat_data[:name])
+  cat_data[:subcategories].each do |sub_name|
+    Subcategory.create!(name: sub_name, category: category)
+  end
+end
+puts "✅ Done seeding!"
+
+# Clear existing
+Category.where(name: ['Style', 'Personality']).destroy_all
+
+style = Category.create!(name: 'Style')
+personality = Category.create!(name: 'Personality')
+
+# Style subcategories
+style_subcats = [
+  "Off-the-beaten-path / Iconic Must-Sees",
+  "Photo-worthy spots",
+  "Budget / Luxury",
+  "Solo / Social",
+  "LGBTQ+ Friendly",
+  "Pet-Friendly",
+  "Kid-Friendly"
+]
+
+style_subcats.each do |name|
+  Subcategory.create!(name: name, category: style)
+end
+
+# Personality subcategories
+personality_subcats = [
+  "Chill",
+  "Curious",
+  "Out All Night",
+  "Learn something",
+  "Eat well",
+  "Vibes",
+  "Insta moments"
+]
+
+personality_subcats.each do |name|
+  Subcategory.create!(name: name, category: personality)
+end
 
 puts "✅ Done seeding!"
