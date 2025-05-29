@@ -76,3 +76,5 @@ end
 gem 'devise'
 
 gem 'geocoder'
+
+gem 'ostruct'

@@ -1,8 +1,15 @@
-<div
-  data-controller="map"
-  data-map-api-key-value="<%= ENV['MAPBOX_PUBLIC_TOKEN'] %>"
-  data-map-markers-value="<%= @markers.to_json %>"
-  style="width: 100%; height: 500px;">
-</div>
+<%= form_with url: users_path, method: :get, local: true, data: { controller: "search" } do %>
+  <%= label_tag :username, "Search a friend" %>
+  <%= text_field_tag :username, params[:username], data: { search_target: "input" } %>
+  <%= submit_tag "Search" %>
+<% end %>
+
+<%= tag.div id: "map",
+  class: "map",
+  data: {
+    controller: "map",
+    mapApiKeyValue: ENV["MAPBOX_API_KEY"],
+    mapMarkersValue: raw(@markers.to_json)
+  } %>
 
 <%= debug @markers %>
