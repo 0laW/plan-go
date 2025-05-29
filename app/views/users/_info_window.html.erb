@@ -1,0 +1,13 @@
+<div class="info-window">
+  <strong><%= activity.name%></strong><br>
+  <%= activity.address %><br>
+  <em>Category:</em> <%= activity.category.name %><br>
+  <em>Visited:</em> <%= trip.start_date.strftime("%B %Y") %><br>
+
+  <% if reviews.any? %>
+    <div>
+      <strong>Review:</strong> <%= reviews.first.comment %> <br>
+      <em>Rating:</em> <%= reviews.first.rating %>/5
+    </div>
+  <% end %>
+</div>
