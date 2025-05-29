@@ -3,6 +3,11 @@ class TripsController < ApplicationController
     @trips = Trip.all
   end
 
+  def new
+    @trip = Trip.new
+  end
+
   def show
+
   end
 end
