@@ -1,6 +1,10 @@
+
 puts "🌱 Seeding..."
 
-# Clear existing data
+require 'dotenv/load'
+
+puts "Cleaning the DB..."
+
 ActivityReview.destroy_all
 TripActivity.destroy_all
 TripUser.destroy_all
@@ -11,6 +15,8 @@ Category.destroy_all
 Trip.destroy_all
 User.destroy_all
 
+puts "Seeding..."
+
 # Users
 users = [
   { first_name: "Diego", last_name: "Colina", username: "diegoc" },
@@ -20,7 +26,7 @@ users = [
   { first_name: "Jordan", last_name: "Gilbert", username: "jordang" }
 ]
 
-users.each do |user|
+user_records = users.map do |user|
   User.create!(
     first_name: user[:first_name],
     last_name: user[:last_name],
@@ -37,6 +43,7 @@ hiking = Category.create!(name: "Hiking")
 food = Category.create!(name: "Food & Drink")
 
 # Activities
+
 activity1 = Activity.create!(
   name: "Bondi Beach Surfing",
   location: "Sydney",
@@ -95,6 +102,64 @@ ActivityReview.create!(
   comment: "Epic views and great hike.",
   date: Date.today - 1
 )
+activities = [
+  { name: "Bondi Beach Surfing", location: "Sydney", address: "Queen Elizabeth Dr, Bondi Beach NSW 2026, Australia", description: "Surf lessons at Bondi Beach", rating: 4.7, category: beach },
+  { name: "Blue Mountains Hike", location: "Katoomba", address: "23-31 Echo Point Rd, Katoomba NSW 2780, Australia", description: "Hiking trail in Blue Mountains", rating: 4.9, category: hiking },
+  { name: "Sydney Food Tour", location: "Sydney", address: "Haymarket NSW 2000, Australia", description: "Explore food markets and cafes", rating: 4.6, category: food },
+  { name: "Manly Beach Day", location: "Manly", address: "North Steyne, Manly NSW 2095, Australia", description: "Relax and enjoy the beach", rating: 4.4, category: beach },
+  { name: "Coastal Cliff Walk", location: "Coogee", address: "Arden St, Coogee NSW 2034, Australia", description: "Scenic walk with ocean views", rating: 4.8, category: hiking }
+]
+
+activity_records = activities.map do |attrs|
+  activity = Activity.create!(attrs)
+  activity.geocode
+  activity.save!
+  activity
+end
+
+# Preferences
+Preference.create!(user: user_records[4], category: beach)
+Preference.create!(user: user_records[4], category: food)
+Preference.create!(user: user_records[0], category: hiking)
+
+# Helper to generate trips
+def create_trip_for(user, location, activities, start_offset)
+  trip = Trip.create!(
+    location: location,
+    start_date: Date.today - start_offset,
+    end_date: Date.today - (start_offset - 3),
+    budget: rand(500..1500).to_s,
+    user: user
+  )
+
+  # Add all users to trip
+  User.all.each do |u|
+    TripUser.create!(trip: trip, user: u)
+  end
+
+  # Add some activities
+  activities.sample(2).each do |activity|
+    TripActivity.create!(trip: trip, activity: activity)
+
+    # Add a review from the trip owner
+    ActivityReview.create!(
+      user: user,
+      activity: activity,
+      rating: rand(4.0..5.0).round(1),
+      comment: "Loved this place! #{activity.name}",
+      date: Date.today - (start_offset - 1)
+    )
+  end
+
+  trip
+end
+
+# Give each user 1-2 trips
+locations = ["Australia Adventure", "Mountain Getaway", "City Foodie Tour", "Beach Bliss", "Wilderness Retreat"]
+user_records.each_with_index do |user, i|
+  create_trip_for(user, locations[i % locations.size], activity_records, 10 + i * 5)
+  create_trip_for(user, "#{locations[i % locations.size]} Part 2", activity_records, 20 + i * 5) if i.even?
+end
 
 # High-level Categories + Subcategories
 categories = [
