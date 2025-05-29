@@ -59,7 +59,6 @@ class UsersController < ApplicationController
     }
   end
 
-<<<<<<< HEAD
   def show
     @user = User.find(params[:id])
   end
@@ -100,12 +99,10 @@ class UsersController < ApplicationController
     }
   end
 
-=======
   def edit
     @user = User.find(params[:id])
   end
 
->>>>>>> origin/master
   private
 
   def username_param
@@ -136,8 +133,6 @@ class UsersController < ApplicationController
       end
     end.compact
   end
-<<<<<<< HEAD
-=======
   puts "@markers: #{@markers.inspect}"
   def show
     @user = User.find(params[:id])
@@ -162,5 +157,4 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:username, :email, :user_image)
   end
->>>>>>> origin/master
 end
