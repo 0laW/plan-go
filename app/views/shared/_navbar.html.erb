@@ -1,28 +1,19 @@
-<nav class="navbar px-3 py-2">
+<nav class="navbar px-3 py-2 archivo-black">
   <div class="d-flex justify-content-between align-items-center w-100">
     <!-- Left side: Logo + Search + Links -->
     <div class="d-flex align-items-center gap-3">
-      <p>
-        Plan & Go
-      </p>
-      <% if user_signed_in? %>
-        <%#= link_to "About us", about_path, class: "text-style pt-1" %>
-        <%#= link_to "Plan", trip_path, class: "text-style pt-1" %>
-        <%= link_to "Go/Search", new_trip_path, class: "text-style pt-1" %>
-      <% end %>
+      <h1>
+      Plan & Go
+      </h1> 
     </div>
 
     <!-- Right side: Account dropdown or Log In -->
     <% if user_signed_in? %>
-      <div class="dropdown">
+      
         <button class="btn btn-secondary dropdown-toggle" style="background:none;border:none;cursor:pointer;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           Account
         </button>
-        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" style="background: #000; color: white; box-shadow: 0 0px 15px rgba(0, 0, 0, 0.4);">
-          <li class="pt-2 text-start"><%= link_to "My Profile", user_path(current_user), class: "dropdown-item text-style" %></li>
-          <li class="pt-2 text-start"><%#= link_to "My Trips/Activities", trip_path, class: "dropdown-item text-style" %></li>
-          <li class="pt-2 text-start"><%= link_to "Log Out", destroy_user_session_path, class: "dropdown-item text-style", data: { turbo_method: :delete } %></li>
-        </ul>
+       
       </div>
     <% else %>
       <%= link_to "Log In", new_user_session_path, class: "text-style" %>
@@ -33,20 +24,13 @@
 
 <nav class="navbar bg-body-tertiary fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Plan&Go</a>
+    <a class="navbar-brand archivo-black" href="#">Plan&Go</a>
     <%= link_to root_path do %>
       <%= image_tag "https://res.cloudinary.com/do2s320cj/image/upload/v1748448198/monkey_logo_q8aoke.png", alt: "Curious George", style: "height: 35px;" %>
     <% end %>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon">
-        <% if user_signed_in? %>
-          <%#= link_to "About us", about_path, class: "text-style pt-1" %>
-          <%#= link_to "Plan", trip_path, class: "text-style pt-1" %>
-          <%= link_to "Go/Search", new_trip_path, class: "text-style pt-1" %>
-        <% end %>
-      </span>
-
+      <span class="navbar-toggler-icon"> </span>
     </button>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
       <% if user_signed_in? %>
@@ -72,18 +56,24 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Plan</a>
-            <%= link_to "Go/Search", new_trip_path, class: "text-style pt-1" %>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Go Search</a>
-          </li>
+          
+         
+          <% if user_signed_in? %>
+            <li class="nav-item">
+              <a class="nav-link" href="#">My Profile</a>
+              <%#= link_to "My Profile", user_path(current_user), class: "text-style pt-1" %>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Plan</a>
+            </li>
+            <li class="pt-2 text-start"><%#= link_to "My Trips/Activities", trip_path, class: "dropdown-item text-style" %></li>
+            <form class="d-flex mt-3" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <li class="pt-2 text-start"><%= link_to "Log Out", destroy_user_session_path, class: "dropdown-item text-style", data: { turbo_method: :delete } %></li>
+          <% end %>
         </ul>
-        <form class="d-flex mt-3" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
       </div>
     </div>
   </div>
