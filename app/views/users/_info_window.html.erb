@@ -1,13 +1,18 @@
-<div class="info-window">
-  <strong><%= activity.name%></strong><br>
-  <%= activity.address %><br>
-  <em>Category:</em> <%= activity.category.name %><br>
-  <em>Visited:</em> <%= trip.start_date.strftime("%B %Y") %><br>
+<div class="card" style="min-width: 280px;">
+  <div class="card-body p-3">
+    <h5 class="card-title mb-2 text-primary"><%= activity.name %></h5>
+    <h6 class="card-subtitle mb-2 text-muted"><%= activity.address %></h6>
+    <p class="mb-1"><small><strong>Category:</strong> <%= activity.category&.name || "Unknown" %></small></p>
 
-  <% if reviews.any? %>
-    <div>
-      <strong>Review:</strong> <%= reviews.first.comment %> <br>
-      <em>Rating:</em> <%= reviews.first.rating %>/5
-    </div>
-  <% end %>
+    <% if trip&.start_date.present? %>
+      <p class="mb-1"><small><strong>Visited:</strong> <%= trip.start_date.strftime("%B %Y") %></small></p>
+    <% end %>
+
+    <% if reviews.any? %>
+      <div class="border-top pt-2 mt-2">
+        <p class="mb-1"><strong>Review:</strong> <%= reviews.first.comment %></p>
+        <p class="mb-0"><small><strong>Rating:</strong> <%= reviews.first.rating %>/5</small></p>
+      </div>
+    <% end %>
+  </div>
 </div>

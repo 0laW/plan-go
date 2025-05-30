@@ -1,8 +1,8 @@
 <% content_for :hide_navbar, true %>
 
-<div class="d-flex vh-100 justify-content-center align-items-center" style="background-color: black;">
+<div class="d-flex vh-100 justify-content-center align-items-center" style="background-color: white;">
   <div class="bg-white bg-opacity-75 rounded-4 p-4 shadow-lg text-center" style="backdrop-filter: blur(50px); max-width: 600px; width: 90%; color: black;">
-    <h1 class="archivo-black fw-bold fs-3 mb-3">✨ Welcome to Plan&Go, ✨<%= current_user.username %></h1>
+    <h1 class="archivo-black fw-bold fs-3 mb-3">✨ Welcome to Plan&Go, <%= current_user.first_name %>✨</h1>
     <p class="archivo fs-6 text-secondary mb-2">We build smart travel routes based on what you love. </p>
     <p class="archivo fs-6 text-secondary mb-2">Let’s get to know your vibe! </p><br>
 

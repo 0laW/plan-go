@@ -1,0 +1,56 @@
+<turbo-frame id="user_profile_<%= @user.id %>">
+  <%= form_with(model: user, local: false) do |form| %>
+    <div class="mb-3" style="width: 330px; margin: auto;">
+      <div class="form-floating mb-3">
+        <%= form.text_field :username, class: "form-control", id: "floatingUsername", placeholder: "Username", required: true %>
+        <%= form.label :username, "Username", for: "floatingUsername" %>
+      </div>
+
+      <%= form.label :user_image_url, "Choose your avatar", class: "form-label" %>
+      <div class="row row-cols-5 g-2 mb-2"">
+        <% avatar_urls = [
+          "https://source.unsplash.com/100x100/?portrait,1",
+          "https://source.unsplash.com/100x100/?portrait,2",
+          "https://source.unsplash.com/100x100/?portrait,3",
+          "https://source.unsplash.com/100x100/?portrait,4",
+          "https://source.unsplash.com/100x100/?portrait,5",
+          "https://source.unsplash.com/100x100/?portrait,1",
+          "https://source.unsplash.com/100x100/?portrait,2",
+          "https://source.unsplash.com/100x100/?portrait,3",
+          "https://source.unsplash.com/100x100/?portrait,4",
+          "https://source.unsplash.com/100x100/?portrait,5"
+        ] %>
+        <% avatar_urls.each do |url| %>
+          <div class="col d-flex justify-content-center">
+            <label class="avatar avatar-select-label" style="cursor:pointer;">
+              <%= form.radio_button :user_image_url, url, checked: (user.user_image_url == url), style: "display:none;" %>
+              <%= image_tag url, alt: "Avatar", class: "avatar avatar-select-img #{'avatar-selected' if user.user_image_url == url}", style: "width: 60px; height: 60px; border: 2px solid #ccc; margin: 0 5px;" %>
+            </label>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="form-floating mb-3">
+        <%= form.password_field :password, class: "form-control", id: "floatingPassword", placeholder: "Password", required: true %>
+        <%= form.label :password, "Password", for: "floatingPassword" %>
+      </div>
+
+      <div class="form-floating mb-3">
+        <%= form.email_field :email, class: "form-control", id: "floatingEmail", placeholder: "Email", required: true %>
+        <%= form.label :email, "Email", for: "floatingEmail" %>
+      </div>
+
+      <div class="form-floating mb-3">
+        <%= form.text_field :last_name, class: "form-control", id: "floatingLastName", placeholder: "Last Name", required: true %>
+        <%= form.label :last_name, "Last Name", for: "floatingLastName" %>
+      </div>
+
+      <div class="form-floating mb-3">
+        <%= form.text_field :first_name, class: "form-control", id: "floatingFirstName", placeholder: "First Name", required: true %>
+        <%= form.label :first_name, "First Name", for: "floatingFirstName" %>
+      </div>
+
+    <%= form.submit %>
+    <%= link_to "Cancel", user_path(user), data: { turbo_frame: "user_profile_#{user.id}" }, class: "btn btn-secondary ms-2" %>
+  <% end %>
+</turbo-frame>

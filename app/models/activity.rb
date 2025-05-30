@@ -1,7 +1,8 @@
 class Activity < ApplicationRecord
   belongs_to :category
-  has_many :trip_review
+  has_many :trip_reviews
   has_many :activity_reviews
+  has_many :trip_activities
   has_many :trips, through: :trip_activities
 
 
