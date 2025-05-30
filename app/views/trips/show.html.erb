@@ -1,24 +1,72 @@
-<h1>Your Trip Details</h1>
-<p><strong>Location:</strong> <%= @trip.location %></p>
-<p><strong>Start Date:</strong> <%= @trip.start_date %></p>
-<p><strong>End Date:</strong> <%= @trip.end_date %></p>
-<p><strong>Budget:</strong> <%= @trip.budget %></p>
+<div
+     class="d-flex justify-content-center align-items-center py-5 min-vh-100">
 
-<hr>
+  <div class="bg-white rounded-4 p-4 shadow-lg border border-white"
+       style="backdrop-filter: blur(40px); max-width: 900px; width: 95%; color: #212529;">
 
-<h2>Your Preferences (TESTING)</h2>
+    <h1 class="archivo-black fw-bold fs-3 mb-4 text-center">Your Trip Details</h1>
 
-<% grouped = @preferences.group_by { |pref| pref.category.name } %>
+    <div class="row mb-4 text-center text-md-start">
+      <div class="col-md-6 mb-3">
+        <p class="mb-1"><strong>Location:</strong></p>
+        <p class="fs-5 text-primary"><%= h @trip.location %></p>
+      </div>
+      <div class="col-md-3 mb-3">
+        <p class="mb-1"><strong>Start Date:</strong></p>
+        <p><%= @trip.start_date.strftime('%B %d, %Y') %></p>
+      </div>
+      <div class="col-md-3 mb-3">
+        <p class="mb-1"><strong>End Date:</strong></p>
+        <p><%= @trip.end_date.strftime('%B %d, %Y') %></p>
+      </div>
+    </div>
 
-<% grouped.each do |category_name, prefs| %>
-  <% subcats = prefs.map(&:subcategory).compact.map(&:name) %>
+    <hr class="my-4">
 
-  <% if subcats.any? %>
-    <p><strong>Category:</strong> <%= category_name %></p>
-    <ul>
-      <% subcats.each do |subcat_name| %>
-        <li>Likes <%= subcat_name %></li>
-      <% end %>
-    </ul>
-  <% end %>
-<% end %>
+    <h2 class="archivo fw-semibold mb-3">Planned Activities</h2>
+
+    <% if @trip.trip_activities.any? %>
+      <ul class="list-group">
+        <% @trip.trip_activities.order(:start_time).each do |ta| %>
+          <% activity = ta.activity %>
+          <li class="list-group-item mb-3 rounded-3 shadow-sm border border-light">
+            <div class="d-flex flex-column flex-md-row gap-3 align-items-center">
+              <% if activity.image_url.present? %>
+                <img src="<%= activity.image_url %>" alt="<%= h activity.name %>"
+                     class="rounded-3 shadow-sm"
+                     style="width: 180px; height: 120px; object-fit: cover; flex-shrink: 0;">
+              <% else %>
+                <div class="bg-secondary bg-opacity-10 rounded-3 d-flex justify-content-center align-items-center"
+                     style="width: 180px; height: 120px; flex-shrink: 0;">
+                  <i class="bi bi-image fs-1 text-muted"></i>
+                </div>
+              <% end %>
+
+              <div class="flex-grow-1">
+                <h5 class="mb-1 text-primary fw-bold"><%= h activity.name %></h5>
+                <p class="mb-1 fst-italic text-muted"><%= h activity.address %></p>
+                <p class="mb-2"><%= h activity.description %></p>
+                <% if ta.start_time && ta.end_time %>
+                  <p class="mb-1 fw-semibold">
+                    <i class="bi bi-clock me-1"></i>
+                    <%= ta.start_time.strftime("%I:%M %p") %> - <%= ta.end_time.strftime("%I:%M %p") %>
+                  </p>
+                <% end %>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-muted fst-italic">No activities planned yet.</p>
+    <% end %>
+
+    <div class="mt-4 text-center">
+      <%= link_to "← Back to Trips", trips_path, class: "btn btn-secondary rounded-pill archivo px-4" %>
+    </div>
+
+    <footer class="mt-5 text-center text-muted" style="font-size: 0.9rem;">
+      <p>© <%= Time.current.year %> PlanAndGo | Your AI-powered travel planner 🚀</p>
+    </footer>
+  </div>
+</div>
