@@ -7,6 +7,8 @@ class TripsController < ApplicationController
   end
 
   def show
+    @trip = Trip.find(params[:id])
+    @stops = @trip.stops.includes(:location)
     @trip = current_user.trips.find(params[:id])
     @preferences = current_user.preferences.includes(:category, :subcategory)
     @activities = @trip.activities
@@ -30,4 +32,21 @@ class TripsController < ApplicationController
   def trip_params
     params.require(:trip).permit(:start_date, :end_date, :budget, :location)
   end
+
+  def new
+    @trip = Trip.new
+  end
+
+  def current_page
+    @trip = Trip.find(params[:id])
+    @stops = @trip.stops.includes(:location)
+  end
+
+  def create
+
+  end
+
+  private
+
 end
+          
