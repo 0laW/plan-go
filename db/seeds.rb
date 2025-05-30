@@ -1,7 +1,5 @@
 puts "🌱 Seeding..."
 
-require 'dotenv/load'
-
 puts "Cleaning the DB..."
 
 ActivityReview.destroy_all
