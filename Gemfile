@@ -78,3 +78,4 @@ gem 'devise'
 gem 'geocoder'
 
 gem 'ostruct'
+gem "ruby-openai"
