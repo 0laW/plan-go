@@ -1,4 +1,3 @@
-
 puts "🌱 Seeding..."
 
 require 'dotenv/load'
@@ -31,7 +30,7 @@ user_records = users.map do |user|
     first_name: user[:first_name],
     last_name: user[:last_name],
     email: "#{user[:first_name].downcase}@example.com",
-    password: "123456",
+    password: "password123",
     user_image_url: "https://source.unsplash.com/100x100/?portrait,#{user[:first_name]}",
     username: user[:username]
   )
@@ -41,179 +40,98 @@ end
 beach = Category.create!(name: "Beach")
 hiking = Category.create!(name: "Hiking")
 food = Category.create!(name: "Food & Drink")
+cultural = Category.create!(name: "Cultural")
+entertainment = Category.create!(name: "Entertainment")
+nature = Category.create!(name: "Nature & Outdoors")
 
-# Activities
+# Define 4 countries with 4 activities each, different cities/places
 
-activity1 = Activity.create!(
-  name: "Bondi Beach Surfing",
-  location: "Sydney",
-  address: "Bondi Beach, NSW",
-  description: "Surf lessons at Bondi Beach",
-  rating: 4.7,
-  category: beach
-)
+country_activities = {
+  "Japan" => [
+    { name: "Kyoto Imperial Palace", location: "Kyoto", address: "Kyoto Gyoen, Kyoto", description: "Explore the historic Kyoto Imperial Palace", category: cultural },
+    { name: "Tokyo Skytree", location: "Tokyo", address: "1 Chome-1-2 Oshiage, Sumida City, Tokyo", description: "Iconic broadcasting tower with city views", category: entertainment },
+    { name: "Osaka Castle", location: "Osaka", address: "1-1 Osakajo, Chuo Ward, Osaka", description: "Historic castle with museum", category: cultural },
+    { name: "Mount Fuji Hiking", location: "Shizuoka", address: "Mount Fuji, Shizuoka Prefecture", description: "Climb Japan's highest peak", category: hiking }
+  ],
+  "Greece" => [
+    { name: "Acropolis", location: "Athens", address: "Athens 105 58", description: "Visit the iconic Acropolis and Parthenon", category: cultural },
+    { name: "Santorini Beaches", location: "Santorini", address: "Santorini, Cyclades", description: "Relax on beautiful volcanic beaches", category: beach },
+    { name: "Delphi Ruins", location: "Delphi", address: "Delphi, Greece", description: "Ancient religious sanctuary", category: cultural },
+    { name: "Thessaloniki Food Tour", location: "Thessaloniki", address: "Thessaloniki, Greece", description: "Taste northern Greek cuisine", category: food }
+  ],
+  "USA" => [
+    { name: "Statue of Liberty", location: "New York City", address: "Liberty Island, New York", description: "Visit the iconic symbol of freedom", category: cultural },
+    { name: "Grand Canyon", location: "Arizona", address: "Grand Canyon National Park, AZ", description: "Explore the famous canyon", category: nature },
+    { name: "Hollywood Walk of Fame", location: "Los Angeles", address: "Hollywood Blvd, Los Angeles", description: "Famous stars on the sidewalk", category: entertainment },
+    { name: "Walt Disney World", location: "Orlando", address: "Orlando, Florida", description: "Massive theme park resort", category: entertainment }
+  ],
+  "Turkey" => [
+    { name: "Hagia Sophia", location: "Istanbul", address: "Sultanahmet, Istanbul", description: "Historic Byzantine cathedral", category: cultural },
+    { name: "Cappadocia Hot Air Balloon", location: "Cappadocia", address: "Cappadocia, Turkey", description: "Scenic hot air balloon rides", category: entertainment },
+    { name: "Pamukkale Thermal Pools", location: "Pamukkale", address: "Pamukkale, Denizli", description: "Thermal mineral terraces", category: nature },
+    { name: "Turkish Cuisine Experience", location: "Istanbul", address: "Istanbul, Turkey", description: "Taste authentic Turkish dishes", category: food }
+  ]
+}
 
-activity2 = Activity.create!(
-  name: "Blue Mountains Hike",
-  location: "Katoomba",
-  address: "Echo Point Rd, Katoomba",
-  description: "Hiking trail in Blue Mountains",
-  rating: 4.9,
-  category: hiking
-)
+all_activities = []
 
-# Preferences
-user_jordan = User.find_by(first_name: "Jordan")
-user_diego = User.find_by(first_name: "Diego")
-
-Preference.create!(user: user_jordan, category: beach)
-Preference.create!(user: user_jordan, category: food)
-Preference.create!(user: user_diego, category: hiking)
-
-# Trip
-trip = Trip.create!(
-  location: "Australia Adventure",
-  start_date: Date.today,
-  end_date: Date.today + 10,
-  budget: "1000",
-  user: user_jordan
-)
-
-User.all.each do |user|
-  TripUser.create!(trip: trip, user: user)
+# Create activities, geocode them
+country_activities.each do |country, acts|
+  acts.each do |act|
+    activity = Activity.create!(
+      name: act[:name],
+      location: act[:location],
+      address: act[:address],
+      description: act[:description],
+      category: act[:category]
+    )
+    activity.geocode if activity.respond_to?(:geocode)
+    activity.save!
+    all_activities << activity
+  end
 end
 
-TripActivity.create!(trip: trip, activity: activity1)
-TripActivity.create!(trip: trip, activity: activity2)
-
-# Activity Reviews
-ActivityReview.create!(
-  user: user_jordan,
-  activity: activity1,
-  rating: 4.5,
-  comment: "Great surfing session!",
-  date: Date.today - 2
-)
-
-ActivityReview.create!(
-  user: user_diego,
-  activity: activity2,
-  rating: 5.0,
-  comment: "Epic views and great hike.",
-  date: Date.today - 1
-)
-activities = [
-  { name: "Bondi Beach Surfing", location: "Sydney", address: "Queen Elizabeth Dr, Bondi Beach NSW 2026, Australia", description: "Surf lessons at Bondi Beach", rating: 4.7, category: beach },
-  { name: "Blue Mountains Hike", location: "Katoomba", address: "23-31 Echo Point Rd, Katoomba NSW 2780, Australia", description: "Hiking trail in Blue Mountains", rating: 4.9, category: hiking },
-  { name: "Sydney Food Tour", location: "Sydney", address: "Haymarket NSW 2000, Australia", description: "Explore food markets and cafes", rating: 4.6, category: food },
-  { name: "Manly Beach Day", location: "Manly", address: "North Steyne, Manly NSW 2095, Australia", description: "Relax and enjoy the beach", rating: 4.4, category: beach },
-  { name: "Coastal Cliff Walk", location: "Coogee", address: "Arden St, Coogee NSW 2034, Australia", description: "Scenic walk with ocean views", rating: 4.8, category: hiking }
-]
-
-activity_records = activities.map do |attrs|
-  activity = Activity.create!(attrs)
-  activity.geocode
-  activity.save!
-  activity
-end
-
-# Preferences
-Preference.create!(user: user_records[4], category: beach)
-Preference.create!(user: user_records[4], category: food)
-Preference.create!(user: user_records[0], category: hiking)
-
-# Helper to generate trips
-def create_trip_for(user, location, activities, start_offset)
+# Helper method to create trips for user with activities from one country
+def create_trip(user, country, activities, start_offset)
   trip = Trip.create!(
-    location: location,
+    location: country,
     start_date: Date.today - start_offset,
-    end_date: Date.today - (start_offset - 3),
-    budget: rand(500..1500).to_s,
+    end_date: Date.today - (start_offset - 5),
+    budget: rand(800..2000),
     user: user
   )
 
-  # Add all users to trip
+  # Add all users to trip (social feature)
   User.all.each do |u|
     TripUser.create!(trip: trip, user: u)
   end
 
-  # Add some activities
-  activities.sample(2).each do |activity|
+  # Add 4 activities per trip (all activities for that country)
+  activities.each do |activity|
     TripActivity.create!(trip: trip, activity: activity)
 
-    # Add a review from the trip owner
+    # Owner writes review
     ActivityReview.create!(
       user: user,
       activity: activity,
-      rating: rand(4.0..5.0).round(1),
-      comment: "Loved this place! #{activity.name}",
-      date: Date.today - (start_offset - 1)
+      rating: rand(4..5),
+      comment: "Loved visiting #{activity.name}!",
+      date: Date.today - (start_offset - rand(1..4))
     )
   end
 
   trip
 end
 
-# Give each user 1-2 trips
-locations = ["Australia Adventure", "Mountain Getaway", "City Foodie Tour", "Beach Bliss", "Wilderness Retreat"]
-user_records.each_with_index do |user, i|
-  create_trip_for(user, locations[(i % locations.size)], activity_records, (10 + (i * 5)))
-  create_trip_for(user, "#{locations[(i % locations.size)]} Part 2", activity_records, (20 + (i * 5))) if (i.even?)
-end
+puts "Creating trips for each user..."
 
-# High-level Categories + Subcategories
-categories = [
-  { name: "🎨 Cultural", subcategories: ["🖼️ Art Museums", "🏛️ Historic Sites", "🎨 Street Art"] },
-  { name: "☕ Food & Drink", subcategories: ["🍜 Local Cuisine", "☕ Coffee Shops", "🍻 Bars & Pubs"] },
-  { name: "🎭 Entertainment", subcategories: ["🎶 Live Music", "🎟️ Theatre", "🤣 Comedy Shows"] },
-  { name: "🌿 Nature & Outdoors", subcategories: ["🥾 Hiking Trails", "🌳 Parks", "🏖️ Beaches"] },
-  { name: "🛍️ Shopping", subcategories: ["👗 Boutiques", "🛒 Markets", "🏬 Malls"] },
-  { name: "🧘 Wellness", subcategories: ["💆 Spas", "🧘 Yoga", "♨️ Hot Springs"] },
-  { name: "🎯 Experience Types", subcategories: ["🎨 Workshops", "🚌 Tours", "🎉 Festivals"] }
-]
-
-categories.each do |cat_data|
-  category = Category.create!(name: cat_data[:name])
-  cat_data[:subcategories].each do |sub_name|
-    Subcategory.create!(name: sub_name, category: category)
+user_records.each do |user|
+  # Each user gets 1 or 2 trips randomly from the 4 countries
+  chosen_countries = country_activities.keys.sample(rand(1..2))
+  chosen_countries.each_with_index do |country, i|
+    acts = all_activities.select { |a| country_activities[country].any? { |c_act| c_act[:name] == a.name } }
+    create_trip(user, country, acts, 30 + i*7)
   end
-end
-puts "✅ Done seeding!"
-
-# Clear existing
-Category.where(name: ['Style', 'Personality']).destroy_all
-
-style = Category.create!(name: 'Style')
-personality = Category.create!(name: 'Personality')
-
-# Style subcategories
-style_subcats = [
-  "Off-the-beaten-path / Iconic Must-Sees",
-  "Photo-worthy spots",
-  "Budget / Luxury",
-  "Solo / Social",
-  "LGBTQ+ Friendly",
-  "Pet-Friendly",
-  "Kid-Friendly"
-]
-
-style_subcats.each do |name|
-  Subcategory.create!(name: name, category: style)
-end
-
-# Personality subcategories
-personality_subcats = [
-  "Chill",
-  "Curious",
-  "Out All Night",
-  "Learn something",
-  "Eat well",
-  "Vibes",
-  "Insta moments"
-]
-
-personality_subcats.each do |name|
-  Subcategory.create!(name: name, category: personality)
 end
 
 puts "✅ Done seeding!"

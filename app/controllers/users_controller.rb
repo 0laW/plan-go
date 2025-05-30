@@ -26,7 +26,10 @@ class UsersController < ApplicationController
 
   def search_users
     user = User.find_by(username: params[:username].to_s.strip.downcase)
-    return render json: { error: "User not found" }, status: :not_found unless user
+
+    unless user
+      render json: { type: "place" }, status: :ok and return
+    end
 
     trips = user.trips.includes(trip_activities: { activity: [:category, :activity_reviews] }).geocoded
 
@@ -34,7 +37,9 @@ class UsersController < ApplicationController
       a.latitude.present? && a.longitude.present?
     end
 
-    return render json: { error: "No geocoded activities found for this user" }, status: :not_found if activities.empty?
+    if activities.empty?
+      render json: { type: "not_found" }, status: :ok and return
+    end
 
     markers = activities.map do |activity|
       trip = activity.trip_activities.first&.trip
@@ -55,6 +60,7 @@ class UsersController < ApplicationController
     center = [activities.first.longitude, activities.first.latitude]
 
     render json: {
+      type: "user",
       center: center,
       markers: markers
     }
