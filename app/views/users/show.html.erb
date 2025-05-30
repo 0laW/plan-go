@@ -24,19 +24,20 @@
         <%= @user.level %>
       </span>
     </div>
+
+
+    <% if @trips.empty? %>
+      <div class="d-flex flex-column align-items-center justify-content-center" style="margin-top: 20px; width: 100%">
+        <h3 style="font-size: 16px; padding-bottom: 20px; padding-top: 7%;"> You've not planned any trips yet!</h3>
+        <% if current_user == @user %>
+          <%= link_to root_path, class: "btn btn-primary" do %>
+            Plan a trip
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
   </turbo-frame>
 
-
-  <% if @trips.empty? %>
-    <div class="d-flex flex-column align-items-center justify-content-center" style="margin-top: 20px; width: 75%">
-      <h3 style="font-size: 16px; padding-bottom: 20px; padding-top: 7%;"> You've not planned any trips yet!</h3>
-      <% if current_user == @user %>
-        <%= link_to root_path, class: "btn btn-primary" do %>
-          Plan a trip
-        <% end %>
-      <% end %>
-    </div>
-  <% end %>
   <div class="row row-cols-1 row-cols-md-4 row-cols-sm-2 g-4 mt-4" style="height: 260px; margin-bottom: 100px; width: 75%">
     <% @trips.each do |trip| %>
       <div class="col p-0" style="box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); border-radius: 10px; overflow:hidden;">
