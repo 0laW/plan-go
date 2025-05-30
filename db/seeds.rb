@@ -157,8 +157,8 @@ end
 # Give each user 1-2 trips
 locations = ["Australia Adventure", "Mountain Getaway", "City Foodie Tour", "Beach Bliss", "Wilderness Retreat"]
 user_records.each_with_index do |user, i|
-  create_trip_for(user, locations[i % locations.size], activity_records, 10 + i * 5)
-  create_trip_for(user, "#{locations[i % locations.size]} Part 2", activity_records, 20 + i * 5) if i.even?
+  create_trip_for(user, locations[(i % locations.size)], activity_records, (10 + (i * 5)))
+  create_trip_for(user, "#{locations[(i % locations.size)]} Part 2", activity_records, (20 + (i * 5))) if (i.even?)
 end
 
 # High-level Categories + Subcategories
