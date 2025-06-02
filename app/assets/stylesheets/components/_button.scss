@@ -3,8 +3,6 @@
   color: #fff !important;
   border-color: #59683b !important;
   transition: background-color 400ms, transform 400ms !important;
-  font-size: 20px !important; // larger font size
-  box-shadow: 0 0px 20px rgba(255, 255, 255, 0.2) !important; // subtle shadow
 }
 
 .btn-secondary:hover {
@@ -12,6 +10,4 @@
   color: #fff !important;
   border-color: #rgb(61, 67, 31) !important;
   transform: translateY(-2px) !important;
-  font-size: 20px !important; // larger font size
-  box-shadow: 0 0px 20px rgba(255, 255, 255, 0.2) !important; // subtle shadow
 }
