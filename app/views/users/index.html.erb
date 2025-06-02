@@ -1,7 +1,7 @@
 <div data-controller="search">
   <%= label_tag :username, "Search by place or friend" %>
-  <%= text_field_tag :username, nil, placeholder: "e.g. jordang", data: { search_target: "input" } %>
-  <%= button_tag "Search", type: "button", data: { action: "click->search#submit" } %>
+  <%= text_field_tag :username, nil, placeholder: "e.g. jordang", data: { search_target: "input" }, autocomplete: "off" %>
+  <%= button_tag "Search", type: "button", data: { action: "click->search#handleSearch" } %>
 </div>
 
 <div
@@ -12,4 +12,4 @@
   style="height: 500px; width: 100%;">
 </div>
 
-<%= debug @markers %>
+<div id="user-info-box" style="margin-top: 1rem;"></div>

@@ -4,16 +4,16 @@
     <div class="d-flex align-items-center gap-3">
       <h1>
       Plan & Go
-      </h1> 
+      </h1>
     </div>
 
     <!-- Right side: Account dropdown or Log In -->
     <% if user_signed_in? %>
-      
+
         <button class="btn btn-secondary dropdown-toggle" style="background:none;border:none;cursor:pointer;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           Account
         </button>
-       
+
       </div>
     <% else %>
       <%= link_to "Log In", new_user_session_path, class: "text-style" %>
@@ -56,8 +56,7 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
-          
-         
+
           <% if user_signed_in? %>
             <li class="nav-item">
               <a class="nav-link" href="#">My Profile</a>
