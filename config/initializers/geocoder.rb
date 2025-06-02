@@ -26,6 +26,6 @@ Geocoder.configure(
   # }
   timeout: 5, # seconds
   lookup: :mapbox, # Defaults to :nominatim, which is less reliable but free
-  api_key: ENV["MAPBOX_API_KEY=pk.eyJ1IjoibnVqZW4ycyIsImEiOiJjbWI4MHozYjQwMmpnMmpzYzF5cWlucWhmIn0.RNgeXCSRURSwDnikw4SjiQ"],
+  api_key: ENV['MAPBOX_API_KEY'],
   units: :km, # Defaults to miles (:mi)
 )
