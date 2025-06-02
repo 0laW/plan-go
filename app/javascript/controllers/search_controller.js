@@ -1,3 +1,4 @@
+// <!-- search_controller.js -->
 import { Controller } from "@hotwired/stimulus"
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder"
 import mapboxgl from "mapbox-gl"
@@ -42,47 +43,73 @@ export default class extends Controller {
 }
 
   handleSearch(query) {
-    clearTimeout(this.clearTimer)
+  clearTimeout(this.clearTimer)
 
-    this.clearTimer = setTimeout(() => {
-      this.inputTarget.value = ""
-    }, 60000)
+  this.clearTimer = setTimeout(() => {
+    this.inputTarget.value = ""
+  }, 60000)
 
-    fetch(`/search_users?username=${encodeURIComponent(query)}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("User not found")
-        return res.json()
-      })
-      .then((data) => {
-        const map = window.mapInstance
-        if (!map) return
+  fetch(`/search_users?username=${encodeURIComponent(query)}`)
+  .then((res) => {
+    if (!res.ok) throw new Error("User not found")
+    return res.json()
+  })
+  .then((data) => {
+    const map = window.mapInstance
+    if (!map) return
 
-        map.flyTo({ center: data.center, zoom: 6 })
+    // 🧹 Clear ALL existing markers (user or location)
+    if (window.userMarkers) {
+      window.userMarkers.forEach(marker => marker.remove())
+    }
+    if (window.locationMarkers) {
+      window.locationMarkers.forEach(marker => marker.remove())
+    }
+    window.userMarkers = []
+    window.locationMarkers = []
 
-        if (window.userMarkers) {
-          window.userMarkers.forEach(marker => marker.remove())
-        }
+    // 🗺️ Move camera to new center
+    map.flyTo({ center: data.center, zoom: 6 })
 
-        window.userMarkers = []
+    // 🧿 Add new markers from searched user trips
+    data.markers.forEach(markerData => {
+      const popup = new mapboxgl.Popup().setHTML(markerData.info_window_html)
+      const customMarker = document.createElement("div")
+      customMarker.innerHTML = markerData.marker_html
 
-        data.markers.forEach(markerData => {
-          const popup = new mapboxgl.Popup().setHTML(markerData.info_window_html)
-          const customMarker = document.createElement("div")
-          customMarker.innerHTML = markerData.marker_html
+      const marker = new mapboxgl.Marker(customMarker)
+        .setLngLat([markerData.lng, markerData.lat])
+        .setPopup(popup)
+        .addTo(map)
 
-          const marker = new mapboxgl.Marker(customMarker)
-            .setLngLat([markerData.lng, markerData.lat])
-            .setPopup(popup)
-            .addTo(map)
+      window.userMarkers.push(marker)
+    })
 
-          window.userMarkers.push(marker)
-        })
-      })
-      .catch((err) => {
-        console.log("Falling back to geocoder:", err)
-        if (this.geocoder && window.mapInstance) {
-          this.geocoder.query(query)
-        }
-      })
+    // 🧾 Update the user info box
+    const infoBox = document.getElementById("user-info-box")
+    if (infoBox && data.user_info_html) {
+      infoBox.innerHTML = data.user_info_html
+    } else if (infoBox) {
+      infoBox.innerHTML = "" // Clear if user not found
+    }
+  })
+  .catch((err) => {
+    console.log("Falling back to geocoder:", err)
+
+    // 🌍 Trigger Mapbox Geocoder only
+    if (this.geocoder && window.mapInstance) {
+      // Clean up previous markers before searching a place
+      if (window.userMarkers) {
+        window.userMarkers.forEach(marker => marker.remove())
+      }
+      if (window.locationMarkers) {
+        window.locationMarkers.forEach(marker => marker.remove())
+      }
+      window.userMarkers = []
+      window.locationMarkers = []
+
+      this.geocoder.query(query)
+    }
+  })
   }
 }

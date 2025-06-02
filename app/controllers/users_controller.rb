@@ -24,45 +24,54 @@ class UsersController < ApplicationController
     @trips = @user.trips
   end
 
+  # app/controllers/users_controller.rb
   def search_users
-    user = User.find_by(username: params[:username].to_s.strip.downcase)
+    user = User.find_by(username: params[:username])
 
-    unless user
-      render json: { type: "place" }, status: :ok and return
+    if user.nil?
+      render json: {}, status: :not_found and return
     end
 
-    trips = user.trips.includes(trip_activities: { activity: [:category, :activity_reviews] }).geocoded
+    trips = user.trips.includes(trip_activities: { activity: [:category, :activity_reviews] })
 
-    activities = trips.flat_map(&:trip_activities).map(&:activity).select do |a|
-      a.latitude.present? && a.longitude.present?
-    end
+    markers = trips.flat_map do |trip|
+      trip.trip_activities.map do |trip_activity|
+        activity = trip_activity.activity
 
-    if activities.empty?
-      render json: { type: "not_found" }, status: :ok and return
-    end
+        next unless activity.latitude.present? && activity.longitude.present?
 
-    markers = activities.map do |activity|
-      trip = activity.trip_activities.first&.trip
-      {
-        lat: activity.latitude,
-        lng: activity.longitude,
-        info_window_html: render_to_string(partial: "info_window", locals: {
-          activity: activity,
-          trip: trip,
-          reviews: activity.activity_reviews.where(user: user)
-        }),
-        marker_html: render_to_string(partial: "marker", locals: {
-          trip: trip
-        })
-      }
-    end
+        {
+          lat: activity.latitude,
+          lng: activity.longitude,
+          info_window_html: render_to_string(partial: "info_window", locals: {
+            activity: activity,
+            trip: trip,
+            reviews: activity.activity_reviews.where(user: user)
+          }),
+          marker_html: render_to_string(partial: "marker", locals: { trip: trip })
+        }
+      end
+    end.compact
 
-    center = [activities.first.longitude, activities.first.latitude]
+    center = markers.any? ? [markers.first[:lng], markers.first[:lat]] : [0, 51]
+
+    user_info_html = render_to_string(
+      partial: "users/info_box",
+      locals: { user: user, trips: trips }
+    )
 
     render json: {
-      type: "user",
       center: center,
-      markers: markers
+      markers: markers,
+      user: {
+        id: user.id,
+        username: user.username,
+        trip_count: trips.count,
+        trip_names: trips.pluck(:location),
+        review_count: user.activity_reviews.count,
+        level: user.level
+      },
+      user_info_html: user_info_html
     }
   end
 
