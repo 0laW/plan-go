@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   get '/about',          to: 'pages#about',          as: 'about'
   get '/contact',        to: 'pages#contact',        as: 'contact'
   get '/privacy_policy', to: 'pages#privacy_policy', as: 'privacy_policy'
-  get '/search_users', to: 'users#search_users'
+  get "search_users", to: "users#search_users"
   # Additional routes...
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

@@ -1,3 +1,26 @@
+<nav class="navbar px-3 py-2 archivo-black">
+  <div class="d-flex justify-content-between align-items-center w-100">
+    <!-- Left side: Logo + Search + Links -->
+    <div class="d-flex align-items-center gap-3">
+      <h1>
+      Plan & Go
+      </h1>
+    </div>
+
+    <!-- Right side: Account dropdown or Log In -->
+    <% if user_signed_in? %>
+
+        <button class="btn btn-secondary dropdown-toggle" style="background:none;border:none;cursor:pointer;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Account
+        </button>
+
+      </div>
+    <% else %>
+      <%= link_to "Log In", new_user_session_path, class: "text-style" %>
+    <% end %>
+  </div>
+</nav>
+
 
 <nav class="navbar bg-body-tertiary fixed-top px-3 py-2 archivo-black">
   <div class="container-fluid">
@@ -47,7 +70,12 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
+
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-2">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
           <% if user_signed_in? %>
             <li class="nav-item">
               <%= link_to "My Profile", user_path(current_user), class: "nav-link" %>
