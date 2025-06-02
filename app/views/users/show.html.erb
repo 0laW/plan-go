@@ -1,4 +1,4 @@
-<div class="d-flex flex-column align-items-center" style="padding-top: 40px; background-color: #ffffff; height: 100%">
+<div class="d-flex flex-column align-items-center" style="padding-top: 40px; background-color: #ffffff; height: 100%; margin-bottom: 80px;">
 
   <turbo-frame id="user_profile_<%= @user.id %>">
     <div class="d-flex flex-column align-items-center" style="width: 100%; max-width: 600px; margin: auto;">
@@ -38,22 +38,23 @@
     <% end %>
   </turbo-frame>
 
-  <div class="row row-cols-1 row-cols-md-4 row-cols-sm-2 g-4 mt-4" style="height: 260px; margin-bottom: 100px; width: 75%">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-4 w-100" style="margin-bottom: 100px;max-width: 90%">
     <% @trips.each do |trip| %>
-      <div class="col p-0" style="box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); border-radius: 10px; overflow:hidden;">
-        <%= link_to trip_path(trip), class: "text-decoration-none text-dark" do %>
-          <div class="d-flex flex-column">
-            <div style="height: 185px; background-color: #f0f0f0; margin-top: -25px;">
+      <div class="col p-0">
+        <div class="h-100 ms-3 me-3" style="min-width: 220px; border: 1px solid rgb(230, 230, 230); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); border-radius: 10px; overflow:hidden;">
+          <%= link_to trip_path(trip), class: "text-decoration-none text-dark" do %>
+            <div class="d-flex flex-column h-100">
+              <div style="height: 185px; background-color: #f0f0f0; margin-top: -25px;"></div>
+              <div class="d-flex flex-column align-items-center justify-content-end" style="padding-left: 25px; padding-right:25px; margin-top:12px">
+                <% if trip.end_date < Date.today %>
+                  <i class="fa-solid fa-circle-check" style="color: #008000; margin-top: -40px; font-size: 30px; border: 5px solid #FFFFFF; border-radius: 90px"></i>
+                <% end %>
+                <h5 class="card-title" style="margin-bottom: 4px; margin-top: 8px; font-size: 16px; text-align: center;"><strong><%= trip.location %></strong></h5>
+                <p class="card-text" style="margin-bottom: 20px; font-size: 12px; color: #666666"><%= trip.start_date.strftime("%m/%d/%Y") %> - <%= trip.end_date.strftime("%m/%d/%Y") %></p>
+              </div>
             </div>
-            <div class="d-flex flex-column align-items-center justify-content-end" style="padding-left: 25px; padding-right:25px; margin-top:12px">
-              <% if trip.end_date < Date.today %>
-                <i class="fa-solid fa-circle-check" style="color: #008000; margin-top: -40px; font-size: 30px; border: 5px solid #FFFFFF; border-radius: 90px"></i>
-              <% end %>
-              <h5 class="card-title" style="margin-bottom: 4px; margin-top: 8px; font-size: 16px; text-align: center;"><strong><%= trip.location %></strong></h5>
-              <p class="card-text" style="margin-bottom: 20px; font-size: 12px; color: #666666"><%= trip.start_date.strftime("%m/%d/%Y") %> - <%= trip.end_date.strftime("%m/%d/%Y") %></p>
-            </div>
-          </div>
-        <% end %>
+          <% end %>
+        </div>
       </div>
     <% end %>
   </div>
