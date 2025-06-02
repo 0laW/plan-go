@@ -37,12 +37,21 @@
               <%= f.text_field :location, id: "location", class: "p-2 form-control form-control-sm focus-ring rounded-pill", placeholder: "e.g. Madrid, Spain", style: "border: 1px solid rgba(0, 0, 0, 0.15); background-color: rgba(255, 255, 255, 0.9);" %>
             </div>
 
-            <div class="col-12 d-flex flex-column">
-              <%= f.label :budget, class: "archivo form-label fw-bold small mb-2 text-start" do %>
-                <i class="bi bi-cash-coin me-1"></i> Budget
-              <% end %>
-              <%= f.text_field :budget, id: "budget", class: "p-2 form-control form-control-sm focus-ring rounded-pill", placeholder: "e.g. £40", style: "border: 1px solid rgba(0, 0, 0, 0.15); background-color: rgba(255, 255, 255, 0.9);" %>
-            </div>
+      <div class="col-12 d-flex flex-column">
+        <%= f.label :budget, class: "archivo form-label fw-bold small mb-2 text-start" do %>
+          <i class="bi bi-cash-coin me-1"></i> Budget
+        <% end %>
+
+        <div class="d-flex gap-2">
+          <%= f.select :currency, options_for_select([["£ GBP", "GBP"], ["€ EUR", "EUR"], ["$ USD", "USD"],["A$ AUD", "AUD"],
+          ["C$ CAD", "CAD"],
+          ["¥ JPY", "JPY"],
+          ["₹ INR", "INR"],
+          ["¥ CNY", "CNY"]], selected: "GBP"), {}, class: "form-select form-select-sm rounded-pill p-2 focus-ring" , style: "width: 100px; border: 1px solid rgba(0, 0, 0, 0.15); background-color: rgba(255, 255, 255, 0.9);" %>
+
+          <%= f.text_field :budget, id: "budget", class: "p-2 form-control form-control-sm focus-ring rounded-pill", placeholder: "e.g. 40", style: "border: 1px solid rgba(0, 0, 0, 0.15); background-color: rgba(255, 255, 255, 0.9);" %>
+        </div>
+      </div>
 
           </div>
 
