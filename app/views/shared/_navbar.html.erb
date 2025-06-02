@@ -1,77 +1,79 @@
-<nav class="navbar px-3 py-2 archivo-black">
-  <div class="d-flex justify-content-between align-items-center w-100">
-    <!-- Left side: Logo + Search + Links -->
-    <div class="d-flex align-items-center gap-3">
-      <h1>
-      Plan & Go
-      </h1> 
+
+<nav class="navbar bg-body-tertiary fixed-top px-3 py-2 archivo-black">
+  <div class="container-fluid">
+    <!-- Brand/Logo Section -->
+    <div class="d-flex align-items-center">
+      <%= link_to root_path, class: "navbar-brand archivo-black text-decoration-none d-flex align-items-center gap-2" do %>
+        <%= image_tag "https://res.cloudinary.com/do2s320cj/image/upload/v1748448198/monkey_logo_q8aoke.png", alt: "Plan&Go Logo", style: "height: 35px;" %>
+        <span class="fw-bold">Plan&Go</span>
+      <% end %>
     </div>
 
-    <!-- Right side: Account dropdown or Log In -->
-    <% if user_signed_in? %>
-      
-        <button class="btn btn-secondary dropdown-toggle" style="background:none;border:none;cursor:pointer;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          Account
-        </button>
-       
-      </div>
-    <% else %>
-      <%= link_to "Log In", new_user_session_path, class: "text-style" %>
-    <% end %>
-  </div>
-</nav>
-
-
-<nav class="navbar bg-body-tertiary fixed-top">
-  <div class="container-fluid">
-    <a class="navbar-brand archivo-black" href="#">Plan&Go</a>
-    <%= link_to root_path do %>
-      <%= image_tag "https://res.cloudinary.com/do2s320cj/image/upload/v1748448198/monkey_logo_q8aoke.png", alt: "Curious George", style: "height: 35px;" %>
-    <% end %>
-
-    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"> </span>
-    </button>
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+    <!-- Desktop Right Side: Account dropdown or Log In -->
+    <div class="d-none d-lg-flex align-items-center">
       <% if user_signed_in? %>
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" style="background:none;border:none;cursor:pointer;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          Account
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" style="background: #000; color: white; box-shadow: 0 0px 15px rgba(0, 0, 0, 0.4);">
-          <li class="pt-2 text-start"><%= link_to "My Profile", user_path(current_user), class: "dropdown-item text-style" %></li>
-          <li class="pt-2 text-start"><%#= link_to "My Trips/Activities", trip_path, class: "dropdown-item text-style" %></li>
-          <li class="pt-2 text-start"><%= link_to "Log Out", destroy_user_session_path, class: "dropdown-item text-style", data: { turbo_method: :delete } %></li>
-        </ul>
-      </div>
+        <div class="dropdown">
+          <button class="btn btn-link navbar-toggler archivo-black text-decoration-none" 
+                  style="background:none;border:none;cursor:pointer;color:inherit;" 
+                  type="button" data-bs-toggle="offcanvas" aria-expanded="false"
+                  data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"> </span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark"
+              style="background: #000; color: white; box-shadow: 0 0px 15px rgba(18, 18, 18, 0.4);">
+            <li><%= link_to "My Profile", user_path(current_user), class: "dropdown-item text-style" %></li>
+            <li><%= link_to "Plan", root_path, class: "dropdown-item text-style" %></li>
+            <li><%= link_to "My Trips", "#", class: "dropdown-item text-style" %></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><%= link_to "Log Out", destroy_user_session_path, 
+                    class: "dropdown-item text-style", 
+                    data: { turbo_method: :delete } %></li>
+          </ul>
+        </div>
       <% else %>
-        <%= link_to "Log In", new_user_session_path, class: "text-style" %>
+        <%= link_to "Log In", new_user_session_path, class: "text-style archivo-black text-decoration-none" %>
       <% end %>
+    </div>
+
+    <button class="navbar-toggler d-lg-none" type="button" 
+            data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" 
+            aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" 
+         aria-labelledby="offcanvasNavbarLabel">
       <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Plan&Go</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
-        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          
-         
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-2">
           <% if user_signed_in? %>
             <li class="nav-item">
-              <a class="nav-link" href="#">My Profile</a>
-              <%#= link_to "My Profile", user_path(current_user), class: "text-style pt-1" %>
+              <%= link_to "My Profile", user_path(current_user), class: "nav-link" %>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Plan</a>
+              <%= link_to "Plan a Trip - Trip Planner", root_path, class: "nav-link" %>
             </li>
-            <li class="pt-2 text-start"><%#= link_to "My Trips/Activities", trip_path, class: "dropdown-item text-style" %></li>
-            <form class="d-flex mt-3" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-            <li class="pt-2 text-start"><%= link_to "Log Out", destroy_user_session_path, class: "dropdown-item text-style", data: { turbo_method: :delete } %></li>
+            <li class="nav-item">
+              <%= link_to "Search", "#", class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Trip preferences", "#", class: "nav-link" %>
+            </li>
+            
+            <li class="nav-item mt-3">
+              <%= link_to "Log Out", destroy_user_session_path, 
+                  class: "nav-link text-secondary", 
+                  data: { turbo_method: :delete } %>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to "Log In", new_user_session_path, class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %>
+            </li>
           <% end %>
         </ul>
       </div>

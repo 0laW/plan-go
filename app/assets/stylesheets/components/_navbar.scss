@@ -1,14 +1,19 @@
 
 .navbar {
-  box-shadow: 0 2px 4px rgba(0,0,0,.1);
+  box-shadow: 0 2px 4px rgba(18,18,18,.1);
 
   .navbar-brand {
     font-size: 1.5rem;
     text-decoration: none;
 
     &:hover {
-      color: rgba(255, 255, 255, 0.8) !important;
+      color: rgba(18, 18, 18, 0.8) !important;
+      opacity: 0.8;
     }
+  }
+
+  .dropdown-toggle::after {
+    margin-left: 0.5em;
   }
 
   .nav-link {
@@ -16,7 +21,7 @@
     transition: color 0.2s ease;
 
     &:hover {
-      color: rgba(255, 255, 255, 0.8) !important;
+      color: rgba(18, 18, 18, 0.8) !important;
     }
 
     &.active {
@@ -28,7 +33,7 @@
 
   .dropdown-menu {
     border: none;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0.5rem 1rem rgb(255, 255, 255);
     border-radius: 0.5rem;
 
     .dropdown-item {
@@ -69,10 +74,10 @@
 // Alternative color schemes
 .navbar-light-theme {
   background-color: #fff !important;
-  box-shadow: 0 2px 4px rgba(0,0,0,.08);
+  box-shadow: 0 2px 4px rgba(0, 0, 0,.08);
 
   .navbar-brand, .nav-link {
-    color: #333 !important;
+    color: rgb(18, 18, 18) !important;
 
     &:hover {
       color: #007bff !important;
@@ -83,4 +88,12 @@
     color: #007bff !important;
     background-color: rgba(0, 123, 255, 0.1);
   }
+}
+
+body {
+  padding-top: 62px; // Adjust based on your navbar height
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(256, 256, 18, 0.8)' stroke-width='2' stroke-linecap='round' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
