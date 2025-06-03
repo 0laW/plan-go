@@ -22,17 +22,16 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @trips = @user.trips
+    @first_activity = @trips.first.activities.first if @trips.first
   end
 
   # app/controllers/users_controller.rb
   def search_users
     user = User.find_by(username: params[:username])
 
-    if user.nil?
-      render json: {}, status: :not_found and return
-    end
+    render json: {}, status: :not_found and return if user.nil?
 
-    trips = user.trips.includes(trip_activities: { activity: [:category, :activity_reviews] })
+    trips = user.trips.includes(trip_activities: { activity: %i[category activity_reviews] })
 
     markers = trips.flat_map do |trip|
       trip.trip_activities.map do |trip_activity|
@@ -44,10 +43,10 @@ class UsersController < ApplicationController
           lat: activity.latitude,
           lng: activity.longitude,
           info_window_html: render_to_string(partial: "info_window", locals: {
-            activity: activity,
-            trip: trip,
-            reviews: activity.activity_reviews.where(user: user)
-          }),
+                                               activity: activity,
+                                               trip: trip,
+                                               reviews: activity.activity_reviews.where(user: user)
+                                             }),
           marker_html: render_to_string(partial: "marker", locals: { trip: trip })
         }
       end
@@ -95,7 +94,7 @@ class UsersController < ApplicationController
   end
 
   def load_user_trips
-    @trips = @user.trips.includes(trip_activities: { activity: [:category, :activity_reviews] }).geocoded
+    @trips = @user.trips.includes(trip_activities: { activity: %i[category activity_reviews] }).geocoded
 
     @markers = @trips.flat_map do |trip|
       trip.trip_activities.map do |ta|

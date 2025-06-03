@@ -1,62 +1,75 @@
-<div class="d-flex flex-column align-items-center" style="padding-top: 40px; background-color: #ffffff; height: 100%; margin-bottom: 80px;">
+<div class="d-flex flex-column align-items-center bg-white min-vh-100 pt-4 pb-5">
 
-  <turbo-frame id="user_profile_<%= @user.id %>">
-    <div class="d-flex flex-column align-items-center" style="width: 100%; max-width: 600px; margin: auto;">
-      <div style="background-color: #888888; width: 150px; height: 150px; border-radius: 50%; overflow: hidden;">
-        <img src="<%= @user.user_image_url %>" alt="<%= @user.username %>'s avatar" />
+  <turbo-frame id="user_profile_<%= @user.id %>" class="w-100">
+    <div class="container d-flex flex-column align-items-center" style="max-width: 600px;">
+
+      <div class="bg-secondary rounded-circle overflow-hidden" style="width: 150px; height: 150px;">
+        <img src="<%= @user.user_image_url %>" alt="<%= @user.username %>'s avatar" class="img-fluid" />
       </div>
 
-      <div class="d-flex flex-row align-items-center justify-content-center" style="margin-top: 20px; margin-bottom: 10px;">
-        <h1 class="fw-bold" style="font-size: 30px; padding-left: 5px"><%= @user.username %></h1>
+      <div class="d-flex align-items-center justify-content-center mt-3 mb-2">
+        <h1 class="fw-bold fs-3 mb-0 ps-1"><%= @user.username %></h1>
         <% if current_user == @user %>
-          <%= link_to edit_user_path(@user), data: { turbo_frame: "user_profile_#{@user.id}" }, class: "btn btn-link p-0", title: "Edit Profile" do %>
-            <i class="fa-solid fa-user-pen" style="color: #999999; font-size: 15px; margin-right: -5px; padding-left: 5px"></i>
+          <%= link_to edit_user_path(@user), data: { turbo_frame: "user_profile_#{@user.id}" }, class: "btn btn-link p-0 ms-2", title: "Edit Profile" do %>
+            <i class="fa-solid fa-user-pen text-muted fs-5"></i>
           <% end %>
         <% end %>
       </div>
-    </div>
 
-    <div class="d-flex flex-row justify-content-center align-items-center" style="gap: 8px; margin-left: 17px;">
-      <p style="font-size: 12px"><%= "#{"2"} friends" %></p>
-      <p style="font-size: 12px"><%= " | " %></p>
-      <% level = @user.level %>
-      <span class="badge bg-<%= level_badge_color(@user.level) %>" style="margin-top: -15px">
-        <%= @user.level %>
-      </span>
-    </div>
-
-
-    <% if @trips.empty? %>
-      <div class="d-flex flex-column align-items-center justify-content-center" style="margin-top: 20px; width: 100%">
-        <h3 style="font-size: 16px; padding-bottom: 20px; padding-top: 7%;"> You've not planned any trips yet!</h3>
-        <% if current_user == @user %>
-          <%= link_to root_path, class: "btn btn-primary" do %>
-            Plan a trip
-          <% end %>
-        <% end %>
+      <div class="d-flex align-items-center justify-content-center gap-2 ms-3">
+        <p class="small mb-0">2 friends</p>
+        <span class="small mb-0">|</span>
+        <span class="badge bg-<%= level_badge_color(@user.level) %>">
+          <%= @user.level %>
+        </span>
       </div>
-    <% end %>
-  </turbo-frame>
 
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mt-4 w-100" style="margin-bottom: 100px;max-width: 90%">
-    <% @trips.each do |trip| %>
-      <div class="col p-0">
-        <div class="h-100 ms-3 me-3" style="min-width: 220px; border: 1px solid rgb(230, 230, 230); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); border-radius: 10px; overflow:hidden;">
-          <%= link_to trip_path(trip), class: "text-decoration-none text-dark" do %>
-            <div class="d-flex flex-column h-100">
-              <div style="height: 185px; background-color: #f0f0f0; margin-top: -25px;"></div>
-              <div class="d-flex flex-column align-items-center justify-content-end" style="padding-left: 25px; padding-right:25px; margin-top:12px">
-                <% if trip.end_date < Date.today %>
-                  <i class="fa-solid fa-circle-check" style="color: #008000; margin-top: -40px; font-size: 30px; border: 5px solid #FFFFFF; border-radius: 90px"></i>
-                <% end %>
-                <h5 class="card-title" style="margin-bottom: 4px; margin-top: 8px; font-size: 16px; text-align: center;"><strong><%= trip.location %></strong></h5>
-                <p class="card-text" style="margin-bottom: 20px; font-size: 12px; color: #666666"><%= trip.start_date.strftime("%m/%d/%Y") %> - <%= trip.end_date.strftime("%m/%d/%Y") %></p>
-              </div>
-            </div>
+      <% if @trips.empty? %>
+        <div class="text-center mt-4 w-100">
+          <h3 class="fs-6 pt-5 pb-3">You've not planned any trips yet!</h3>
+          <% if current_user == @user %>
+            <%= link_to root_path, class: "btn btn-primary" do %>Plan a trip<% end %>
           <% end %>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+
+    </div>
+  </turbo-frame>
+
+  <div class="container mt-4 mb-5">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+      <% @trips.each do |trip| %>
+        <div class="col">
+          <div class="shadow-sm rounded overflow-hidden h-100">
+            <%= link_to trip_path(trip), class: "text-decoration-none text-dark d-flex flex-column h-100" do %>
+              <% image_url = trip.activities.first&.image_url %>
+              <div class="w-100" style="height: 185px; overflow: hidden; margin-top: -25px;">
+                <% if image_url.present? %>
+                  <img src="<%= image_url %>" alt="<%= trip.location %> image" class="w-100 h-100" style="object-fit: cover;" />
+                <% else %>
+                  <div class="w-100 h-100 bg-secondary d-flex align-items-center justify-content-center text-white">
+                    No image
+                  </div>
+                <% end %>
+              </div>
+
+              <div class="d-flex flex-column align-items-center justify-content-end px-3 mt-3 mb-3 flex-grow-1">
+                <% if trip.end_date < Date.today %>
+                  <i class="fa-solid fa-circle-check text-success mb-2 fs-3 border border-white rounded-circle p-1"></i>
+                <% end %>
+                <h5 class="card-title text-center mb-1 fs-5">
+                  <strong><%= trip.location %></strong>
+                </h5>
+                <p class="card-text text-muted fs-6 mb-0">
+                  <%= trip.start_date.strftime("%m/%d/%Y") %> - <%= trip.end_date.strftime("%m/%d/%Y") %>
+                </p>
+              </div>
+
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
 
- </div>
+</div>
