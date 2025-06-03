@@ -1,6 +1,6 @@
 
 .navbar {
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(255, 255, 255, 0);
 
   .navbar-brand {
     font-size: 1.5rem;
@@ -26,7 +26,7 @@
 
     &.active {
       color: #fff !important;
-      background-color: rgba(255, 255, 255, 0.1);
+      background-color: rgb(255, 255, 255);
       border-radius: 0.375rem;
     }
   }
@@ -74,7 +74,7 @@
 // Alternative color schemes
 .navbar-light-theme {
   background-color: #fff !important;
-  box-shadow: 0 2px 4px rgba(0, 0, 0,.08);
+  box-shadow: 0 2px 4px #ffffff;
 
   .navbar-brand, .nav-link {
     color: rgb(18, 18, 18) !important;
@@ -96,9 +96,36 @@ body {
 }
 
 .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(256, 256, 18, 0.8)' stroke-width='2' stroke-linecap='round' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(0, 0, 0, 0.8)' stroke-width='2' stroke-linecap='round' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
 }
+
 footer .accordion-button {
   box-shadow: none !important;
   outline: none !important;
+}
+
+.nav-link-inline {
+  color: #333;
+  text-decoration: none;
+  font-size: 1.55rem;
+  font-weight: 500;
+  padding: 1.25rem 0;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.nav-link-inline:hover {
+  color: #59683b;
+  text-decoration: none;
+}
+
+.nav-link-inline.active {
+  color: #59683b;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .nav-link-inline {
+    font-size: 0.9rem;
+  }
 }
