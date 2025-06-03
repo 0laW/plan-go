@@ -15,11 +15,11 @@ puts "Seeding..."
 
 # --- USERS ---
 users = [
-  { first_name: "Diego", last_name: "Colina", username: "diegoc" },
-  { first_name: "Sumaiya", last_name: "Shaikh", username: "sumaiya" },
-  { first_name: "Alex", last_name: "Cercel", username: "alexc" },
-  { first_name: "Ola", last_name: "Wilk", username: "olaw" },
-  { first_name: "Jordan", last_name: "Gilbert", username: "jordang" }
+  { first_name: "Diego", last_name: "Colina", username: "@diegoc" },
+  { first_name: "Sumaiya", last_name: "Shaikh", username: "@sumaiya" },
+  { first_name: "Alex", last_name: "Cercel", username: "@alexc" },
+  { first_name: "Ola", last_name: "Wilk", username: "@olaw" },
+  { first_name: "Jordan", last_name: "Gilbert", username: "@jordang" }
 ]
 
 user_records = users.map do |user|

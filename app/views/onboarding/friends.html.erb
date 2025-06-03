@@ -14,9 +14,12 @@
 
       <%= form.submit "Search", class: "btn btn-outline-primary btn-lg rounded-pill mb-3" %>
     <% end %>
-
-    <%= link_to "Complete Onboarding →", root_path, class: "btn btn-success btn-lg rounded-pill mt-3" %>
-
+      
+    <div class="d-flex gap-3 justify-content-center mt-3">
+        <%= link_to "← Back", onboarding_style_and_personality_path , class: "btn btn-outline-secondary btn-lg rounded-pill" %>
+        <%= link_to "Complete Onboarding →", root_path, class: "btn btn-success btn-lg rounded-pill" %>
+      </div>
+    
     <div class="progress mt-4 mx-auto" style="height: 8px; border-radius: 4px; width: 90%;">
       <div class="progress-bar bg-success" style="width: 0%;"></div>
     </div>
