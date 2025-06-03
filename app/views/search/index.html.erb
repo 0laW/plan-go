@@ -1,0 +1,60 @@
+
+<div class="search-center-container">
+  <form role="search" action="<%= search_path %>" method="get" class="search-form mb-4">
+    <div class="input-group">
+      <input class="form-control search-input" type="search" name="q" placeholder="Search anything..." aria-label="Search">
+      <button class="btn search-btn" type="submit">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+  </form>
+</div>
+
+<% if @query.present? %>
+  <h1>Search Results for "<%= @query %>"</h1>
+
+  <div>
+    <h2>Trips</h2>
+    <% if @trips.any? %>
+      <% @trips.each do |trip| %>
+        <div>
+          <h3><%= trip.location %></h3>
+          <p><%= trip.budget %></p>
+        </div>
+      <% end %>
+    <% else %>
+      <p>No trips found.</p>
+    <% end %>
+  </div>
+
+  <div>
+    <h2>Users</h2>
+    <% if @users.any? %>
+      <% @users.each do |user| %>
+        <div>
+          <h3><%= user.username %></h3>
+          <p><%= user.email %></p>
+          <p><%= user.first_name %> <%= user.last_name %></p>
+        </div>
+      <% end %>
+    <% else %>
+      <p>No users found.</p>
+    <% end %>
+  </div>
+
+  <div>
+    <h2>Activities</h2>
+    <% if @activities.any? %>
+      <% @activities.each do |activity| %>
+        <div>
+          <h3><%= activity.name %></h3>
+          <p><%= activity.description %></p>
+          <p><%= activity.rating %></p>
+          <p><%= activity.location %></p>
+        </div>
+      <% end %>
+    <% else %>
+      <p>No activities found.</p>
+    <% end %>
+  </div>
+<% end %>
