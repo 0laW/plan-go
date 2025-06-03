@@ -9,7 +9,8 @@ Activity.destroy_all
 Subcategory.destroy_all
 Category.destroy_all
 Trip.destroy_all
-User.destroy_all
+User.delete_all
+ActiveRecord::Base.connection.reset_pk_sequence!('users')
 
 puts "Seeding..."
 
@@ -484,49 +485,64 @@ trip_countries = country_activities.keys
 trip_records = []
 
 user_records.each do |user|
-  trip_count = rand(1..2)
-  trip_countries.sample(trip_count).each do |country|
-    country_acts = activity_records.select { |h| h[:country] == country }.map { |h| h[:activity] }
-    selected_activities = country_acts.sample([10, country_acts.size].min)
+  # Fix 3 countries per user (or fewer if you have less than 3 countries)
+  visited_countries = trip_countries.first(3)
 
-    start_date = Date.today - rand(60..120)
-    end_date = start_date + rand(5..15)
-    budget = %w[low medium high].sample
+  visited_countries.each do |country|
+    cities = country_activities[country].keys
 
-    trip = Trip.create!(
-      start_date: start_date,
-      end_date: end_date,
-      location: country,
-      budget: budget,
-      user: user
-    )
+    # Fix 3 cities per country (or fewer if less available)
+    visited_cities = cities.first(3)
 
-    selected_activities.each do |activity|
-      TripActivity.create!(
-        trip: trip,
-        activity: activity,
-        start_time: start_date.to_datetime + rand(9..17).hours,
-        end_time: start_date.to_datetime + rand(18..22).hours
+    visited_cities.each do |city|
+      city_activities = country_activities[country][city]
+
+      start_date = Date.today - rand(60..120)
+      end_date = start_date + rand(5..15)
+      budget = %w[low medium high].sample
+
+      trip = Trip.create!(
+        start_date: start_date,
+        end_date: end_date,
+        location: "#{city}, #{country}",
+        budget: budget,
+        user: user
       )
+
+      city_activities.each do |activity_attrs|
+        activity = Activity.find_by(name: activity_attrs[:name], location: city)
+        next unless activity
+
+        TripActivity.create!(
+          trip: trip,
+          activity: activity,
+          start_time: start_date.to_datetime + rand(9..17).hours,
+          end_time: start_date.to_datetime + rand(18..22).hours
+        )
+      end
+
+      lat, lon = avg_lat_lon(city_activities.map { |a| Activity.find_by(name: a[:name], location: city) }.compact)
+      trip.update(latitude: lat, longitude: lon) if lat && lon
+
+      review_count = [city_activities.size, 3].min
+      city_activities.first(review_count).each do |activity_attrs|
+        activity = Activity.find_by(name: activity_attrs[:name], location: city)
+        next unless activity
+
+        ActivityReview.create!(
+          activity: activity,
+          user: user,
+          rating: rand(3.0..5.0).round(1),
+          comment: ["Great experience!", "Highly recommend!", "Loved it!", "Would do it again!", "Amazing!"].sample,
+          date: trip.start_date + rand(0..(trip.end_date - trip.start_date).to_i)
+        )
+      end
+
+      trip_records << trip
     end
-
-    lat, lon = avg_lat_lon(selected_activities)
-    trip.update(latitude: lat, longitude: lon) if lat && lon
-
-    review_count = [selected_activities.size, 3].min
-    selected_activities.sample(review_count).each do |activity|
-      ActivityReview.create!(
-        activity: activity,
-        user: user,
-        rating: rand(3.0..5.0).round(1),
-        comment: ["Great experience!", "Highly recommend!", "Loved it!", "Would do it again!", "Amazing!"].sample,
-        date: trip.start_date + rand(0..(trip.end_date - trip.start_date).to_i)
-      )
-    end
-
-    trip_records << trip
   end
 end
+
 
 puts "Created #{trip_records.count} trips."
 

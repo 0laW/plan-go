@@ -1,18 +1,40 @@
-<div class="info-window">
-  <h6 class="mb-1"><%= activity.name %></h6>
-  <p class="mb-1"><strong>Location:</strong> <%= activity.address %></p>
-  <p class="mb-1"><strong>Category:</strong> <%= activity.category.name %></p>
-  <p class="mb-1"><strong>Trip:</strong> <%= trip.name %></p>
-  <p class="mb-1"><strong>Date:</strong> <%= trip.start_date.strftime('%b %Y') %></p>
+<div class="info-window shadow p-3 rounded-3 position-relative" style="background-color: #fffef9; color: #626F47; max-width: 250px;">
+  <!-- Custom Close Icon -->
+  <div class="position-absolute top-0 end-0 mt-1 me-2" style="cursor: pointer;" onclick="this.closest('.mapboxgl-popup').remove()">
+    <i class="fas fa-times" style="color: #798645;"></i>
+  </div>
 
-  <% if reviews.any? %>
-    <div class="border-top pt-2 mt-2">
-      <p class="mb-1"><strong>Review:</strong> <%= reviews.first.comment %></p>
-      <p class="mb-0"><small><strong>Rating:</strong> <%= reviews.first.rating %>/5</small></p>
-    </div>
-  <% else %>
-    <div class="border-top pt-2 mt-2">
-      <p class="mb-1 text-muted"><em>No review left.</em></p>
-    </div>
-  <% end %>
+  <h6 class="fw-bold mb-2" style="color: #798645;"><%= activity.name %></h6>
+
+  <p class="mb-1">
+    <i class="fas fa-map-marker-alt me-1" style="color: #626F47;"></i>
+    <strong>Location:</strong> <%= activity.address %>
+  </p>
+
+  <p class="mb-1">
+    <i class="fas fa-tags me-1" style="color: #626F47;"></i>
+    <strong>Category:</strong> <%= activity.category.name %>
+  </p>
+
+  <p class="mb-1">
+    <i class="fas fa-calendar-alt me-1" style="color: #626F47;"></i>
+    <strong>Date:</strong> <%= trip.start_date.strftime('%b %Y') %>
+  </p>
+
+  <div class="border-top pt-2 mt-2" style="border-color: #F2EED7;">
+    <% if reviews.any? %>
+      <p class="mb-1">
+        <i class="fas fa-comment-alt me-1" style="color: #626F47;"></i>
+        <strong>Review:</strong> <%= reviews.first.comment %>
+      </p>
+      <p class="mb-0">
+        <i class="fas fa-star me-1" style="color: #626F47;"></i>
+        <small><strong>Rating:</strong> <%= reviews.first.rating %>/5</small>
+      </p>
+    <% else %>
+      <p class="mb-0 text-muted fst-italic">
+        <i class="fas fa-comment-slash me-1"></i>No review left.
+      </p>
+    <% end %>
+  </div>
 </div>

@@ -1,9 +1,48 @@
-<!-- app/views/users/_info_box.html.erb -->
-<div class="user-info">
-  <h5><%= user.username %></h5>
-  <p>Activities done: <%= trips.sum { |t| t.activities.count } %></p>
-  <p>Places visited: <%= trips.map(&:location).uniq.count %></p>
-  <p>Trips: <%= trips.count %></p>
-  <p>Reviews: <%= user.activity_reviews.count %></p>
-  <p>Level: <%= user.level %></p>
-</div>
+<% if user && trips.present? %>
+  <div class="d-flex justify-content-center mt-4 mb-4">
+    <div class="rounded-4 shadow" style="width: 320px; overflow: hidden; font-family: sans-serif;">
+
+      <!-- Top Half -->
+      <div class="position-relative" style="background-color: #626F47; height: 80px;">
+        <!-- Empty on purpose, just for color block -->
+      </div>
+
+      <!-- Profile Image overlapping top and bottom -->
+      <div class="d-flex justify-content-center" style="margin-top: -50px; z-index: 2; position: relative;">
+        <%= image_tag "monkey_logo.png", class: "rounded-circle border border-3", style: "width: 100px; height: 100px; object-fit: cover; border-color: white; background-color: white;" %>
+      </div>
+
+      <!-- Bottom Half -->
+      <div class="text-center pt-3 pb-4 px-3" style="background-color: #FDFCF7; color: #626F47;">
+        <h5 class="fw-bold mb-3">@<%= user.username %>#<%= user.id.to_s.last(4).rjust(4, '0') %></h5>
+
+        <ul class="list-unstyled mb-4">
+          <li class="mb-2">
+            <i class="fas fa-dumbbell me-2"></i>
+            <strong>Activities:</strong> <%= trips.sum { |t| t.activities.count } %>
+          </li>
+          <li class="mb-2">
+            <i class="fas fa-map-marker-alt me-2"></i>
+            <strong>Places:</strong> <%= trips.map(&:location).uniq.count %>
+          </li>
+          <li class="mb-2">
+            <i class="fas fa-suitcase-rolling me-2"></i>
+            <strong>Trips:</strong> <%= trips.count %>
+          </li>
+          <li class="mb-2">
+            <i class="fas fa-star-half-alt me-2"></i>
+            <strong>Reviews:</strong> <%= user.activity_reviews.count %>
+          </li>
+          <li class="mb-2">
+            <i class="fas fa-level-up-alt me-2"></i>
+            <strong>Level:</strong> <%= user.level %>
+          </li>
+        </ul>
+
+        <%= link_to "View Profile", user_path(user), class: "btn btn-sm px-4 fw-semibold", style: "background-color: #798645; color: #FEFAE0;" %>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <p class="text-muted text-center">No user info found.</p>
+<% end %>

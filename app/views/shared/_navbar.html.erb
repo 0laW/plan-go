@@ -12,8 +12,11 @@
     <div class="d-none d-lg-flex align-items-center">
       <% if user_signed_in? %>
         <div class="dropdown">
-          <button class="btn btn-link navbar-toggler archivo-black text-decoration-none" 
-                  style="background:none;border:none;cursor:pointer;color:black;opacity:1;" 
+
+          <button class="btn btn-link navbar-toggler archivo-black text-decoration-none"
+                  style="background:none;border:none;cursor:pointer;color:inherit;">
+          <button class="btn btn-link navbar-toggler archivo-black text-decoration-none"
+                  style="background:none;border:none;cursor:pointer;color:black;opacity:1;">
                   type="button" data-bs-toggle="offcanvas" aria-expanded="false"
                   data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"> </span>
@@ -24,10 +27,16 @@
             <li><%= link_to "Plan", root_path, class: "dropdown-item text-style" %></li>
             <li><%= link_to "My Trips", "#", class: "dropdown-item text-style" %></li>
             <li><hr class="dropdown-divider"></li>
-            <li><%= link_to "Log Out", destroy_user_session_path, 
-                    class: "dropdown-item text-style", 
+<<<<<<< HEAD
+            <li><%= link_to "Log Out", destroy_user_session_path,
+                    class: "dropdown-item text-style",
+                    data: { turbo_method: :delete } %></li>
+=======
+            <li><%= link_to "Log Out", destroy_user_session_path,
+                    class: "dropdown-item text-style",
                     data: { turbo_method: :delete } %>
             </li>
+>>>>>>> origin/master
           </ul>
         </div>
       <% else %>
@@ -35,18 +44,67 @@
       <% end %>
     </div>
 
-    <button class="navbar-toggler d-lg-none" type="button" 
-        data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" 
+<<<<<<< HEAD
+    <button class="navbar-toggler d-lg-none" type="button"
+            data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+            aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+         aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header">
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-2">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <% if user_signed_in? %>
+            <li class="nav-item">
+              <%= link_to "My Profile", user_path(current_user), class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Plan a Trip - Trip Planner", root_path, class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Search", "#", class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Trip preferences", "#", class: "nav-link" %>
+            </li>
+
+            <li class="nav-item mt-3">
+              <%= link_to "Log Out", destroy_user_session_path,
+                  class: "nav-link text-secondary",
+                  data: { turbo_method: :delete } %>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to "Log In", new_user_session_path, class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+=======
+    <button class="navbar-toggler d-lg-none" type="button"
+        data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
         aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
   <span class="navbar-toggler-icon"></span>
 </button>
 
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" 
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
      aria-labelledby="offcanvasNavbarLabel">
   <div class="offcanvas-header justify-content-end">
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
-  
+
   <div class="offcanvas-body pt-0">
     <!-- Inline navigation links at the top -->
     <div class="d-flex flex-wrap justify-content-start gap-5 mb-2 border-bottom pb-3">
@@ -61,13 +119,14 @@
         <%= link_to "Sign Up", new_user_registration_path, class: "nav-link-inline p-0" %>
       <% end %>
       </ul>
+>>>>>>> origin/master
     </div>
-    
+
     <!-- Logout section (for signed-in users) -->
     <% if user_signed_in? %>
       <div class="mt-auto pt-3">
-        <%= link_to "Log Out", destroy_user_session_path, 
-            class: "btn btn-outline-danger btn-lg rounded-pill archivo mt-5 w-100 fw-600", 
+        <%= link_to "Log Out", destroy_user_session_path,
+            class: "btn btn-outline-danger btn-lg rounded-pill archivo mt-5 w-100 fw-600",
             data: { turbo_method: :delete } %>
       </div>
         <% end %>
