@@ -6,7 +6,7 @@ import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder"
 export default class extends Controller {
   static values = {
     apiKey: String,
-    markers: Array
+    markers: { type: Array, default: [] }
   }
 
   connect() {

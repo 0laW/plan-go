@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   def index
     if username_param.present?
-      @user = User.find_by(username: username_param)
+      @user = User.find_by("LOWER(username) = ?", username_param)
       if @user
         load_user_trips
       else
@@ -24,28 +24,35 @@ class UsersController < ApplicationController
     @trips = @user.trips
   end
 
-  # app/controllers/users_controller.rb
   def search_users
-    user = User.find_by(username: params[:username])
+    username = username_param
+    Rails.logger.info "Searching for username: #{username.inspect}"
 
-    render json: {}, status: :not_found and return if user.nil?
+    user = User.find_by("LOWER(username) = ?", username)
+
+    unless user
+      # Gracefully fallback — no user found
+      render json: nil and return
+    end
 
     trips = user.trips.includes(trip_activities: { activity: %i[category activity_reviews] })
 
     markers = trips.flat_map do |trip|
       trip.trip_activities.map do |trip_activity|
         activity = trip_activity.activity
-
-        next unless activity.latitude.present? && activity.longitude.present?
+        next unless activity.latitude && activity.longitude
 
         {
           lat: activity.latitude,
           lng: activity.longitude,
-          info_window_html: render_to_string(partial: "info_window", locals: {
-                                               activity: activity,
-                                               trip: trip,
-                                               reviews: activity.activity_reviews.where(user: user)
-                                             }),
+          info_window_html: render_to_string(
+            partial: "info_window",
+            locals: {
+              activity: activity,
+              trip: trip,
+              reviews: activity.activity_reviews.where(user: user)
+            }
+          ),
           marker_html: render_to_string(partial: "marker", locals: { trip: trip })
         }
       end
@@ -53,7 +60,7 @@ class UsersController < ApplicationController
 
     center = markers.any? ? [markers.first[:lng], markers.first[:lat]] : [0, 51]
 
-    user_info_html = render_to_string(
+    user_info_box_html = render_to_string(
       partial: "users/info_box",
       locals: { user: user, trips: trips }
     )
@@ -61,22 +68,14 @@ class UsersController < ApplicationController
     render json: {
       center: center,
       markers: markers,
-      user: {
-        id: user.id,
-        username: user.username,
-        trip_count: trips.count,
-        trip_names: trips.pluck(:location),
-        review_count: user.activity_reviews.count,
-        level: user.level
-      },
-      user_info_html: user_info_html
+      user_info_box_html: user_info_box_html
     }
   end
 
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
-      redirect_to @user, notice: 'Profile updated successfully!'
+      redirect_to @user, notice: "Profile updated successfully!"
     else
       render :edit
     end
@@ -98,7 +97,7 @@ class UsersController < ApplicationController
     @markers = @trips.flat_map do |trip|
       trip.trip_activities.map do |ta|
         activity = ta.activity
-        next unless activity.latitude.present? && activity.longitude.present?
+        next unless activity.latitude && activity.longitude
 
         {
           lat: activity.latitude,
