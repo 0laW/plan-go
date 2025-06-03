@@ -27,16 +27,17 @@ class UsersController < ApplicationController
 
   def search_users
     username = username_param
-    Rails.logger.info "Searching for username: #{username.inspect}"
+    Rails.logger.info "🔍 Searching for username: #{username.inspect}"
 
     user = User.find_by("LOWER(username) = ?", username)
 
     unless user
-      # Gracefully fallback — no user found
-      render json: nil and return
+      Rails.logger.warn "⚠️ User not found: #{username}"
+      render json: { error: "User not found" }, status: :not_found and return
     end
 
     trips = user.trips.includes(trip_activities: { activity: %i[category activity_reviews] })
+    Rails.logger.info "📦 Found #{trips.size} trips for user: #{user.username}"
 
     markers = trips.flat_map do |trip|
       trip.trip_activities.map do |trip_activity|
@@ -59,12 +60,16 @@ class UsersController < ApplicationController
       end
     end.compact
 
-    center = markers.any? ? [markers.first[:lng], markers.first[:lat]] : [0, 51]
+    Rails.logger.info "📍 Generated #{markers.size} markers"
+
+    center = markers.any? ? [markers.first[:lng], markers.first[:lat]] : [10.0, 50.0] # Somewhere in Europe as default
 
     user_info_box_html = render_to_string(
       partial: "users/info_box",
       locals: { user: user, trips: trips }
     )
+
+    Rails.logger.info "🧾 Info box HTML length: #{user_info_box_html.length}"
 
     render json: {
       center: center,

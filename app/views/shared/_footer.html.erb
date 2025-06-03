@@ -1,39 +1,76 @@
-<footer class="footer text-light pt-5 pb-4" style="background-color: #626F47; font-size: 1rem;">
+<footer class="footer text-light pt-5 pb-4" style="background-color: #626F47; font-size: 1rem; max-height: 330px;">
   <div class="container">
-
-    <!-- Top Row: Logo & Columns -->
     <div class="row justify-content-between align-items-start">
 
-      <!-- Logo -->
-      <div class="col-md-3 mb-4">
+      <!-- Logo + Socials -->
+      <div class="col-12 col-md-3 mb-4 text-center text-md-start">
         <h4 class="fw-bold text-light">Plan<span class="text-warning">&</span>Go</h4>
+        <div class="d-flex justify-content-center justify-content-md-start gap-3 mt-3">
+          <%= link_to "#", class: "text-light fs-5" do %><i class="fab fa-instagram"></i><% end %>
+          <%= link_to "#", class: "text-light fs-5" do %><i class="fab fa-facebook"></i><% end %>
+          <%= link_to "#", class: "text-light fs-5" do %><i class="fab fa-linkedin"></i><% end %>
+          <%= link_to "#", class: "text-light fs-5" do %><i class="fab fa-x-twitter"></i><% end %>
+        </div>
       </div>
 
-      <!-- Product Column -->
-      <div class="col-6 col-md-2 mb-4">
-        <ul class="list-unstyled">
-          <li><%= link_to root_path, class: "text-light text-decoration-none d-block mb-2" do %><i class="fas fa-home me-2"></i>Home<% end %></li>
-          <li><%= link_to "#", class: "text-light text-decoration-none d-block mb-2" do %><i class="fas fa-search me-2"></i>Search<% end %></li>
-          <li><%= link_to "#", class: "text-light text-decoration-none d-block mb-2" do %><i class="fas fa-user me-2"></i>Profile<% end %></li>
-        </ul>
-      </div>
+      <!-- Accordion Container for Mobile -->
+      <div class="col-12 col-md-6">
+        <div class="accordion accordion-flush d-md-none" id="footerAccordion">
 
-      <!-- Resources Column -->
-      <div class="col-6 col-md-2 mb-4">
-        <ul class="list-unstyled">
-          <li><%= link_to "#", class: "text-light text-decoration-none d-block mb-2" do %><i class="fas fa-blog me-2"></i>Blog<% end %></li>
-          <li><%= link_to "#", class: "text-light text-decoration-none d-block mb-2" do %><i class="fas fa-info-circle me-2"></i>About Us<% end %></li>
-          <li><%= link_to "#", class: "text-light text-decoration-none d-block mb-2" do %><i class="fas fa-envelope me-2"></i>Contact Us<% end %></li>
-          <li><%= link_to "#", class: "text-light text-decoration-none d-block" do %><i class="fas fa-comment-dots me-2"></i>Give Feedback<% end %></li>
-        </ul>
-      </div>
+          <!-- Product Section -->
+          <div class="accordion-item bg-transparent border-0">
+            <h2 class="accordion-header" id="productHeading">
+              <button class="accordion-button collapsed bg-transparent text-light px-0" type="button" data-bs-toggle="collapse" data-bs-target="#productCollapse" aria-expanded="false" aria-controls="productCollapse">
+                Links
+              </button>
+            </h2>
+            <div id="productCollapse" class="accordion-collapse collapse" aria-labelledby="productHeading" data-bs-parent="#footerAccordion">
+              <ul class="list-unstyled ps-3 mt-2">
+                <li><%= link_to root_path, class: "text-light text-decoration-none d-block mb-2" do %><i class="fas fa-home me-2"></i>Home<% end %></li>
+                <li><%= link_to "#", class: "text-light text-decoration-none d-block mb-2" do %><i class="fas fa-search me-2"></i>Search<% end %></li>
+                <li><%= link_to "#", class: "text-light text-decoration-none d-block" do %><i class="fas fa-user me-2"></i>Profile<% end %></li>
+              </ul>
+            </div>
+          </div>
 
-      <!-- Social Icons Only -->
-      <div class="col-md-3 d-flex justify-content-md-end justify-content-center align-items-center gap-3 mb-4">
-        <%= link_to "#", class: "text-light fs-5" do %><i class="fab fa-instagram"></i><% end %>
-        <%= link_to "#", class: "text-light fs-5" do %><i class="fab fa-facebook"></i><% end %>
-        <%= link_to "#", class: "text-light fs-5" do %><i class="fab fa-linkedin"></i><% end %>
-        <%= link_to "#", class: "text-light fs-5" do %><i class="fab fa-x-twitter"></i><% end %>
+          <!-- Resources Section -->
+          <div class="accordion-item bg-transparent border-0">
+            <h2 class="accordion-header" id="resourcesHeading">
+              <button class="accordion-button collapsed bg-transparent text-light px-0" type="button" data-bs-toggle="collapse" data-bs-target="#resourcesCollapse" aria-expanded="false" aria-controls="resourcesCollapse">
+                Resources
+              </button>
+            </h2>
+            <div id="resourcesCollapse" class="accordion-collapse collapse" aria-labelledby="resourcesHeading" data-bs-parent="#footerAccordion">
+              <ul class="list-unstyled ps-3 mt-2">
+                <li><%= link_to "#", class: "text-light text-decoration-none d-block mb-2" do %><i class="fas fa-blog me-2"></i>Blog<% end %></li>
+                <li><%= link_to "#", class: "text-light text-decoration-none d-block mb-2" do %><i class="fas fa-info-circle me-2"></i>About Us<% end %></li>
+                <li><%= link_to "#", class: "text-light text-decoration-none d-block mb-2" do %><i class="fas fa-envelope me-2"></i>Contact Us<% end %></li>
+                <li><%= link_to "#", class: "text-light text-decoration-none d-block" do %><i class="fas fa-comment-dots me-2"></i>Give Feedback<% end %></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Desktop View: Same Links, Not Collapsed -->
+        <div class="row d-none d-md-flex">
+          <div class="col-6">
+            <h6 class="text-light fw-bold">Product</h6>
+            <ul class="list-unstyled">
+              <li><%= link_to root_path, class: "text-light text-decoration-none d-block mb-2" do %><i class="fas fa-home me-2"></i>Home<% end %></li>
+              <li><%= link_to "#", class: "text-light text-decoration-none d-block mb-2" do %><i class="fas fa-search me-2"></i>Search<% end %></li>
+              <li><%= link_to "#", class: "text-light text-decoration-none d-block" do %><i class="fas fa-user me-2"></i>Profile<% end %></li>
+            </ul>
+          </div>
+          <div class="col-6">
+            <h6 class="text-light fw-bold">Resources</h6>
+            <ul class="list-unstyled">
+              <li><%= link_to "#", class: "text-light text-decoration-none d-block mb-2" do %><i class="fas fa-blog me-2"></i>Blog<% end %></li>
+              <li><%= link_to "#", class: "text-light text-decoration-none d-block mb-2" do %><i class="fas fa-info-circle me-2"></i>About Us<% end %></li>
+              <li><%= link_to "#", class: "text-light text-decoration-none d-block mb-2" do %><i class="fas fa-envelope me-2"></i>Contact Us<% end %></li>
+              <li><%= link_to "#", class: "text-light text-decoration-none d-block" do %><i class="fas fa-comment-dots me-2"></i>Give Feedback<% end %></li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
 
