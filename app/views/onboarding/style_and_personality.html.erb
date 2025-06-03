@@ -23,7 +23,10 @@
         </div>
       </div>
 
-      <%= submit_tag "Next →", class: "btn btn-primary btn-lg rounded-pill mt-3" %>
+      <div class="d-flex gap-3 justify-content-center mt-3">
+        <%= link_to "← Back", onboarding_sub_interests_path , class: "btn btn-outline-secondary btn-lg rounded-pill" %>
+        <%= submit_tag "Next →", class: "btn btn-primary btn-lg rounded-pill" %>
+      </div>
     <% end %>
 
     <div class="progress mt-4" style="height: 8px; border-radius: 4px;">
