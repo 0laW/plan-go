@@ -19,6 +19,4 @@ module ApplicationHelper
   def dropdown_active?(paths)
     nav_item_active?(paths) ? "active" : ""
   end
-
-
 end

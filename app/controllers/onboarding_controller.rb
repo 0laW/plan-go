@@ -17,7 +17,6 @@ class OnboardingController < ApplicationController
     redirect_to onboarding_friends_path
   end
 
-
   def save_interests
     category_ids = params[:category_ids] || []
 
@@ -53,17 +52,15 @@ class OnboardingController < ApplicationController
   end
 
   def find_friends
-  if params[:username].present?
-    @search_results = User.where("username ILIKE ?", "%#{params[:username]}%").where.not(id: current_user.id)
-  else
-    @search_results = []
+    if params[:username].present?
+      @search_results = User.where("username ILIKE ?", "%#{params[:username]}%").where.not(id: current_user.id)
+    else
+      @search_results = []
+    end
   end
- end
-
 
   def complete
     session[:onboarding_complete] = true
     redirect_to root_path, notice: "You're all set!"
   end
-
 end
