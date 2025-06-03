@@ -8,12 +8,6 @@
       <% end %>
     </div>
 
-    <!-- Search Bar (Desktop) -->
-    <form class="d-none d-lg-flex mx-3" role="search" action="<%= search_path %>" method="get" style="width: 300px;">
-      <input class="form-control me-2" type="search" name="q" placeholder="Search anything..." aria-label="Search">
-      <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
-
     <!-- Desktop Right Side: Account dropdown or Log In -->
     <div class="d-none d-lg-flex align-items-center">
       <% if user_signed_in? %>
@@ -54,11 +48,6 @@
       <div class="offcanvas-body">
 
         <!-- Search Bar (Mobile) -->
-        <form class="d-lg-none mb-3" role="search" action="<%= search_path %>" method="get">
-          <input class="form-control mb-2" type="search" name="q" placeholder="Search anything..." aria-label="Search">
-          <button class="btn btn-outline-success w-100" type="submit">Search</button>
-        </form>
-
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Home</a>
