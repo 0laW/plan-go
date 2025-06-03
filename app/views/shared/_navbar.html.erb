@@ -1,27 +1,3 @@
-<nav class="navbar px-3 py-2 archivo-black">
-  <div class="d-flex justify-content-between align-items-center w-100">
-    <!-- Left side: Logo + Search + Links -->
-    <div class="d-flex align-items-center gap-3">
-      <h1>
-      Plan & Go
-      </h1>
-    </div>
-
-    <!-- Right side: Account dropdown or Log In -->
-    <% if user_signed_in? %>
-
-        <button class="btn btn-secondary dropdown-toggle" style="background:none;border:none;cursor:pointer;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          Account
-        </button>
-
-      </div>
-    <% else %>
-      <%= link_to "Log In", new_user_session_path, class: "text-style" %>
-    <% end %>
-  </div>
-</nav>
-
-
 <nav class="navbar bg-body-tertiary fixed-top px-3 py-2 archivo-black">
   <div class="container-fluid">
     <!-- Brand/Logo Section -->
@@ -32,12 +8,18 @@
       <% end %>
     </div>
 
+    <!-- Search Bar (Desktop) -->
+    <form class="d-none d-lg-flex mx-3" role="search" action="<%= search_path %>" method="get" style="width: 300px;">
+      <input class="form-control me-2" type="search" name="q" placeholder="Search anything..." aria-label="Search">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+
     <!-- Desktop Right Side: Account dropdown or Log In -->
     <div class="d-none d-lg-flex align-items-center">
       <% if user_signed_in? %>
         <div class="dropdown">
-          <button class="btn btn-link navbar-toggler archivo-black text-decoration-none" 
-                  style="background:none;border:none;cursor:pointer;color:inherit;" 
+          <button class="btn btn-link navbar-toggler archivo-black text-decoration-none"
+                  style="background:none;border:none;cursor:pointer;color:inherit;"
                   type="button" data-bs-toggle="offcanvas" aria-expanded="false"
                   data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"> </span>
@@ -48,8 +30,8 @@
             <li><%= link_to "Plan", root_path, class: "dropdown-item text-style" %></li>
             <li><%= link_to "My Trips", "#", class: "dropdown-item text-style" %></li>
             <li><hr class="dropdown-divider"></li>
-            <li><%= link_to "Log Out", destroy_user_session_path, 
-                    class: "dropdown-item text-style", 
+            <li><%= link_to "Log Out", destroy_user_session_path,
+                    class: "dropdown-item text-style",
                     data: { turbo_method: :delete } %></li>
           </ul>
         </div>
@@ -58,23 +40,31 @@
       <% end %>
     </div>
 
-    <button class="navbar-toggler d-lg-none" type="button" 
-            data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" 
+    <button class="navbar-toggler d-lg-none" type="button"
+            data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
             aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" 
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
          aria-labelledby="offcanvasNavbarLabel">
       <div class="offcanvas-header">
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
 
-        <ul class="navbar-nav justify-content-end flex-grow-1 pe-2">
+        <!-- Search Bar (Mobile) -->
+        <form class="d-lg-none mb-3" role="search" action="<%= search_path %>" method="get">
+          <input class="form-control mb-2" type="search" name="q" placeholder="Search anything..." aria-label="Search">
+          <button class="btn btn-outline-success w-100" type="submit">Search</button>
+        </form>
+
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Search", search_path, class: "nav-link" %>
           </li>
           <% if user_signed_in? %>
             <li class="nav-item">
@@ -84,16 +74,12 @@
               <%= link_to "Plan a Trip - Trip Planner", root_path, class: "nav-link" %>
             </li>
             <li class="nav-item">
-              <%= link_to "Search", "#", class: "nav-link" %>
-            </li>
-            <li class="nav-item">
               <%= link_to "Trip preferences", "#", class: "nav-link" %>
             </li>
-            
             <li class="nav-item mt-3">
-              <%= link_to "Log Out", destroy_user_session_path, 
-                  class: "nav-link text-secondary", 
-                  data: { turbo_method: :delete } %>
+              <%= link_to "Log Out", destroy_user_session_path,
+              class: "nav-link text-secondary",
+              data: { turbo_method: :delete } %>
             </li>
           <% else %>
             <li class="nav-item">
