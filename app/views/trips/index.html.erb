@@ -9,13 +9,10 @@
     <h1 class="archivo fs-3 mt-1 mb-1" style="font-weight: 800; color: #121212">Plan your Perfect Route</h1>
     <p class="archivo fs-6 mb-3" style="font-weight: 200; color: #121212">Powered by AI and your preferences</p>
 
-    <%= form_with model: @trip, url: trips_path, method: :post, local: true do |f| %>
+    <%= form_with model: @trip, url: trips_path, method: :post, local: true, html: { id: "trip-form" } do |f| %>
       <div class="d-flex flex-column gap-3 mb-4 align-items-center">
-
         <div class="rounded-4 p-3 bg-white bg-opacity-75" style="backdrop-filter: blur(10px); width: 100%; max-width: 475px;">
-
           <div class="row g-3">
-
             <div class="col-12 col-md-6 d-flex flex-column">
               <%= f.label :start_date, class: "archivo form-label small mb-2 text-start fw-bold" do %>
                 <i class="bi bi-calendar-event me-1"></i> Start Date
@@ -37,30 +34,24 @@
               <%= f.text_field :location, id: "location", class: "p-2 form-control form-control-sm focus-ring rounded-pill", placeholder: "e.g. Madrid, Spain", style: "border: 1px solid rgba(0, 0, 0, 0.15); background-color: rgba(255, 255, 255, 0.9);" %>
             </div>
 
-      <div class="col-12 d-flex flex-column">
-        <%= f.label :budget, class: "archivo form-label fw-bold small mb-2 text-start" do %>
-          <i class="bi bi-cash-coin me-1"></i> Budget
-        <% end %>
-
-        <div class="d-flex gap-2">
-          <%= f.select :currency, options_for_select([["£ GBP", "GBP"], ["€ EUR", "EUR"], ["$ USD", "USD"],["A$ AUD", "AUD"],
-          ["C$ CAD", "CAD"],
-          ["¥ JPY", "JPY"],
-          ["₹ INR", "INR"],
-          ["¥ CNY", "CNY"]], selected: "GBP"), {}, class: "form-select form-select-sm rounded-pill p-2 focus-ring" , style: "width: 100px; border: 1px solid rgba(0, 0, 0, 0.15); background-color: rgba(255, 255, 255, 0.9);" %>
-
-          <%= f.text_field :budget, id: "budget", class: "p-2 form-control form-control-sm focus-ring rounded-pill", placeholder: "e.g. 40", style: "border: 1px solid rgba(0, 0, 0, 0.15); background-color: rgba(255, 255, 255, 0.9);" %>
-        </div>
-      </div>
-
+            <div class="col-12 d-flex flex-column">
+              <%= f.label :budget, class: "archivo form-label fw-bold small mb-2 text-start" do %>
+                <i class="bi bi-cash-coin me-1"></i> Budget
+              <% end %>
+              <div class="d-flex gap-2">
+                <%= f.select :currency, options_for_select([["£ GBP", "GBP"], ["€ EUR", "EUR"], ["$ USD", "USD"], ["A$ AUD", "AUD"], ["C$ CAD", "CAD"], ["¥ JPY", "JPY"], ["₹ INR", "INR"], ["¥ CNY", "CNY"]], selected: "GBP"), {}, class: "form-select form-select-sm rounded-pill p-2 focus-ring", style: "width: 100px; border: 1px solid rgba(0, 0, 0, 0.15); background-color: rgba(255, 255, 255, 0.9);" %>
+                <%= f.text_field :budget, id: "budget", class: "p-2 form-control form-control-sm focus-ring rounded-pill", placeholder: "e.g. 40", style: "border: 1px solid rgba(0, 0, 0, 0.15); background-color: rgba(255, 255, 255, 0.9);" %>
+              </div>
+            </div>
           </div>
 
-          <div class="d-flex flex-column justify-content-center align-items-center mt-4">
-            <%= f.submit "Plan my trip →", class: "btn btn-secondary btn-lg rounded-pill archivo", style: "width: 170px; font-weight: 600;" %>
-
+          <div class="d-flex flex-column justify-content-center align-items-center mt-4 w-100">
+            <button type="submit" class="btn btn-secondary btn-lg rounded-pill archivo d-flex align-items-center justify-content-center gap-2" id="trip-button" style="width: 170px; font-weight: 600;">
+              <span class="button-text">Plan my trip →</span>
+              <span class="spinner-border spinner-border-sm d-none" id="trip-spinner" role="status" aria-hidden="true"></span>
+            </button>
             <%= link_to "Edit trip preferences", "#", class: "archivo text-black text-decoration-none border-bottom border-0 border-black mt-3", style: "font-size: 14px; font-weight: 300;", data: { turbo: false }, onmouseover: "this.style.borderBottom='2px solid black'", onmouseout: "this.style.borderBottom='0'" %>
           </div>
-
         </div>
       </div>
     <% end %>
@@ -68,9 +59,6 @@
 </div>
 
 <script>
-  const budgetSlider = document.getElementById('budget-slider');
-  const budgetValue = document.getElementById('budget-value');
-
   const startDatePicker = flatpickr("#start-date", {
     dateFormat: "M d, Y",
     minDate: "today",
@@ -100,6 +88,20 @@
       console.log('Place selected:', place.formatted_address || place.name);
     });
   }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("trip-form");
+    const button = document.getElementById("trip-button");
+    const spinner = document.getElementById("trip-spinner");
+    const buttonText = button.querySelector(".button-text");
+
+    if (form && button) {
+      form.addEventListener("submit", function () {
+        spinner.classList.remove("d-none");
+        buttonText.textContent = "Generating";
+      });
+    }
+  });
 </script>
 
 <style>
