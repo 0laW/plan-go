@@ -3,7 +3,7 @@ require 'net/http'
 require 'json'
 
 class AiItineraryGenerator
-  UNSPLASH_ACCESS_KEY = ENV['UNSPLASH_ACCESS_KEY'] # Set your Unsplash API key in ENV
+  UNSPLASH_ACCESS_KEY = ENV.fetch('UNSPLASH_ACCESS_KEY', nil) # Set your Unsplash API key in ENV
 
   def initialize(trip)
     @trip = trip
@@ -64,8 +64,6 @@ class AiItineraryGenerator
 
     if data['results'] && data['results'][0] && data['results'][0]['urls'] && data['results'][0]['urls']['regular']
       data['results'][0]['urls']['regular']
-    else
-      nil
     end
   rescue StandardError => e
     Rails.logger.error("Unsplash API error: #{e.message}")
@@ -112,11 +110,11 @@ class AiItineraryGenerator
     subcategory_names = @preferences.map { |p| p.subcategory&.name }.compact
 
     <<~PROMPT
-      Plan a #{days}-day itinerary for a trip to #{@trip.location} from #{@trip.start_date.strftime("%B %d")} to #{@trip.end_date.strftime("%B %d")}.
+      Plan a #{days}-day itinerary for a trip to #{@trip.location} from #{@trip.start_date.strftime('%B %d')} to #{@trip.end_date.strftime('%B %d')}.
       The travel budget is #{budget_str}.
 
-      User prefers: #{category_names.join(", ")}.
-      Specific interests: #{subcategory_names.join(", ")}.
+      User prefers: #{category_names.join(', ')}.
+      Specific interests: #{subcategory_names.join(', ')}.
 
       For each day, include no more than 4 activities.
       Provide realistic start and end times for each activity, evenly spread throughout each day.
