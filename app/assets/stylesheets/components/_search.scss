@@ -1,0 +1,34 @@
+.search-form {
+  max-width: 400px;
+  width: 100%;
+}
+
+.search-input {
+  background: #fff; // white background
+  color: #121212;
+  border: 1px solid #ced4da;
+  &::placeholder {
+    color: #050000;
+    opacity: 1;
+  }
+}
+
+.search-btn {
+  background: #626F47;
+  color: #8e2323;
+  border: none;
+  &:hover, &:focus {
+    background: #626F47;
+    color: #fff;
+  }
+  .fa-search {
+    color: #626F47;
+  }
+}
+
+.search-center-container {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

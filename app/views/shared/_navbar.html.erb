@@ -8,6 +8,12 @@
       <% end %>
     </div>
 
+    <!-- Search Bar (Desktop) -->
+    <form class="d-none d-lg-flex mx-3" role="search" action="<%= search_path %>" method="get" style="width: 300px;">
+      <input class="form-control me-2" type="search" name="q" placeholder="Search anything..." aria-label="Search">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+
     <!-- Desktop Right Side: Account dropdown or Log In -->
     <div class="d-none d-lg-flex align-items-center">
       <% if user_signed_in? %>
@@ -26,8 +32,7 @@
             <li><hr class="dropdown-divider"></li>
             <li><%= link_to "Log Out", destroy_user_session_path,
                     class: "dropdown-item text-style",
-                    data: { turbo_method: :delete } %>
-            </li>
+                    data: { turbo_method: :delete } %></li> 
           </ul>
         </div>
       <% else %>
@@ -61,17 +66,5 @@
       <% end %>
       </ul>
     </div>
-
-    <!-- Logout section (for signed-in users) -->
-    <% if user_signed_in? %>
-      <div class="mt-auto pt-3">
-        <%= link_to "Log Out", destroy_user_session_path,
-            class: "btn btn-outline-danger btn-lg rounded-pill archivo mt-5 w-100 fw-600",
-            data: { turbo_method: :delete } %>
-      </div>
-        <% end %>
-      </div>
-      </ul>
-</div>
   </div>
 </nav>
