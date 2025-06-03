@@ -1,3 +1,4 @@
+
 source "https://rubygems.org"
 
 ruby "3.3.5"
@@ -56,6 +57,7 @@ gem 'devise'
 gem 'geocoder'
 
 gem 'ostruct'
+gem "ruby-openai"
 
 group :development, :test do
   gem "dotenv-rails"
@@ -79,10 +81,3 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
-
-gem 'devise'
-
-gem 'geocoder'
-
-gem 'ostruct'
-gem "ruby-openai"

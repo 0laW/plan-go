@@ -1,107 +1,99 @@
-<footer class="footer text-light py-4" style="background-color: #626F47;">
+<footer class="footer text-light py-4 custom-footer-bg">
   <div class="container">
 
-    <!-- Mobile Footer: Accordion -->
-    <div class="d-md-none">
-      <div class="accordion" id="footerAccordion">
+<!-- Mobile Footer: Accordion -->
+<div class="d-md-none">
+  <div class="accordion" id="footerAccordion">
 
-        <!-- Socials -->
-        <div class="accordion-item bg-transparent border-0">
-          <h2 class="accordion-header" id="headingSocials">
-            <button class="accordion-button bg-transparent text-light fs-6 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSocials" aria-expanded="false" aria-controls="collapseSocials">
-              Follow Us
-            </button>
-          </h2>
-          <div id="collapseSocials" class="accordion-collapse collapse" aria-labelledby="headingSocials" data-bs-parent="#footerAccordion">
-            <div class="accordion-body d-flex flex-column gap-2 small">
-              <%= link_to "https://www.instagram.com/yourprofile", target: "_blank", rel: "noopener", class: "text-light text-decoration-none" do %><i class="fab fa-instagram me-2"></i>Instagram<% end %>
-              <%= link_to "https://www.facebook.com/yourprofile", target: "_blank", rel: "noopener", class: "text-light text-decoration-none" do %><i class="fab fa-facebook me-2"></i>Facebook<% end %>
-              <%= link_to "https://www.linkedin.com/in/yourprofile", target: "_blank", rel: "noopener", class: "text-light text-decoration-none" do %><i class="fab fa-linkedin me-2"></i>LinkedIn<% end %>
-              <%= link_to "https://twitter.com/yourprofile", target: "_blank", rel: "noopener", class: "text-light text-decoration-none" do %><i class="fab fa-x-twitter me-2"></i>X<% end %>
-            </div>
-          </div>
+    <!-- Navigation -->
+    <div class="accordion-item bg-transparent border-0">
+      <h2 class="accordion-header" id="headingNavigation">
+        <button class="accordion-button bg-transparent text-light fs-6 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNavigation" aria-expanded="false" aria-controls="collapseNavigation">
+          Navigation
+        </button>
+      </h2>
+      <div id="collapseNavigation" class="accordion-collapse collapse" aria-labelledby="headingNavigation" data-bs-parent="#footerAccordion">
+        <div class="accordion-body d-flex flex-column gap-2 small">
+          <%= link_to root_path, class: "text-light text-decoration-none" do %><i class="fas fa-home me-2"></i>Home<% end %>
+          <%= link_to trips_path, class: "text-light text-decoration-none" do %><i class="fas fa-suitcase-rolling me-2"></i>Trips<% end %>
+          <%= link_to activities_path, class: "text-light text-decoration-none" do %><i class="fas fa-map-marker-alt me-2"></i>Activities<% end %>
+          <%= link_to "#", class: "text-light text-decoration-none" do %><i class="fas fa-user me-2"></i>Profile<% end %>
+          <%= link_to "#", class: "text-light text-decoration-none" do %><i class="fas fa-info-circle me-2"></i>About<% end %>
+          <%= link_to "#", class: "text-light text-decoration-none" do %><i class="fas fa-question-circle me-2"></i>Help<% end %>
+          <%= link_to "#", class: "text-light text-decoration-none" do %><i class="fas fa-envelope me-2"></i>Contact<% end %>
         </div>
-
-        <!-- Navigation -->
-        <div class="accordion-item bg-transparent border-0">
-          <h2 class="accordion-header" id="headingNavigation">
-            <button class="accordion-button bg-transparent text-light fs-6 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNavigation" aria-expanded="false" aria-controls="collapseNavigation">
-              Navigation
-            </button>
-          </h2>
-          <div id="collapseNavigation" class="accordion-collapse collapse" aria-labelledby="headingNavigation" data-bs-parent="#footerAccordion">
-            <div class="accordion-body d-flex flex-column gap-2 small">
-              <%= link_to root_path, class: "text-light text-decoration-none" do %><i class="fas fa-home me-2"></i>Home<% end %>
-              <%= link_to trips_path, class: "text-light text-decoration-none" do %><i class="fas fa-suitcase-rolling me-2"></i>Trips<% end %>
-              <%= link_to activities_path, class: "text-light text-decoration-none" do %><i class="fas fa-map-marker-alt me-2"></i>Activities<% end %>
-              <%= link_to "#", class: "text-light text-decoration-none" do %><i class="fas fa-user me-2"></i>Profile<% end %>
-              <%= link_to "#", class: "text-light text-decoration-none" do %><i class="fas fa-info-circle me-2"></i>About<% end %>
-              <%= link_to "#", class: "text-light text-decoration-none" do %><i class="fas fa-question-circle me-2"></i>Help<% end %>
-              <%= link_to "#", class: "text-light text-decoration-none" do %><i class="fas fa-envelope me-2"></i>Contact<% end %>
-            </div>
-          </div>
-        </div>
-
-        <!-- More -->
-        <div class="accordion-item bg-transparent border-0">
-          <h2 class="accordion-header" id="headingMore">
-            <button class="accordion-button bg-transparent text-light fs-6 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMore" aria-expanded="false" aria-controls="collapseMore">
-              More
-            </button>
-          </h2>
-          <div id="collapseMore" class="accordion-collapse collapse" aria-labelledby="headingMore" data-bs-parent="#footerAccordion">
-            <div class="accordion-body d-flex flex-column gap-2 small">
-              <%= link_to "Privacy Policy", "#", class: "text-light text-decoration-none" %>
-              <%= link_to "Terms & Conditions", "#", class: "text-light text-decoration-none" %>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
 
-    <!-- Desktop Footer -->
-    <div class="d-none d-md-flex row text-center justify-content-center mt-3 small">
-
-      <!-- Socials -->
-      <div class="col-md-3 mb-2">
-        <h5 class="text-uppercase mb-2" style="font-size: 0.95rem;">Follow Us</h5>
-        <ul class="list-unstyled d-flex flex-column align-items-center gap-1">
-          <li><%= link_to "https://www.instagram.com/yourprofile", target: "_blank", rel: "noopener", class: "text-light text-decoration-none" do %><i class="fab fa-instagram me-2"></i>Instagram<% end %></li>
-          <li><%= link_to "https://www.facebook.com/yourprofile", target: "_blank", rel: "noopener", class: "text-light text-decoration-none" do %><i class="fab fa-facebook me-2"></i>Facebook<% end %></li>
-          <li><%= link_to "https://www.linkedin.com/in/yourprofile", target: "_blank", rel: "noopener", class: "text-light text-decoration-none" do %><i class="fab fa-linkedin me-2"></i>LinkedIn<% end %></li>
-          <li><%= link_to "https://twitter.com/yourprofile", target: "_blank", rel: "noopener", class: "text-light text-decoration-none" do %><i class="fab fa-x-twitter me-2"></i>X<% end %></li>
-        </ul>
+    <!-- More -->
+    <div class="accordion-item bg-transparent border-0">
+      <h2 class="accordion-header" id="headingMore">
+        <button class="accordion-button bg-transparent text-light fs-6 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMore" aria-expanded="false" aria-controls="collapseMore">
+          More
+        </button>
+      </h2>
+      <div id="collapseMore" class="accordion-collapse collapse" aria-labelledby="headingMore" data-bs-parent="#footerAccordion">
+        <div class="accordion-body d-flex flex-column gap-2 small">
+          <%= link_to "Privacy Policy", "#", class: "text-light text-decoration-none" %>
+          <%= link_to "Terms & Conditions", "#", class: "text-light text-decoration-none" %>
+        </div>
       </div>
-
-      <!-- Navigation -->
-      <div class="col-md-3 mb-2">
-        <h5 class="text-uppercase mb-2" style="font-size: 0.95rem;">Navigation</h5>
-        <ul class="list-unstyled">
-          <li><%= link_to root_path, class: "text-light text-decoration-none d-block mb-1" do %><i class="fas fa-home me-2"></i>Home<% end %></li>
-          <li><%= link_to trips_path, class: "text-light text-decoration-none d-block mb-1" do %><i class="fas fa-suitcase-rolling me-2"></i>Trips<% end %></li>
-          <li><%= link_to activities_path, class: "text-light text-decoration-none d-block mb-1" do %><i class="fas fa-map-marker-alt me-2"></i>Activities<% end %></li>
-          <li><%= link_to "#", class: "text-light text-decoration-none d-block mb-1" do %><i class="fas fa-user me-2"></i>Profile<% end %></li>
-          <li><%= link_to "#", class: "text-light text-decoration-none d-block mb-1" do %><i class="fas fa-info-circle me-2"></i>About<% end %></li>
-          <li><%= link_to "#", class: "text-light text-decoration-none d-block mb-1" do %><i class="fas fa-question-circle me-2"></i>Help<% end %></li>
-          <li><%= link_to "#", class: "text-light text-decoration-none d-block" do %><i class="fas fa-envelope me-2"></i>Contact<% end %></li>
-        </ul>
-      </div>
-
-      <!-- More -->
-      <div class="col-md-3 mb-2">
-        <h5 class="text-uppercase mb-2" style="font-size: 0.95rem;">More</h5>
-        <ul class="list-unstyled">
-          <li class="mb-1"><%= link_to "Privacy Policy", "#", class: "text-light text-decoration-none d-block" %></li>
-          <li><%= link_to "Terms & Conditions", "#", class: "text-light text-decoration-none d-block" %></li>
-        </ul>
-      </div>
-
     </div>
 
-    <!-- Footer Bottom -->
+    <!-- Socials -->
+    <div class="accordion-item bg-transparent border-0">
+      <h2 class="accordion-header" id="headingSocials">
+        <button class="accordion-button bg-transparent text-light fs-6 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSocials" aria-expanded="false" aria-controls="collapseSocials">
+          Follow Us
+        </button>
+      </h2>
+      <div id="collapseSocials" class="accordion-collapse collapse" aria-labelledby="headingSocials" data-bs-parent="#footerAccordion">
+        <div class="accordion-body d-flex flex-column gap-2 small">
+          <%= link_to "https://www.instagram.com/yourprofile", target: "_blank", rel: "noopener", class: "text-light text-decoration-none" do %><i class="fab fa-instagram me-2"></i>Instagram<% end %>
+          <%= link_to "https://www.facebook.com/yourprofile", target: "_blank", rel: "noopener", class: "text-light text-decoration-none" do %><i class="fab fa-facebook me-2"></i>Facebook<% end %>
+          <%= link_to "https://www.linkedin.com/in/yourprofile", target: "_blank", rel: "noopener", class: "text-light text-decoration-none" do %><i class="fab fa-linkedin me-2"></i>LinkedIn<% end %>
+          <%= link_to "https://twitter.com/yourprofile", target: "_blank", rel: "noopener", class: "text-light text-decoration-none" do %><i class="fab fa-x-twitter me-2"></i>X<% end %>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Desktop Footer -->
+<div class="d-none d-md-flex flex-column align-items-center mt-3 small">
+
+  <!-- Navigation, More, and Socials in one line -->
+  <ul class="list-unstyled d-flex justify-content-center flex-wrap gap-4 mb-0 align-items-center footer-nav-horizontal">
+    <!-- Navigation Links -->
+    <li><%= link_to root_path, class: "text-light text-decoration-none d-block" do %><i class="fas fa-home me-2"></i>Home<% end %></li>
+    <li><%= link_to trips_path, class: "text-light text-decoration-none d-block" do %><i class="fas fa-suitcase-rolling me-2"></i>Trips<% end %></li>
+    <li><%= link_to activities_path, class: "text-light text-decoration-none d-block" do %><i class="fas fa-map-marker-alt me-2"></i>Activities<% end %></li>
+    <li><%= link_to "#", class: "text-light text-decoration-none d-block" do %><i class="fas fa-user me-2"></i>Profile<% end %></li>
+    <li><%= link_to "#", class: "text-light text-decoration-none d-block" do %><i class="fas fa-info-circle me-2"></i>About<% end %></li>
+    <li><%= link_to "#", class: "text-light text-decoration-none d-block" do %><i class="fas fa-question-circle me-2"></i>Help<% end %></li>
+    <li><%= link_to "#", class: "text-light text-decoration-none d-block" do %><i class="fas fa-envelope me-2"></i>Contact<% end %></li>
+    <!-- More Links -->
+    <li><%= link_to "Privacy Policy", "#", class: "text-light text-decoration-none d-block" %></li>
+    <li><%= link_to "Terms & Conditions", "#", class: "text-light text-decoration-none d-block" %></li>
+  </ul>
+
+</div>
+
+  <!-- Socials -->
+  <div class="d-none d-md-flex flex-column align-items-center mt-3 small">
+    <ul class="list-unstyled d-flex justify-content-center flex-wrap gap-4 mb-0 align-items-center footer-nav-horizontal">
+      <li><%= link_to "https://www.instagram.com/yourprofile", target: "_blank", rel: "noopener", class: "text-light text-decoration-none" do %><i class="fab fa-instagram me-2"></i>Instagram<% end %></li>
+      <li><%= link_to "https://www.facebook.com/yourprofile", target: "_blank", rel: "noopener", class: "text-light text-decoration-none" do %><i class="fab fa-facebook me-2"></i>Facebook<% end %></li>
+      <li><%= link_to "https://www.linkedin.com/in/yourprofile", target: "_blank", rel: "noopener", class: "text-light text-decoration-none" do %><i class="fab fa-linkedin me-2"></i>LinkedIn<% end %></li>
+      <li><%= link_to "https://twitter.com/yourprofile", target: "_blank", rel: "noopener", class: "text-light text-decoration-none" do %><i class="fab fa-x-twitter me-2"></i>X<% end %></li>
+    </ul>
+  </div>
+
+</div>
+
     <div class="text-center mt-3 small">
-      <p class="mb-0">© 2025 Plan&Go | Your AI-powered travel planner 🚀</p>
+      <p class="mb-0">© 2025 Plan&Go | Your AI-powered travel planner </p>
     </div>
 
   </div>
