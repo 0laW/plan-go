@@ -69,9 +69,9 @@
     <li><%= link_to root_path, class: "text-light text-decoration-none d-block" do %><i class="fas fa-home me-2"></i>Home<% end %></li>
     <li><%= link_to trips_path, class: "text-light text-decoration-none d-block" do %><i class="fas fa-suitcase-rolling me-2"></i>Trips<% end %></li>
     <li><%= link_to activities_path, class: "text-light text-decoration-none d-block" do %><i class="fas fa-map-marker-alt me-2"></i>Activities<% end %></li>
-    <li><%= link_to "#", class: "text-light text-decoration-none d-block" do %><i class="fas fa-user me-2"></i>Profile<% end %></li>
+    <li><%= link_to user_path(current_user), class: "text-light text-decoration-none d-block" do %><i class="fas fa-user me-2"></i>Profile<% end %></li>
     <li><%= link_to "#", class: "text-light text-decoration-none d-block" do %><i class="fas fa-info-circle me-2"></i>About<% end %></li>
-    <li><%= link_to "#", class: "text-light text-decoration-none d-block" do %><i class="fas fa-question-circle me-2"></i>Help<% end %></li>
+    <li><%= link_to search_path, class: "text-light text-decoration-none d-block" do %><i class="fas fa-question-circle me-2"></i>Help<% end %></li>
     <li><%= link_to "#", class: "text-light text-decoration-none d-block" do %><i class="fas fa-envelope me-2"></i>Contact<% end %></li>
     <!-- More Links -->
     <li><%= link_to "Privacy Policy", "#", class: "text-light text-decoration-none d-block" %></li>
