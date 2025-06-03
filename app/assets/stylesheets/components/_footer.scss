@@ -1,35 +1,59 @@
-.footer {
-  background-color: #1A1A1A;
-  color: white;
-  padding: 20px;
-  text-align: center;
+/* Footer background */
+.custom-footer-bg {
+  background-color: #626F47;
+  color: #fff;
+  padding: 20px 0;
 }
 
-.footer-link {
-  color: white;
+/* Footer headings */
+.custom-footer-heading {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+/* Footer links */
+.footer-link,
+.text-light.text-decoration-none {
+  color: #fff;
   text-decoration: none;
-  margin: 0 15px;
+  transition: color 0.2s;
 }
 
-.footer-link:hover {
+.footer-link:hover,
+.text-light.text-decoration-none:hover,
+.text-light.text-decoration-none:focus {
+  color: #ff9800;
   text-decoration: underline;
 }
 
-.social-links {
+/* Social links container */
+.social-links,
+.list-unstyled.d-flex.flex-column.align-items-center.gap-1 {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  gap: 20px;       /* evenly spaces the icons */
-  margin-top: 15px;
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
-.social-link {
-  color: white;                /* default icon color */
-  font-size: 24px;             /* you can adjust icon size here */
-  transition: transform 0.3s ease, color 0.3s ease;
+/* Social link icons */
+.social-link,
+.fab {
+  color: #fff;
+  font-size: 1.5rem;
+  transition: transform 0.3s, color 0.3s;
 }
 
-.social-link:hover {
-  transform: scale(1.2);       /* slight scale effect on hover */
-  color: #ff9800;              /* change to a highlight color on hover */
+.social-link:hover,
+.fab:hover {
+  transform: scale(1.2);
+  color: #ff9800;
+}
+
+.footer-nav-horizontal {
+  gap: 2rem;
+  flex-wrap: wrap;
 }

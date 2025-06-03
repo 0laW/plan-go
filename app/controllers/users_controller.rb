@@ -22,6 +22,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @trips = @user.trips
+    @first_activity = @trips.first.activities.first if @trips.first
   end
 
   def search_users
