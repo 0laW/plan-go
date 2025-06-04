@@ -24,7 +24,8 @@ Rails.application.routes.draw do
   get '/privacy_policy', to: 'pages#privacy_policy', as: 'privacy_policy'
   get "search_users", to: "users#search_users"
   get "users/search_users", to: "users#search_users"
-  get 'search', to: 'search#index', as: 'search'
+  get "search", to: "search#index", as: :search
+
 
   # Additional routes...
 
