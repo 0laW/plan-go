@@ -21,7 +21,13 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @trips = @user.trips
+
+    created_trip_ids = Trip.where(user_id: @user.id).pluck(:id)
+    joined_trip_ids = Trip.joins(:trip_users).where(trip_users: { user_id: @user.id }).pluck(:id)
+
+    all_trip_ids = (created_trip_ids + joined_trip_ids).uniq
+
+    @trips = Trip.where(id: all_trip_ids)
     @first_activity = @trips.first.activities.first if @trips.first
   end
 

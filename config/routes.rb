@@ -46,6 +46,7 @@ Rails.application.routes.draw do
 
   resources :friendships, only: [:create, :update]
 
+  resources :trip_users, only: [:create]
 
   resources :trips, only: [:new, :create, :show] do # location/budget/dates
     resources :trip_activities, only: [:create]
