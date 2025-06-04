@@ -54,8 +54,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_03_212037) do
     t.float "latitude"
     t.float "longitude"
     t.string "image_url"
-    t.string "price_level"
-    t.string "cost"
     t.index ["category_id"], name: "index_activities_on_category_id"
   end
 
@@ -73,13 +71,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_03_212037) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "follows", force: :cascade do |t|
-    t.integer "follower_id"
-    t.integer "followed_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -119,7 +110,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_03_212037) do
     t.datetime "updated_at", null: false
     t.datetime "start_time"
     t.datetime "end_time"
-    t.integer "day"
     t.string "price_level"
     t.index ["activity_id"], name: "index_trip_activities_on_activity_id"
     t.index ["trip_id"], name: "index_trip_activities_on_trip_id"
