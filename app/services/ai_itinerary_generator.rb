@@ -37,7 +37,7 @@ class AiItineraryGenerator
 
     activities_by_day.each do |day, acts|
       selected_acts = acts.first(3) # exactly 3 activities per day
-      fixed_acts = fix_time_blocks(selected_acts, day)
+      fixed_acts = selected_acts
       filtered_activities.concat(fixed_acts)
     end
 
@@ -156,10 +156,11 @@ class AiItineraryGenerator
 
       Each activity must have:
       - start and end times
+      - activities are always grouped in 3's regarding the day that they are on (day 1 = 3 activities, day 2 = 3 activities ) so ensure that each 3 activities fall within 07:00 and 19:00 - and never have an activity in the same group of 3 clashing times.
       - a real location (with latitude and longitude)
-      - a description and category
+      - a description (if its a high budget input from the user, explain how the user can spend their money)
       - a price level ($, $$, or $$$)
-      - an estimated cost with currency symbol (rounded up to nearest pound)
+      - an estimated cost with currency symbol (rounded up to nearest pound). be smart about it, for example if somebody puts in budget 5000, dont just hike the estimated cost up for a standard activity such as a trip to a park.  Give niche things to do like expensive meals (Nusr-et for example) or specific expensive activies rather than just say Regents Park £300 for the day.
 
       Output the result as a valid JSON array of all activities, including a "day" field with values from 1 to #{days}.
     PROMPT
