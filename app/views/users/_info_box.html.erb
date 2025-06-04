@@ -1,47 +1,30 @@
 <% if user && trips.present? %>
   <div class="d-flex justify-content-center mb-4">
-    <div class="rounded-4 shadow" style="width: 300px; overflow: hidden; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: white;">
+    <div class="rounded-4 shadow w-100" style="max-width: 300px; overflow: hidden; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: white;">
 
-      <!-- Top block (color only) -->
-      <div style="background-color: #798645; height: 80px; position: relative;"></div>
+      <!-- Top block -->
+      <div style="background-color: #798645; height: 80px;"></div>
 
-      <!-- Profile Image (overlapping both blocks) -->
+      <!-- Profile Image -->
       <div class="d-flex justify-content-start" style="margin-top: -40px; margin-left: 20px; z-index: 2; position: relative;">
         <%= image_tag "monkey_logo.png", class: "rounded-circle border border-3", style: "width: 90px; height: 90px; object-fit: cover; border-color: white; background-color: white;" %>
       </div>
 
-      <!-- Username and ID in one line, underneath the image -->
-      <div class="px-3" style="padding-top: 0.5rem; background-color: white;">
-          <%= link_to "@#{user.username}", user_path(user), style: "color: #626F47; font-weight: bold; font-size: 1rem; text-decoration: none;" %>
-          <span style="color: #999; font-size: 0.9rem;">#<%= user.id.to_s.last(4).rjust(4, '0') %></span>
+      <!-- Username + ID -->
+      <div class="px-3 pt-2" style="background-color: white;">
+        <%= link_to "@#{user.username}", user_path(user), style: "color: #626F47; font-weight: bold; font-size: 1rem; text-decoration: none;" %>
+        <span style="color: #999; font-size: 0.9rem;">#<%= user.id.to_s.last(4).rjust(4, '0') %></span>
       </div>
 
-      <!-- About Me Section -->
+      <!-- About Me -->
       <div class="pt-3 pb-4 px-3 text-start" style="background-color: white; color: #626F47;">
         <h6 class="fw-bold text-uppercase mb-3" style="letter-spacing: 0.05em;">About Me</h6>
-
         <ul class="list-unstyled mb-0" style="font-size: 0.9rem; line-height: 1.6;">
-          <li class="mb-2 d-flex align-items-center">
-            <i class="fas fa-dumbbell me-2" style="color: #FFB433;"></i>
-            <strong class="me-1">Activities:</strong> <%= trips.sum { |t| t.activities.count } %>
-          </li>
-          <li class="mb-2 d-flex align-items-center">
-            <i class="fas fa-map-marker-alt me-2" style="color: #FFB433;"></i>
-            <strong class="me-1">Places:</strong> <%= trips.map(&:location).uniq.count %>
-          </li>
-          <li class="mb-2 d-flex align-items-center">
-            <i class="fas fa-suitcase-rolling me-2" style="color: #FFB433;"></i>
-            <strong class="me-1">Trips:</strong> <%= trips.count %>
-          </li>
-          <li class="mb-2 d-flex align-items-center">
-            <i class="fas fa-star-half-alt me-2" style="color: #FFB433;"></i>
-            <strong class="me-1">Reviews:</strong> <%= user.activity_reviews.count %>
-          </li>
-          <li class="mb-2 d-flex align-items-center">
-            <i class="fas fa-level-up-alt me-2" style="color: #FFB433;"></i>
-            <strong class="me-1">Level:</strong>
-            <%= user.level %>
-          </li>
+          <li class="mb-2 d-flex align-items-center"><i class="fas fa-dumbbell me-2" style="color: #FFB433;"></i><strong class="me-1">Activities:</strong> <%= trips.sum { |t| t.activities.count } %></li>
+          <li class="mb-2 d-flex align-items-center"><i class="fas fa-map-marker-alt me-2" style="color: #FFB433;"></i><strong class="me-1">Places:</strong> <%= trips.map(&:location).uniq.count %></li>
+          <li class="mb-2 d-flex align-items-center"><i class="fas fa-suitcase-rolling me-2" style="color: #FFB433;"></i><strong class="me-1">Trips:</strong> <%= trips.count %></li>
+          <li class="mb-2 d-flex align-items-center"><i class="fas fa-star-half-alt me-2" style="color: #FFB433;"></i><strong class="me-1">Reviews:</strong> <%= user.activity_reviews.count %></li>
+          <li class="mb-2 d-flex align-items-center"><i class="fas fa-level-up-alt me-2" style="color: #FFB433;"></i><strong class="me-1">Level:</strong> <%= user.level %></li>
         </ul>
       </div>
     </div>
