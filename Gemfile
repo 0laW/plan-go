@@ -83,3 +83,4 @@ end
 
 gem "ruby-openai"
 gem 'httparty'
+gem "cloudinary"

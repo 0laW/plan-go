@@ -11,3 +11,17 @@
   border-color: rgb(61, 67, 31) !important;
   transform: translateY(-2px) !important;
 }
+
+.btn-light {
+  background-color: #F2EED7 !important; // your custom color
+  color: #000 !important;
+  border-color: #a09e97 !important;
+  transition: background-color 400ms, transform 400ms !important;
+}
+
+.btn-light:hover {
+  background-color: #c3c0b2 !important; // hover color
+  color: #000000 !important;
+  border-color: #7d7c77 !important;
+  transform: translateY(-2px) !important;
+}
