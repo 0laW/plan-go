@@ -7,8 +7,34 @@ class User < ApplicationRecord
 
   has_many :activity_reviews
   has_many :trips
+  has_one_attached :avatar
 
   validates :username, presence: true, uniqueness: true
+
+  has_many :friendships
+  has_many :friends, through: :friendships, source: :friend
+
+  has_many :inverse_friendships, class_name: 'Friendship', foreign_key: 'friend_id'
+  has_many :inverse_friends, through: :inverse_friendships, source: :user
+
+  def confirmed_friends
+    friends = friendships.where(status: 'accepted').map(&:friend)
+    inverse = inverse_friendships.where(status: 'accepted').map(&:user)
+    (friends + inverse).uniq
+  end
+
+  def pending_friend_requests
+    inverse_friendships.where(status: 'pending')
+  end
+
+  def sent_requests
+    friendships.where(status: 'pending')
+  end
+
+  def friend_with?(other_user)
+    Friendship.exists?(user: self, friend: other_user, status: 'accepted') ||
+    Friendship.exists?(user: other_user, friend: self, status: 'accepted')
+  end
 
   def level
     points = (activity_reviews.count * 2) + (trips.count * 5)
