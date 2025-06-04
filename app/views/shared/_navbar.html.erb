@@ -1,4 +1,4 @@
-<nav class="navbar fixed-top px-3 py-2 archivo-black" style="background-color: #f7f5e8; box-shadow: 0 6px 12px rgba(82, 80, 5, 0.2);">
+<nav class="navbar fixed-top px-3 py-2 archivo-black" style="background-color: #FFF; box-shadow: 0 6px 12px rgba(80, 77, 74, 0.4);">
   <div class="container-fluid">
     <!-- Brand/Logo Section -->
     <div class="d-flex align-items-center">
@@ -11,7 +11,7 @@
     <!-- Desktop Right Side: Account dropdown or Log In -->
     <div class="d-none d-lg-flex align-items-center">
       <% if user_signed_in? %>
-        <div class="dropdown" style="background-color: #f7f5e8">
+        <div class="dropdown" style="background-color: #FFF">
           <button class="btn btn-link navbar-toggler archivo-black text-decoration-none"
                   style="background:none;border:none;cursor:pointer;color:black;opacity:1;"
                   type="button" data-bs-toggle="offcanvas" aria-expanded="false"
@@ -23,6 +23,7 @@
             <li><%= link_to "My Profile", user_path(current_user), class: "dropdown-item text-style" %></li>
             <li><%= link_to "Plan", root_path, class: "dropdown-item text-style" %></li>
             <li><%= link_to "My Trips", "#", class: "dropdown-item text-style" %></li>
+            <li><%= link_to "About", about_path, class: "dropdown-item text-style" %></li>
             <li><hr class="dropdown-divider"></li>
             <li><%= link_to "Log Out", destroy_user_session_path,
                     class: "dropdown-item text-style",
@@ -38,7 +39,7 @@
         aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-<div class="offcanvas offcanvas-end" style="background-color: #f7f5e8" tabindex="-1" id="offcanvasNavbar"
+<div class="offcanvas offcanvas-end" style="background-color: #FFF" tabindex="-1" id="offcanvasNavbar"
      aria-labelledby="offcanvasNavbarLabel">
   <div class="offcanvas-header justify-content-end">
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -52,6 +53,7 @@
         <li><%= link_to "Plan your Trip", root_path, class: "nav-link-inline p-0", style: "font-size: 25px" %></li>
         <li><%= link_to "Search", users_path, class: "nav-link-inline p-0", style: "font-size: 25px" %></li>
         <li><%= link_to "My Preferences", onboarding_interests_path , class: "nav-link-inline p-0", style: "font-size: 25px" %></li>
+        <li><%= link_to "About Us", about_path, class: "nav-link-inline p-0" %></li>
         <li><hr class="dropdown-divider"></li>
             <%= link_to "Log Out", destroy_user_session_path,
             class: "btn btn-outline-danger rounded-pill archivo mt-5 w-100 fw-600",
