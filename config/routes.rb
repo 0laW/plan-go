@@ -39,6 +39,7 @@ Rails.application.routes.draw do
   # root "posts#index"
   resources :users, only: [:show, :edit, :update, :index]
   resources :preferences, only: [:new, :create]
+  resources :friendships, only: [:create, :update]
 
   resources :trips, only: [:new, :create, :show] do # location/budget/dates
     resources :trip_activities, only: [:create]

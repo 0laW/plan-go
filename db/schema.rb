@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_06_03_144126) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_03_212037) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -54,6 +54,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_03_144126) do
     t.float "latitude"
     t.float "longitude"
     t.string "image_url"
+    t.string "price_level"
     t.string "cost"
     t.index ["category_id"], name: "index_activities_on_category_id"
   end
@@ -74,6 +75,23 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_03_144126) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "follows", force: :cascade do |t|
+    t.integer "follower_id"
+    t.integer "followed_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "friendships", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "friend_id", null: false
+    t.integer "status", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "friend_id"], name: "index_friendships_on_user_id_and_friend_id", unique: true
+    t.index ["user_id"], name: "index_friendships_on_user_id"
   end
 
   create_table "preferences", force: :cascade do |t|
@@ -101,6 +119,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_03_144126) do
     t.datetime "updated_at", null: false
     t.datetime "start_time"
     t.datetime "end_time"
+    t.integer "day"
     t.string "price_level"
     t.index ["activity_id"], name: "index_trip_activities_on_activity_id"
     t.index ["trip_id"], name: "index_trip_activities_on_trip_id"
@@ -152,6 +171,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_03_144126) do
   add_foreign_key "activities", "categories"
   add_foreign_key "activity_reviews", "activities"
   add_foreign_key "activity_reviews", "users"
+  add_foreign_key "friendships", "users"
+  add_foreign_key "friendships", "users", column: "friend_id"
   add_foreign_key "preferences", "categories"
   add_foreign_key "preferences", "users"
   add_foreign_key "subcategories", "categories"
