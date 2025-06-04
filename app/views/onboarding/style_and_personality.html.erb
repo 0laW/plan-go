@@ -1,8 +1,8 @@
 <% content_for :hide_navbar, true %>
 
-<div class="d-flex vh-100 justify-content-center align-items-center" style="background-color: white;">
-  <div class="bg-white bg-opacity-75 rounded-4 p-4 shadow-lg text-center" style="backdrop-filter: blur(50px); max-width: 600px; width: 90%; color: black;">
-    <h1 class="archivo-black fw-bold fs-3 mb-4">Travel Style & Personality</h1>
+<div class="d-flex vh-100 justify-content-center align-items-center" style="background-color: white; margin-top: -60px">
+  <div class="bg-white bg-opacity-75 rounded-4 p-4 shadow-lg text-center" style="backdrop-filter: blur(50px); max-width: 600px; width: 90%; color: black; height: 420px;">
+    <h1 class="archivo-black fw-bold fs-3 mb-4">What's your travel style?</h1>
 
     <%= form_with url: onboarding_save_style_and_personality_path, method: :post, local: true do %>
       <div class="overflow-auto" style="max-height: 60vh;">
@@ -10,7 +10,7 @@
         <div class="d-flex flex-wrap gap-2 justify-content-center mb-5">
           <% @style_subcategories.each do |subcat| %>
             <%= check_box_tag "style_subcategory_ids[]", subcat.id, false, class: "btn-check", id: "style_subcat_#{subcat.id}", autocomplete: "off" %>
-            <%= label_tag "style_subcat_#{subcat.id}", subcat.name, class: "btn btn-outline-primary rounded-pill px-4 py-2 archivo fw-semibold" %>
+            <%= label_tag "style_subcat_#{subcat.id}", subcat.name, class: "btn-outline-custom rounded-pill px-4 py-2 archivo fw-semibold" %>
           <% end %>
         </div>
 
@@ -18,19 +18,19 @@
         <div class="d-flex flex-wrap gap-2 justify-content-center mb-5">
           <% @personality_subcategories.each do |subcat| %>
             <%= check_box_tag "personality_subcategory_ids[]", subcat.id, false, class: "btn-check", id: "personality_subcat_#{subcat.id}", autocomplete: "off" %>
-            <%= label_tag "personality_subcat_#{subcat.id}", subcat.name, class: "btn btn-outline-primary rounded-pill px-4 py-2 archivo fw-semibold" %>
+            <%= label_tag "personality_subcat_#{subcat.id}", subcat.name, class: "btn-outline-custom rounded-pill px-4 py-2 archivo fw-semibold" %>
           <% end %>
         </div>
       </div>
 
-      <div class="d-flex gap-3 justify-content-center mt-3">
-        <%= link_to "← Back", onboarding_sub_interests_path , class: "btn btn-outline-secondary btn-lg rounded-pill" %>
-        <%= submit_tag "Next →", class: "btn btn-primary btn-lg rounded-pill" %>
+      <div class="d-flex gap-3 justify-content-center", style="margin-top: 10px">
+        <%= link_to "← Back", onboarding_sub_interests_path , class: "btn btn-light rounded-pill archivo mt-5 mb-2", style: "width: 150px; font-weight: 600; font-size: 18px" %>
+        <%= submit_tag "Next →", class: "btn btn-secondary rounded-pill archivo mt-5 mb-2 me-4", style: "width: 150px; font-weight: 600; font-size: 18px" %>
       </div>
     <% end %>
 
-    <div class="progress mt-4" style="height: 8px; border-radius: 4px;">
-      <div class="progress-bar bg-success" style="width: 75%;"></div>
+    <div class="progress mt-4 mb-1" style="height: 8px; border-radius: 4px;">
+      <div class="progress-bar" style="width: 75%; background-color: #798645"></div>
     </div>
   </div>
 </div>

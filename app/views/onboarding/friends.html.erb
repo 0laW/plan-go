@@ -1,27 +1,26 @@
 <% content_for :hide_navbar, true %>
 
-<div class="d-flex vh-100 justify-content-center align-items-center" style="background-color: white;">
-  <div class="bg-white bg-opacity-75 rounded-4 p-4 shadow-lg text-center"
-       style="backdrop-filter: blur(50px); max-width: 600px; width: 90%; color: black;">
+<div class="d-flex vh-100 justify-content-center align-items-center" style="background-color: white; margin-top: -60px">
+  <div class="bg-white bg-opacity-75 rounded-4 shadow-lg text-center pb-4 pe-4 ps-4"
+       style="backdrop-filter: blur(50px); max-width: 600px; width: 90%; color: black; height: 420px; padding-top: 128.5px;">
 
-    <h1 class="archivo-black fw-bold fs-3 mb-4">Find Friends</h1>
+    <h1 class="archivo-black fw-bold fs-3 mb-4">Add Friends</h1>
 
     <%= form_with url: onboarding_find_friends_path, method: :post, local: true do |form| %>
-      <div class="mb-4">
-        <%= form.label :username, "Search by username", class: "form-label archivo fw-semibold d-block text-center" %>
-        <%= form.text_field :username, class: "form-control rounded-pill text-center", placeholder: "e.g. travel_lover92" %>
+      <div class="mb-4 d-flex flex-column align-items-center">
+        <%= form.text_field :username, class: "form-control rounded-pill", style: "max-width: 64%", placeholder: "Enter your friend's username..." %>
       </div>
 
-      <%= form.submit "Search", class: "btn btn-outline-primary btn-lg rounded-pill mb-3" %>
+
     <% end %>
-      
-    <div class="d-flex gap-3 justify-content-center mt-3">
-        <%= link_to "← Back", onboarding_style_and_personality_path , class: "btn btn-outline-secondary btn-lg rounded-pill" %>
-        <%= link_to "Complete Onboarding →", root_path, class: "btn btn-success btn-lg rounded-pill" %>
+
+    <div class="d-flex gap-3 justify-content-center", style="margin-top: 44px;">
+        <%= link_to "← Back", onboarding_style_and_personality_path , class: "btn btn-light rounded-pill archivo mt-5 mb-2", style: "width: 150px; font-weight: 600; font-size: 18px" %>
+        <%= link_to "Finish →", onboarding_complete_path, class: "btn btn-secondary rounded-pill archivo mt-5 mb-2", style: "width: 150px; font-weight: 600; font-size: 18px" %>
       </div>
-    
-    <div class="progress mt-4 mx-auto" style="height: 8px; border-radius: 4px; width: 90%;">
-      <div class="progress-bar bg-success" style="width: 0%;"></div>
+
+    <div class="progress mt-4 mx-auto" style="height: 8px; border-radius: 4px;">
+      <div class="progress-bar" style="width: 90%; background-color: #798645"></div>
     </div>
   </div>
 </div>
