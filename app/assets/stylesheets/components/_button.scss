@@ -25,3 +25,30 @@
   border-color: #7d7c77 !important;
   transform: translateY(-2px) !important;
 }
+
+.btn-outline-custom {
+  color: #626F47;
+  border-width: 1.5px;
+  border-style: solid;
+  border-color: #626F47;
+  background-color: white;
+  font-weight: 400;
+  transition: background-color 300ms, color 300ms, border-color 300ms;
+}
+
+.btn-outline-custom:hover {
+  color: white;
+  border-color: #798645;
+  background-color: #798645;
+  font-weight: 400;
+}
+
+.btn-check:checked + .btn-outline-custom,
+.btn-outline-custom.active,
+.btn-outline-custom:active,
+.show > .btn-outline-custom.dropdown-toggle {
+  color: #fff;
+  background-color: #798645;
+  border-color: #798645;
+  font-weight: 400;
+}

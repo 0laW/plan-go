@@ -1,7 +1,7 @@
 <div class="d-flex flex-column align-items-center min-vh-100 pt-4 pb-5", style="backgroud-color: #f7f5e8;">
 
   <turbo-frame id="user_profile_<%= @user.id %>" class="w-100">
-    <div class="container d-flex flex-column align-items-center" style="max-width: 600px;">
+    <div class="container d-flex flex-column align-items-center" style="max-width: 1000px;">
 
       <div class="rounded-circle mt-4 pt-3" style="width: 120px; height: 120px;">
         <img src="<%= @user.user_image_url %>" alt="<%= @user.username %>'s avatar" class="img-fluid" />
@@ -77,8 +77,8 @@
     </div>
 
 
-    <div class="container mt-5 pt-4 pb-5 mb-5">
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+    <div class="container-fluid mt-5 pt-4 pb-5 mb-5"">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
         <% @trips.each do |trip| %>
           <div class="col">
             <div class="shadow rounded overflow-hidden h-100">
