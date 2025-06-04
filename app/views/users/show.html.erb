@@ -30,11 +30,10 @@
             <span class="badge btn btn-secondary">Friends</span>
           <% elsif current_user.sent_requests.find_by(friend: @user) %>
             <span class="badge bg-secondary fs-6">Friend request sent</span>
-          <% elsif current_user.pending_friend_requests.find_by(user: @user) %>
-            <% fr = current_user.inverse_friendships.find_by(user: @user) %>
+          <% elsif (friend_request = current_user.pending_friend_requests.find_by(user: @user)) %>
             <div class="btn-group p-2">
-              <%= button_to 'Accept', friendship_path(fr), method: :patch, params: { status: 'accepted' }, class: "btn btn-secondary btn-sm rounded-pill archivo", style: "font-weight: 600;" %>
-              <%= button_to 'Decline', friendship_path(fr), method: :patch, params: { status: 'declined' }, class: "btn btn-outline-danger btn-sm rounded-pill archivo", style: "font-weight: 600;" %>
+              <%= button_to 'Accept', friendship_path(friend_request), method: :patch, params: { status: 'accepted' }, class: "btn btn-secondary btn-sm rounded-pill archivo", style: "font-weight: 600;" %>
+              <%= button_to 'Decline', friendship_path(friend_request), method: :patch, params: { status: 'declined' }, class: "btn btn-outline-danger btn-sm rounded-pill archivo", style: "font-weight: 600;" %>
             </div>
           <% else %>
             <%= button_to 'Add Friend', friendships_path(friend_id: @user.id), method: :post, class: "btn btn-primary btn-sm" %>
@@ -62,7 +61,6 @@
             <% end %>
           </div>
         <% end %>
-      </div>
 
       <% if @trips.empty? %>
         <div class="text-center mt-4 w-100">

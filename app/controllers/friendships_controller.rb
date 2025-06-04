@@ -64,6 +64,6 @@ end
     elsif params[:status] == 'declined'
       friendship.update(status: :declined)
     end
-    redirect_to friendships_path
+    redirect_to user_path(current_user)
   end
 end
