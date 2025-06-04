@@ -27,7 +27,7 @@ class UsersController < ApplicationController
 
     all_trip_ids = (created_trip_ids + joined_trip_ids).uniq
 
-    @trips = Trip.where(id: all_trip_ids)
+    @trips = Trip.where(id: all_trip_ids).order(created_at: :desc)
     @first_activity = @trips.first.activities.first if @trips.first
   end
 

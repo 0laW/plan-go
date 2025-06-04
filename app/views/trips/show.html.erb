@@ -1,28 +1,29 @@
 <div class="d-flex justify-content-center align-items-center py-5 min-vh-100 bg-light">
   <div class="rounded-4 p-4 shadow-lg bg-white" style="max-width: 900px; width: 95%;">
 
-      <div class="d-flex align-items-center justify-content-between mb-4 p-3 shadow rounded" style="background-color: #59683b;">
-        <div class="d-flex align-items-center gap-3">
-          <div style="width: 40px; height: 40px;">
-            <img src="<%= @trip.user.user_image_url %>" alt="<%= @trip.user.username %>'s avatar" class="rounded-circle w-100 h-100" style="object-fit: cover;" />
-          </div>
-          <div>
+    <div class="d-flex align-items-center justify-content-between mb-4 p-3 shadow rounded" style="background-color: #59683b;">
+      <div class="d-flex align-items-center gap-3">
+        <div style="width: 40px; height: 40px;">
+          <img src="<%= @trip.user.user_image_url %>" alt="<%= @trip.user.username %>'s avatar" class="rounded-circle w-100 h-100" style="object-fit: cover;" />
+        </div>
+        <div>
+          <div class="d-flex align-items-center gap-2">
             <p class="mb-0 fs-3 archivo-black" style="color: #F2EED7;">
               <%= @trip.user.username %>
             </p>
-            <small class="d-block mb-1" style="color: #F2EED7;">
-              Created <strong><%= @trip.location %> trip</strong> <%= time_ago_in_words(@trip.created_at) %> ago
-            </small>
-            <small style="color: #F2EED7;">
-              From <strong><%= @trip.start_date.strftime('%B %d, %Y') %></strong> to <strong><%= @trip.end_date.strftime('%B %d, %Y') %></strong>
-            </small>
+            <span class="badge bg-<%= level_badge_color(@trip.user.level) %>">
+              <%= @trip.user.level %>
+            </span>
           </div>
+          <small class="d-block mb-1" style="color: #F2EED7;">
+            Created <strong><%= @trip.location %> trip</strong> <%= time_ago_in_words(@trip.created_at) %> ago
+          </small>
+          <small style="color: #F2EED7;">
+            From <strong><%= @trip.start_date.strftime('%B %d, %Y') %></strong> to <strong><%= @trip.end_date.strftime('%B %d, %Y') %></strong>
+          </small>
         </div>
-
-        <span class="badge bg-<%= level_badge_color(@trip.user.level) %>">
-          <%= @trip.user.level %>
-        </span>
       </div>
+    </div>
 
     <div class="text-center">
       <% if current_user == @trip.user %>
