@@ -11,18 +11,25 @@ export default class extends Controller {
 
   connect() {
     mapboxgl.accessToken = this.apiKeyValue
-    this.currentPopup = null // Track currently opened popup
+    this.currentPopup = null
 
     this.map = new mapboxgl.Map({
       container: this.element,
-      style: "mapbox://styles/mapbox/streets-v10",
-      center: [0, 51], // Center on UK/Europe
+      style: "mapbox://styles/mapbox/streets-v12",
+      center: [2.2137, 46.2276], // Default: France center
       zoom: 4
     })
 
     window.mapInstance = this.map
 
-    // Parse markers if passed as a JSON string
+    this.map.on("load", () => {
+      this.#initializeMarkers()
+      this.#maybeAddGeocoder()
+    })
+  }
+
+  #initializeMarkers() {
+    // Parse markers if needed
     if (typeof this.markersValue === "string") {
       try {
         this.markersValue = JSON.parse(this.markersValue)
@@ -32,27 +39,35 @@ export default class extends Controller {
       }
     }
 
-    this.#addMarkersToMap()
-
     if (!this.markersValue || this.markersValue.length === 0) {
       this.map.setCenter([2.2137, 46.2276]) // fallback center France
       this.map.setZoom(4)
     } else {
+      this.#addMarkersToMap()
       this.#fitMapToMarkers()
     }
+  }
 
-    this.map.addControl(new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken,
-      mapboxgl: mapboxgl
-    }))
+  #maybeAddGeocoder() {
+    try {
+      this.geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
+        marker: false,
+        placeholder: "Search for a place..."
+      })
+
+      this.map.addControl(this.geocoder)
+    } catch (error) {
+      console.warn("⚠️ Geocoder failed to initialize:", error)
+    }
   }
 
   #addMarkersToMap() {
     this.markersValue.forEach((marker) => {
       const popup = new mapboxgl.Popup().setHTML(marker.info_window_html)
 
-      // When popup opens, close the previous one
-      popup.on('open', () => {
+      popup.on("open", () => {
         if (this.currentPopup && this.currentPopup.isOpen()) {
           this.currentPopup.remove()
         }
@@ -74,6 +89,11 @@ export default class extends Controller {
     this.markersValue.forEach(marker => {
       bounds.extend([marker.lng, marker.lat])
     })
-    this.map.fitBounds(bounds, { padding: 70, maxZoom: 15, duration: 0 })
+
+    this.map.fitBounds(bounds, {
+      padding: 70,
+      maxZoom: 15,
+      duration: 0
+    })
   }
 }

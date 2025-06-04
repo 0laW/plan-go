@@ -1,33 +1,56 @@
 <turbo-frame id="user_profile_<%= @user.id %>">
   <%= form_with(model: user, local: false) do |form| %>
-    <div class="mb-3" style="width: 330px; margin: auto;">
+    <div class="mb-3" style="max-width: 600px; margin: auto;  width: 100%; margin: auto; padding: 40px;">
+
+      <div class="row row-cols-5 g-2 mb-2"">
+        <% avatar_urls = [
+          "https://res.cloudinary.com/dpekautsm/image/upload/v1748946312/duck_uzatea.png",
+          "https://res.cloudinary.com/dpekautsm/image/upload/v1748946487/giraffe_iz6dir.png",
+          "https://res.cloudinary.com/dpekautsm/image/upload/v1748946487/panda-bear_k5x6yb.png",
+          "https://res.cloudinary.com/dpekautsm/image/upload/v1748946488/dragon_vsob23.png",
+          "https://res.cloudinary.com/dpekautsm/image/upload/v1748946488/penguin_selpzx.png",
+          "https://res.cloudinary.com/dpekautsm/image/upload/v1748946488/dog_v3wmnw.png",
+          "https://res.cloudinary.com/dpekautsm/image/upload/v1748946488/jaguar_atrb2w.png",
+          "https://res.cloudinary.com/dpekautsm/image/upload/v1748946488/hippopotamus_jbd2vd.png",
+          "https://res.cloudinary.com/dpekautsm/image/upload/v1748946493/bear_pt8nwf.png",
+          "https://res.cloudinary.com/dpekautsm/image/upload/v1748946493/koala_zt8cxo.png",
+          "https://res.cloudinary.com/dpekautsm/image/upload/v1748947149/goat_jmp9oi.png",
+          "https://res.cloudinary.com/dpekautsm/image/upload/v1748947148/wolf_ydwzua.png"
+        ] %>
+
+        <% selected_url = user.user_image_url.presence || avatar_urls.first %>
+        <% selected_index = avatar_urls.index(selected_url) %>
+        <% avatar_urls[selected_index] %>
+
+        <div class="d-flex justify-content-center mb-3 w-100">
+          <img id="avatarPreview" src="<%= selected_url %>" alt="Avatar Preview" style="width: 120px; height: 120px; border-radius: 50%;">
+        </div>
+
+        <div class="dropdown mb-2" style="max-width: 600px; width: 100%;">
+          <button class="btn border dropdown-toggle d-flex align-items-center justify-content-between  w-100 ps-3" style="height: 60px;" type="button" id="avatarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <span>Choose your avatar</span>
+          </button>
+
+
+
+          <ul class="dropdown-menu pb-3" aria-labelledby="avatarDropdown" style="min-width: 200px; width: 98.3%;">
+            <div class="row row-cols-3 g-2 align-items-center justify-content-center" style="width: 95%; margin: auto;">
+              <% avatar_urls.each do |url| %>
+                <div class="col d-flex justify-content-center align-items-center" style="height: 80px; width: 95px;">
+                  <a href="#" data-turbo="false" class="avatar-option" data-avatar-url="<%= url %>" style="display: inline-block; height: 60px">
+                    <img src="<%= url %>" alt="Avatar" style="width: 75px; height: 75px; border-radius: 50%; padding: 5px">
+                  </a>
+                </div>
+              <% end %>
+            </div>
+          </ul>
+          <%= form.hidden_field :user_image_url, value: selected_url, id: "avatarHiddenField" %>
+        </div>
+      </div>
+
       <div class="form-floating mb-3">
         <%= form.text_field :username, class: "form-control", id: "floatingUsername", placeholder: "Username", required: true %>
         <%= form.label :username, "Username", for: "floatingUsername" %>
-      </div>
-
-      <%= form.label :user_image_url, "Choose your avatar", class: "form-label" %>
-      <div class="row row-cols-5 g-2 mb-2"">
-        <% avatar_urls = [
-          "https://source.unsplash.com/100x100/?portrait,1",
-          "https://source.unsplash.com/100x100/?portrait,2",
-          "https://source.unsplash.com/100x100/?portrait,3",
-          "https://source.unsplash.com/100x100/?portrait,4",
-          "https://source.unsplash.com/100x100/?portrait,5",
-          "https://source.unsplash.com/100x100/?portrait,1",
-          "https://source.unsplash.com/100x100/?portrait,2",
-          "https://source.unsplash.com/100x100/?portrait,3",
-          "https://source.unsplash.com/100x100/?portrait,4",
-          "https://source.unsplash.com/100x100/?portrait,5"
-        ] %>
-        <% avatar_urls.each do |url| %>
-          <div class="col d-flex justify-content-center">
-            <label class="avatar avatar-select-label" style="cursor:pointer;">
-              <%= form.radio_button :user_image_url, url, checked: (user.user_image_url == url), style: "display:none;" %>
-              <%= image_tag url, alt: "Avatar", class: "avatar avatar-select-img #{'avatar-selected' if user.user_image_url == url}", style: "width: 60px; height: 60px; border: 2px solid #ccc; margin: 0 5px;" %>
-            </label>
-          </div>
-        <% end %>
       </div>
 
       <div class="form-floating mb-3">
@@ -41,16 +64,35 @@
       </div>
 
       <div class="form-floating mb-3">
-        <%= form.text_field :last_name, class: "form-control", id: "floatingLastName", placeholder: "Last Name", required: true %>
-        <%= form.label :last_name, "Last Name", for: "floatingLastName" %>
-      </div>
-
-      <div class="form-floating mb-3">
         <%= form.text_field :first_name, class: "form-control", id: "floatingFirstName", placeholder: "First Name", required: true %>
         <%= form.label :first_name, "First Name", for: "floatingFirstName" %>
       </div>
 
-    <%= form.submit %>
-    <%= link_to "Cancel", user_path(user), data: { turbo_frame: "user_profile_#{user.id}" }, class: "btn btn-secondary ms-2" %>
+      <div class="form-floating mb-3">
+        <%= form.text_field :last_name, class: "form-control", id: "floatingLastName", placeholder: "Last Name", required: true %>
+        <%= form.label :last_name, "Last Name", for: "floatingLastName" %>
+      </div>
+
+      <div class="d-flex flex-row justify-content-center align-items-center mb-5">
+        <%= form.submit "Save", class: "btn btn-secondary rounded-pill archivo mt-5 mb-2 me-4", style: "width: 150px; font-weight: 600; font-size:  18px"  %>
+        <%= link_to "Cancel", user_path(user), data: { turbo_frame: "user_profile_#{user.id}" }, class: "btn btn-light rounded-pill archivo mt-5 mb-2", style: "width: 150px; font-weight: 600; font-size:  18px"  %>
+      </div>
+    </div>
   <% end %>
 </turbo-frame>
+
+<script>
+  document.addEventListener("turbo:load", function() {
+    document.body.addEventListener('click', function(e) {
+    if (e.target.closest('.avatar-option')) {
+      e.preventDefault();
+      var url = e.target.closest('.avatar-option').getAttribute('data-avatar-url');
+      var preview = document.getElementById('avatarPreview');
+      if (preview) preview.src = url;
+      var hidden = document.getElementById('avatarHiddenField');
+      if (hidden) hidden.value = url;
+    }
+  });
+
+  });
+</script>

@@ -23,7 +23,8 @@ Rails.application.routes.draw do
   get '/contact',        to: 'pages#contact',        as: 'contact'
   get '/privacy_policy', to: 'pages#privacy_policy', as: 'privacy_policy'
   get "search_users", to: "users#search_users"
-  get "search", to: "search#index", as: :search
+  get "users/search_users", to: "users#search_users"
+
   # Additional routes...
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -38,7 +39,11 @@ Rails.application.routes.draw do
   # root "posts#index"
   resources :users, only: [:show, :edit, :update, :index]
   resources :preferences, only: [:new, :create]
+
   resources :activities
+
+  resources :friendships, only: [:create, :update]
+
 
   resources :trips, only: [:new, :create, :show] do # location/budget/dates
     resources :trip_activities, only: [:create]
