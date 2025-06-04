@@ -3,11 +3,11 @@
   <turbo-frame id="user_profile_<%= @user.id %>" class="w-100">
     <div class="container d-flex flex-column align-items-center" style="max-width: 600px;">
 
-      <div class="bg-secondary rounded-circle overflow-hidden" style="width: 120px; height: 120px;">
+      <div class="rounded-circle mt-4 pt-3" style="width: 120px; height: 120px;">
         <img src="<%= @user.user_image_url %>" alt="<%= @user.username %>'s avatar" class="img-fluid" />
       </div>
 
-      <div class="d-flex align-items-center justify-content-center mt-3 mb-2">
+      <div class="d-flex align-items-center justify-content-center mt-4 pt-2 mb-2">
         <h1 class="fw-bold fs-3 mb-0 ps-1"><%= @user.username %></h1>
         <% if current_user == @user %>
           <%= link_to edit_user_path(@user), data: { turbo_frame: "user_profile_#{@user.id}" }, class: "btn btn-link p-0 ms-2", title: "Edit Profile" do %>
@@ -36,7 +36,7 @@
     </div>
 
 
-    <div class="container mt-5 pt-4 mb-5">
+    <div class="container mt-5 pt-4 pb-5 mb-5">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
         <% @trips.each do |trip| %>
           <div class="col">
