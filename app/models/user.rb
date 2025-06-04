@@ -7,6 +7,7 @@ class User < ApplicationRecord
 
   has_many :activity_reviews
   has_many :trips
+  has_one_attached :avatar
 
   validates :username, presence: true, uniqueness: true
 

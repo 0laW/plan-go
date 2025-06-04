@@ -3,7 +3,7 @@
   <turbo-frame id="user_profile_<%= @user.id %>" class="w-100">
     <div class="container d-flex flex-column align-items-center" style="max-width: 600px;">
 
-      <div class="bg-secondary rounded-circle overflow-hidden" style="width: 150px; height: 150px;">
+      <div class="bg-secondary rounded-circle overflow-hidden" style="width: 120px; height: 120px;">
         <img src="<%= @user.user_image_url %>" alt="<%= @user.username %>'s avatar" class="img-fluid" />
       </div>
 
@@ -11,7 +11,7 @@
         <h1 class="fw-bold fs-3 mb-0 ps-1"><%= @user.username %></h1>
         <% if current_user == @user %>
           <%= link_to edit_user_path(@user), data: { turbo_frame: "user_profile_#{@user.id}" }, class: "btn btn-link p-0 ms-2", title: "Edit Profile" do %>
-            <i class="fa-solid fa-user-pen text-muted fs-5"></i>
+            <i class="fa-solid fa-user-pen fs-5", style="color: #999999"></i>
           <% end %>
         <% end %>
       </div>
@@ -34,42 +34,43 @@
       <% end %>
 
     </div>
-  </turbo-frame>
 
-  <div class="container mt-4 mb-5">
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
-      <% @trips.each do |trip| %>
-        <div class="col">
-          <div class="shadow-sm rounded overflow-hidden h-100">
-            <%= link_to trip_path(trip), class: "text-decoration-none text-dark d-flex flex-column h-100" do %>
-              <% image_url = trip.activities.first&.image_url %>
-              <div class="w-100" style="height: 185px; overflow: hidden; margin-top: -25px;">
-                <% if image_url.present? %>
-                  <img src="<%= image_url %>" alt="<%= trip.location %> image" class="w-100 h-100" style="object-fit: cover;" />
-                <% else %>
-                  <div class="w-100 h-100 bg-secondary d-flex align-items-center justify-content-center text-white">
-                    No image
-                  </div>
-                <% end %>
-              </div>
 
-              <div class="d-flex flex-column align-items-center justify-content-end px-3 mt-3 mb-3 flex-grow-1">
-                <% if trip.end_date < Date.today %>
-                  <i class="fa-solid fa-circle-check text-success mb-2 fs-3 border border-white rounded-circle p-1"></i>
-                <% end %>
-                <h5 class="card-title text-center mb-1 fs-5">
-                  <strong><%= trip.location %></strong>
-                </h5>
-                <p class="card-text text-muted fs-6 mb-0">
-                  <%= trip.start_date.strftime("%m/%d/%Y") %> - <%= trip.end_date.strftime("%m/%d/%Y") %>
-                </p>
-              </div>
+    <div class="container mt-5 pt-4 mb-5">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+        <% @trips.each do |trip| %>
+          <div class="col">
+            <div class="shadow rounded overflow-hidden h-100">
+              <%= link_to trip_path(trip), class: "text-decoration-none text-dark d-flex flex-column h-100" do %>
+                <% image_url = trip.activities.first&.image_url %>
+                <div class="w-100" style="height: 185px; overflow: hidden; margin-top: -25px;">
+                  <% if image_url.present? %>
+                    <img src="<%= image_url %>" alt="<%= trip.location %> image" class="w-100 h-100" style="object-fit: cover;" />
+                  <% else %>
+                    <div class="w-100 h-100 bg-secondary d-flex align-items-center justify-content-center text-white">
+                      No image
+                    </div>
+                  <% end %>
+                </div>
 
-            <% end %>
+                <div class="d-flex flex-column align-items-center justify-content-end px-3 mt-3 mb-3 flex-grow-1">
+                  <% if trip.end_date < Date.today %>
+                    <i class="fa-solid fa-circle-check text-success mb-2 fs-3 border border-white rounded-circle p-1"></i>
+                  <% end %>
+                  <h5 class="card-title text-center mb-1 fs-5">
+                    <strong><%= trip.location %></strong>
+                  </h5>
+                  <p class="card-text text-muted fs-6 mb-0">
+                    <%= trip.start_date.strftime("%m/%d/%Y") %> - <%= trip.end_date.strftime("%m/%d/%Y") %>
+                  </p>
+                </div>
+
+              <% end %>
+            </div>
           </div>
-        </div>
-      <% end %>
+        <% end %>
+      </div>
     </div>
-  </div>
+  </turbo-frame>
 
 </div>
