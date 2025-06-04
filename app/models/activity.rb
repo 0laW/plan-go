@@ -13,7 +13,7 @@ class Activity < ApplicationRecord
   def fetch_and_update_image_url
     puts "Updating image for activity ##{id}: #{name}"
 
-    api_key = ENV['GOOGLE_PLACES_API_KEY']
+    api_key = ENV.fetch('GOOGLE_PLACES_API_KEY', nil)
     unless api_key&.present?
       puts "API key missing!"
       return
@@ -40,7 +40,7 @@ class Activity < ApplicationRecord
       puts "No photos found for #{name}"
       update(image_url: nil)
     end
-  rescue => e
+  rescue StandardError => e
     puts "Error fetching image for activity ##{id}: #{e.message}"
-    end
   end
+end

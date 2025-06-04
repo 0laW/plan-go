@@ -52,7 +52,8 @@ class UsersController < ApplicationController
             locals: {
               activity: activity,
               trip: trip,
-              reviews: activity.activity_reviews.where(user: user)
+              reviews: activity.activity_reviews.where(user: user),
+              activity_user: user
             }
           ),
           marker_html: render_to_string(partial: "marker", locals: { trip: trip })
