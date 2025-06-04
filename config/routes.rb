@@ -50,6 +50,9 @@ Rails.application.routes.draw do
 
   resources :trips, only: [:new, :create, :show] do # location/budget/dates
     resources :trip_activities, only: [:create]
+    member do
+    delete 'remove_user', to: 'trips#remove_user'
+   end
   end
   resources :trip_activities, only:[:destroy]
   resources :activities do

@@ -26,6 +26,20 @@ class TripsController < ApplicationController
     @activities = Activity.order(created_at: :desc)
   end
 
+  def remove_user
+  @trip = Trip.find(params[:id])
+  user_to_remove = User.find(params[:user_id])
+
+  if current_user == @trip.user
+    @trip.users.delete(user_to_remove)
+    flash[:notice] = "#{user_to_remove.username} was removed from the trip."
+  else
+    flash[:alert] = "You are not authorized to remove users from this trip."
+  end
+  redirect_to trip_path(@trip)
+end
+
+
   private
 
   def trip_params

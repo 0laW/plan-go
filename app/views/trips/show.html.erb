@@ -51,9 +51,15 @@
 
       <ul id="trip-participants-list" class="list-group mx-auto" style="max-width: 500px;">
         <% @trip.users.each do |user| %>
-          <li class="list-group-item d-flex align-items-center gap-3">
-            <img src="<%= user.user_image_url %>" class="rounded-circle" style="width: 28px; height: 28px; object-fit: cover;">
-            <%= link_to user.username, user_path(user), class: "fw-semibold text-decoration-none", style: "color: #59683b;" %>
+          <li class="list-group-item d-flex align-items-center justify-content-between gap-3">
+            <div class="d-flex align-items-center gap-3">
+              <img src="<%= user.user_image_url %>" class="rounded-circle" style="width: 28px; height: 28px; object-fit: cover;">
+              <%= link_to user.username, user_path(user), class: "fw-semibold text-decoration-none", style: "color: #59683b;" %>
+            </div>
+
+            <% if current_user == @trip.user && user != @trip.user %>
+                <%= button_to "Remove", remove_user_trip_path(@trip, user_id: user.id), method: :delete, data: { confirm: "Are you sure?" }, form_class: "d-inline" , class: "btn btn-link text-danger p-0 text-decoration-none" %>
+            <% end %>
           </li>
         <% end %>
       </ul>
