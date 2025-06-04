@@ -1,16 +1,34 @@
-<!-- index.html.erb -->
-<div data-controller="search">
-  <%= label_tag :username, "Search by place or friend" %>
-  <%= text_field_tag :username, nil, placeholder: "e.g. jordang", data: { search_target: "input" }, autocomplete: "off" %>
-  <%= button_tag "Search", type: "button", data: { action: "click->search#handleSearch" } %>
+<div class="container py-4" style="max-width: 100%;">
+  <!-- Search Bar -->
+<div data-controller="search" class="mb-3 px-3">
+  <div class="input-group" style="max-width: 320px;">
+    <%= text_field_tag :username, nil,
+      placeholder: "Search by place or friend",
+      class: "form-control rounded-start",
+      data: { search_target: "input" },
+      autocomplete: "off" %>
+
+    <%= button_tag "Search",
+      type: "button",
+      class: "btn btn-primary rounded-end",
+      style: "background-color: #798645; border-color: #798645;",
+      data: { action: "click->search#handleSearch" } %>
+  </div>
 </div>
 
-<div
-  id="map"
-  data-controller="map"
-  data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"
-  data-map-markers-value="<%= @markers.to_json %>"
-  style="height: 500px; width: 100%;">
-</div>
+  <!-- Flex layout: Map on left, Info card on right -->
+  <div class="d-flex flex-row px-3" id="map-and-info" style="gap: 1.5rem;">
+    <!-- Map -->
+    <div
+      id="map"
+      class="flex-grow-1 shadow-sm"
+      style="height: 550px; border-radius: 16px; overflow: hidden; transition: width 0.3s ease;"
+      data-controller="map"
+      data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"
+      data-map-markers-value="<%= @markers.to_json %>">
+    </div>
 
-<div id="user-info-box" style="margin-top: 1rem;"></div>
+    <!-- User Info Box (Initially hidden) -->
+    <div id="user-info-box" style="width: 320px;"></div>
+  </div>
+</div>
