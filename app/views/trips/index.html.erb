@@ -5,47 +5,47 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <div style="background-image: url('https://i.natgeofe.com/k/a6c9f195-de20-445d-9d36-745ef56042c5/OG_Colosseum_Ancient-Rome_KIDS_1122_3x2.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;" class="d-flex vh-100 justify-content-center align-items-center px-3">
-  <div class="rounded-4 p-4 shadow-lg text-center" style="background-color: rgba(254, 252, 250, 0.15); backdrop-filter: blur(35px); max-width: 525px; width: 100%; max-height: 567px; margin-top: -70px;">
+  <div class="rounded-4 p-4 shadow-lg text-center" style="background-color: rgba(247, 245, 237, 0.15); backdrop-filter: blur(35px); max-width: 525px; width: 100%; max-height: 567px; margin-top: -70px;">
     <h1 class="archivo fs-3 mt-1 mb-1" style="font-weight: 800; color: #121212">Plan your Perfect Route</h1>
     <p class="archivo fs-6 mb-3" style="font-weight: 200; color: #121212">Powered by AI and your preferences</p>
 
     <%= form_with model: @trip, url: trips_path, method: :post, local: true, html: { id: "trip-form" } do |f| %>
       <div class="d-flex flex-column gap-3 mb-4 align-items-center">
-        <div class="rounded-4 p-3 bg-white bg-opacity-75" style="backdrop-filter: blur(10px); width: 100%; max-width: 475px;">
+        <div class="rounded-4 p-4 bg-opacity-50" style="backdrop-filter: blur(10px); width: 100%; max-width: 475px; background-color: rgba(247, 245, 237, 0.5);">
           <div class="row g-3">
-            <div class="col-12 col-md-6 d-flex flex-column">
-              <%= f.label :start_date, class: "archivo form-label small mb-2 text-start fw-bold" do %>
-                <i class="bi bi-calendar-event me-1"></i> Start Date
-              <% end %>
-              <%= f.text_field :start_date, id: "start-date", class: "p-2 form-control focus-ring form-control-sm rounded-pill", placeholder: "Select start date", style: "border: 1px solid rgba(0, 0, 0, 0.15); background-color: rgba(255, 255, 255, 0.9);" %>
+            <div class="col-12 col-md-6" style="width: 50%">
+              <div class="form-floating mb-3">
+                <%= f.text_field :start_date, id: "start-date", class: "form-control rounded-3", placeholder: "Start Date" %>
+                <%= f.label :start_date, raw('<i class="bi bi-calendar-event me-1"></i> Start Date'), class: "rounded-3 archivo" %>
+              </div>
             </div>
 
-            <div class="col-12 col-md-6 d-flex flex-column">
-              <%= f.label :end_date, class: "archivo form-label small mb-2 text-start fw-bold" do %>
-                <i class="bi bi-calendar-event me-1"></i> End Date
-              <% end %>
-              <%= f.text_field :end_date, id: "end-date", class: "p-2 form-control focus-ring form-control-sm rounded-pill", placeholder: "Select end date", style: "border: 1px solid rgba(0, 0, 0, 0.15); background-color: rgba(255, 255, 255, 0.9);" %>
+            <div class="col-12 col-md-6", style="width: 50%">
+              <div class="form-floating mb-3">
+                <%= f.text_field :end_date, id: "end-date", class: "form-control rounded-3", placeholder: "End Date" %>
+                <%= f.label :end_date, raw('<i class="bi bi-calendar-event me-1"></i> End Date'), class: "rounded-3 archivo" %>
+              </div>
             </div>
 
-            <div class="col-12 d-flex flex-column">
-              <%= f.label :location, class: "archivo form-label small mb-2 text-start fw-bold" do %>
-                <i class="bi bi-geo-alt-fill me-1"></i> Destination
-              <% end %>
-              <%= f.text_field :location, id: "location", class: "p-2 form-control form-control-sm focus-ring rounded-pill", placeholder: "e.g. Madrid, Spain", style: "border: 1px solid rgba(0, 0, 0, 0.15); background-color: rgba(255, 255, 255, 0.9);" %>
+            <div class="col-12">
+              <div class="form-floating mb-3">
+                <%= f.text_field :location, id: "location", class: "form-control rounded-3", placeholder: "Destination" %>
+                <%= f.label :location, raw('<i class="bi bi-geo-alt-fill me-1"></i> Destination'), class: "rounded-3 archivo" %>
+              </div>
             </div>
 
-            <div class="col-12 d-flex flex-column">
-              <%= f.label :budget, class: "archivo form-label fw-bold small mb-2 text-start" do %>
-                <i class="bi bi-cash-coin me-1"></i> Budget
-              <% end %>
+            <div class="col-12">
               <div class="d-flex gap-2">
-                <%= f.select :currency, options_for_select([["£ GBP", "GBP"], ["€ EUR", "EUR"], ["$ USD", "USD"], ["A$ AUD", "AUD"], ["C$ CAD", "CAD"], ["¥ JPY", "JPY"], ["₹ INR", "INR"], ["¥ CNY", "CNY"]], selected: "GBP"), {}, class: "form-select form-select-sm rounded-pill p-2 focus-ring", style: "width: 100px; border: 1px solid rgba(0, 0, 0, 0.15); background-color: rgba(255, 255, 255, 0.9);" %>
-                <%= f.text_field :budget, id: "budget", class: "p-2 form-control form-control-sm focus-ring rounded-pill", placeholder: "e.g. 40", style: "border: 1px solid rgba(0, 0, 0, 0.15); background-color: rgba(255, 255, 255, 0.9);" %>
+                <%= f.select :currency, options_for_select([["£ GBP", "GBP"], ["€ EUR", "EUR"], ["$ USD", "USD"], ["A$ AUD", "AUD"], ["C$ CAD", "CAD"], ["¥ JPY", "JPY"], ["₹ INR", "INR"], ["¥ CNY", "CNY"]], selected: "GBP"), {}, class: "form-select rounded-3 form-select-sm p-2 focus-ring", style: "width: 100px; border: 1px solid rgba(0,0,0,0.15); background-color: rgba(121,134,69,0.5);" %>
+                <div class="form-floating flex-grow-1">
+                  <%= f.text_field :budget, id: "budget", class: "form-control rounded-3", placeholder: "e.g. 40" %>
+                  <%= f.label :budget, raw('<i class="bi bi-cash-coin me-1"></i> Budget'), class: "rounded-3 archivo" %>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="d-flex flex-column justify-content-center align-items-center mt-4 w-100">
+          <div class="d-flex flex-column justify-content-center align-items-center mt-5 pt-1 w-100">
             <button type="submit" class="btn btn-secondary btn-lg rounded-pill archivo d-flex align-items-center justify-content-center gap-2" id="trip-button" style="width: 170px; font-weight: 600;">
               <span class="button-text">Plan my trip →</span>
               <span class="spinner-border spinner-border-sm d-none" id="trip-spinner" role="status" aria-hidden="true"></span>
