@@ -1,0 +1,20 @@
+.video-bg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 0;
+}
+.video-bg-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.15); /* Optional: darken video */
+  z-index: 1;
+}
+.video-bg-container > .rounded-4 {
+  position: relative;
+  z-index: 2;
+}
