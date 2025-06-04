@@ -1,0 +1,22 @@
+<h1 class="mb-4 text-center">Explore All Activities</h1>
+<div class="container">
+  <div class="row g-4">
+    <% @activities.each do |activity| %>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="card h-100 shadow-sm">
+          <%# Replace activity.photo_url with your actual image attribute or method %>
+          <% if activity.fetch_and_update_image_url.attached? %>
+            <%= image_tag activity.fetch_and_update_image_url, class: "card-img-top", alt: activity.name %>
+          <% else %>
+            <img src="https://source.unsplash.com/400x250/?travel,landscape" class="card-img-top" alt="Default activity image">
+          <% end %>
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title"><%= activity.name %></h5>
+            <p class="card-text mb-1"><%= activity.description %></p>
+            <p class="card-text text-muted small mb-0"><i class="fas fa-map-marker-alt me-1"></i><%= activity.location %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
