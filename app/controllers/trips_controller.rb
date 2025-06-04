@@ -21,7 +21,7 @@ class TripsController < ApplicationController
   end
 
   def show
-    @trip = current_user.trips.find(params[:id])
+    @trip = Trip.find(params[:id])
     @preferences = current_user.preferences.includes(:category, :subcategory)
     @activities = Activity.order(created_at: :desc)
   end

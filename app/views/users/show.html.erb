@@ -32,11 +32,11 @@
             <span class="badge bg-secondary fs-6">Friend request sent</span>
           <% elsif (friend_request = current_user.pending_friend_requests.find_by(user: @user)) %>
             <div class="btn-group p-2">
-              <%= button_to 'Accept', friendship_path(friend_request), method: :patch, params: { status: 'accepted' }, class: "btn btn-secondary btn-sm rounded-pill archivo", style: "font-weight: 600;" %>
-              <%= button_to 'Decline', friendship_path(friend_request), method: :patch, params: { status: 'declined' }, class: "btn btn-outline-danger btn-sm rounded-pill archivo", style: "font-weight: 600;" %>
+              <%= button_to 'Accept', friendship_path(friend_request), method: :patch, params: { status: 'accepted' }, class: "btn btn-outline-success btn-sm rounded archivo me-2", style: "font-weight: 600;" %>
+              <%= button_to 'Decline', friendship_path(friend_request), method: :patch, params: { status: 'declined' }, class: "btn btn-outline-danger btn-sm rounded archivo", style: "font-weight: 600;" %>
             </div>
           <% else %>
-            <%= button_to 'Add Friend', friendships_path(friend_id: @user.id), method: :post, class: "btn btn-primary btn-sm" %>
+            <%= button_to 'Add Friend', friendships_path(friend_id: @user.id), method: :post, class: "btn btn-outline-primary btn-sm" %>
           <% end %>
         <% else %>
           <button class="btn btn-secondary btn-sm mt-2 rounded-pill archivo " style="font-weight: 600;" data-bs-toggle="collapse" data-bs-target="#friendRequests" aria-expanded="false" aria-controls="friendRequests">
@@ -50,7 +50,7 @@
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center gap-2">
                       <img src="<%= req.user.user_image_url %>" alt="<%= req.user.username %>'s avatar" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;" />
-                      <%= link_to req.user.username, user_path(req.user), class: "fw-semibold text-decoration-none" %>
+                      <%= link_to req.user.username, user_path(req.user), class: "fw-semibold text-decoration-none", style: "color: #59683b;" %>
                     </div>
                     <div class="btn-group">
                       <%= button_to 'Accept', friendship_path(req), method: :patch, params: { status: 'accepted' }, class: "btn btn-outline-success btn-sm me-2" %>
@@ -82,7 +82,7 @@
         <% @trips.each do |trip| %>
           <div class="col">
             <div class="shadow rounded overflow-hidden h-100">
-              <%= link_to trip_path(trip), class: "text-decoration-none text-dark d-flex flex-column h-100" do %>
+              <%= link_to trip_path(trip), data: { turbo: false }, class: "text-decoration-none text-dark d-flex flex-column h-100" do %>
                 <% image_url = trip.activities.first&.image_url %>
                 <div class="w-100" style="height: 185px; overflow: hidden; margin-top: -25px;">
                   <% if image_url.present? %>

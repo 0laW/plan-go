@@ -3,6 +3,9 @@ class Trip < ApplicationRecord
   has_many :trip_activities
   has_many :activities, through: :trip_activities
 
+  has_many :trip_users
+  has_many :users, through: :trip_users
+
   validates :start_date, :end_date, :location, :budget, presence: true
 
   geocoded_by :location

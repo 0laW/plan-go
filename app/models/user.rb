@@ -17,6 +17,9 @@ class User < ApplicationRecord
   has_many :inverse_friendships, class_name: 'Friendship', foreign_key: 'friend_id'
   has_many :inverse_friends, through: :inverse_friendships, source: :user
 
+  has_many :trip_users
+  has_many :participated_trips, through: :trip_users, source: :trip
+
   def confirmed_friends
     friends = friendships.where(status: 'accepted').map(&:friend)
     inverse = inverse_friendships.where(status: 'accepted').map(&:user)

@@ -1,24 +1,59 @@
-<div class="d-flex justify-content-center align-items-center py-5 min-vh-100">
-  <div class="bg-white rounded-4 p-4 shadow-lg border border-white"
-       style="backdrop-filter: blur(40px); max-width: 900px; width: 95%; color: #212529;">
+<div class="d-flex justify-content-center align-items-center py-5 min-vh-100 bg-light">
+  <div class="rounded-4 p-4 shadow-lg bg-white" style="max-width: 720px; width: 90%;">
 
-    <h1 class="archivo-black fw-bold fs-3 mb-4 text-center">Your Trip Details</h1>
+    <div class="d-flex align-items-center gap-3 mb-4 p-3 shadow rounded" style="background-color: #59683b;">
+      <div style="width: 40px; height: 40px;">
+        <img src="<%= @trip.user.user_image_url %>" alt="<%= @trip.user.username %>'s avatar" class="rounded-circle w-100 h-100" style="object-fit: cover;" />
+      </div>
+      <div>
+        <p class="mb-0 fs-3 archivo-black" style="color: #F2EED7;"><%= @trip.user.username %></p>
+        <small class="d-block mb-1" style="color: #F2EED7;">
+          Created <strong><%= @trip.location %> trip</strong> <%= time_ago_in_words(@trip.created_at) %> ago
+        </small>
+        <small style="color: #F2EED7;">
+          From <strong><%= @trip.start_date.strftime('%B %d, %Y') %></strong> to <strong><%= @trip.end_date.strftime('%B %d, %Y') %></strong>
+        </small>
+      </div>
+    </div>
 
-    <div class="row mb-4 text-center text-md-start">
-      <div class="col-md-6 mb-3">
-        <p class="mb-1"><strong>Location:</strong></p>
-        <p class="fs-5 text-primary"><%= h @trip.location %></p>
-      </div>
-      <div class="col-md-6 mb-3 d-flex justify-content-center justify-content-md-start gap-4 align-items-center">
-        <div>
-          <p class="mb-1"><strong>Start Date:</strong></p>
-          <p><%= @trip.start_date.strftime('%B %d, %Y') %></p>
-        </div>
-        <div>
-          <p class="mb-1"><strong>End Date:</strong></p>
-          <p><%= @trip.end_date.strftime('%B %d, %Y') %></p>
-        </div>
-      </div>
+    <div class="text-center">
+      <% if current_user == @trip.user %>
+        <% remaining_friends = current_user.confirmed_friends.reject { |f| @trip.users.include?(f) } %>
+        <% if remaining_friends.any? %>
+          <div class="dropdown d-inline-block mb-3">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="friendDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="color: #59683b; border-color: #59683b;">
+              Add Friend to Trip
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="friendDropdown" style="min-width: 220px;">
+              <% remaining_friends.each do |friend| %>
+                <li>
+                  <a href="#" class="dropdown-item d-flex align-items-center gap-2 add-friend-to-trip" data-user-id="<%= friend.id %>" style="color: #59683b;">
+                    <img src="<%= friend.user_image_url %>" alt="<%= friend.username %>'s avatar"  class="rounded-circle"  style="width: 28px; height: 28px; object-fit: cover; display: block;">
+                    <span><%= friend.username %></span>
+                  </a>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        <% else %>
+          <p class="text-muted mb-3">No more friends to add.</p>
+        <% end %>
+      <% else %>
+        <% if @trip.users.any? %>
+          <p class="text-muted mb-3">Users added to trip</p>
+        <% else %>
+          <div style="height: 2.5rem;"></div>
+        <% end %>
+      <% end %>
+
+      <ul id="trip-participants-list" class="list-group mx-auto" style="max-width: 500px;">
+        <% @trip.users.each do |user| %>
+          <li class="list-group-item d-flex align-items-center gap-3">
+            <img src="<%= user.user_image_url %>" alt="<%= user.username %>'s avatar" class="rounded-circle" style="width: 28px; height: 28px; object-fit: cover;">
+            <%= link_to user.username, user_path(user), class: "fw-semibold text-decoration-none", style: "color: #59683b;" %>
+          </li>
+        <% end %>
+      </ul>
     </div>
 
     <hr class="my-4">
@@ -27,24 +62,28 @@
       <% activities_by_day = @trip.trip_activities.includes(:activity).group_by { |ta| ta.day || 1 } %>
       <% sorted_days = activities_by_day.keys.sort %>
 
-      <div id="activitiesCarousel" class="carousel slide mt-5" data-bs-ride="false">
+      <div id="activitiesCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
         <div class="carousel-inner">
-
           <% sorted_days.each_with_index do |day, index| %>
             <div class="carousel-item <%= 'active' if index == 0 %>">
               <div class="d-flex justify-content-between align-items-center mb-4">
                 <% if sorted_days.size > 1 %>
-                  <button class="btn btn-link text-dark" type="button" data-bs-target="#activitiesCarousel" data-bs-slide="prev">
+                  <button class="btn btn-link" type="button" data-bs-target="#activitiesCarousel" data-bs-slide="prev" aria-label="Previous day" style="color: #59683b;">
                     <i class="bi bi-chevron-left fs-3"></i>
                   </button>
                 <% else %>
                   <div style="width: 40px;"></div>
                 <% end %>
 
-                <h3 class="text-center m-0 flex-grow-1">Day <%= day %> — <%= (@trip.start_date + (day - 1)).strftime('%B %d, %Y') %></h3>
+
+              <div class="d-flex justify-content-center align-items-center mb-4 p-3 rounded shadow" style="background-color: #59683b;">
+                <p class="text-center fs-3 flex-grow-1 m-0 archivo-black" style="color: #F2EED7;">
+                  Day <%= day %> — <%= (@trip.start_date + (day - 1)).strftime('%B %d, %Y') %>
+                </p>
+              </div>
 
                 <% if sorted_days.size > 1 %>
-                  <button class="btn btn-link text-dark" type="button" data-bs-target="#activitiesCarousel" data-bs-slide="next">
+                  <button class="btn btn-link" type="button" data-bs-target="#activitiesCarousel" data-bs-slide="next" aria-label="Next day" style="color: #59683b;">
                     <i class="bi bi-chevron-right fs-3"></i>
                   </button>
                 <% else %>
@@ -53,34 +92,32 @@
               </div>
 
               <ul class="list-group mb-4">
-                <% activities_by_day[day].sort_by(&:start_time).each do |ta| %>
+                <% activities_by_day[day].sort_by { |ta| ta.start_time || Time.new(2100) }.each do |ta| %>
                   <% activity = ta.activity %>
                   <li class="list-group-item mb-3 rounded-3 shadow-sm border border-light">
                     <div class="d-flex gap-3 align-items-start flex-wrap">
-
                       <% if activity.image_url.present? %>
-                        <div class="activity-image">
-                          <img src="<%= activity.image_url %>" alt="<%= activity.name %> image" />
+                        <div class="activity-image flex-shrink-0" style="width: 120px; height: 80px;">
+                          <img src="<%= activity.image_url %>" alt="<%= activity.name %> image" class="rounded" style="width: 100%; height: 100%; object-fit: cover;" />
                         </div>
                       <% end %>
 
                       <div class="flex-grow-1 d-flex flex-column gap-2">
-                      <h5 class="text-primary fw-bold mb-1 d-flex align-items-center gap-2 flex-nowrap">
-                        <%= h activity.name %>
-                      </h5>
-
+                        <h5 class="fw-bold mb-1" style="color: #59683b;">
+                          <%= h activity.name %>
+                        </h5>
                         <p class="fst-italic text-muted mb-1"><%= h activity.address %></p>
                         <p class="mb-2"><%= h activity.description %></p>
 
                         <% if ta.start_time && ta.end_time %>
-                          <p class="fw-semibold mb-1">
+                          <p class="fw-semibold mb-1" style="color: #59683b;">
                             <i class="bi bi-clock me-1"></i>
                             <%= ta.start_time.strftime("%I:%M %p") %> - <%= ta.end_time.strftime("%I:%M %p") %>
                           </p>
                         <% end %>
 
                         <% if activity.cost.present? %>
-                          <p class="fw-semibold text-dark mb-1">
+                          <p class="fw-semibold mb-1" style="color: #59683b;">
                             <i class="bi bi-cash me-1"></i>
                             Estimated Cost: <%= h activity.cost %>
                           </p>
@@ -92,11 +129,10 @@
               </ul>
             </div>
           <% end %>
-
         </div>
       </div>
     <% else %>
-      <p class="text-muted fst-italic mt-4">No activities planned yet.</p>
+      <p class="text-muted fst-italic mt-4 text-center">No activities planned yet.</p>
     <% end %>
 
   </div>
@@ -123,3 +159,41 @@
     }
   }
 </style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".add-friend-to-trip").forEach(item => {
+      item.addEventListener("click", async (e) => {
+        e.preventDefault();
+        const userId = e.currentTarget.dataset.userId;
+        const tripId = <%= @trip.id %>;
+
+        const response = await fetch("/trip_users", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": document.querySelector("[name='csrf-token']").content
+          },
+          body: JSON.stringify({ user_id: userId, trip_id: tripId })
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+
+          const list = document.getElementById("trip-participants-list");
+          const newItem = document.createElement("li");
+          newItem.className = "list-group-item d-flex align-items-center gap-2";
+          newItem.innerHTML = `
+            <img src="${data.user_image_url}" alt="${data.username}'s avatar" class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;">
+            <a href="/users/${data.user_id}" class="fw-semibold text-decoration-none" style="color: #59683b;">${data.username}</a>
+          `;
+          list.appendChild(newItem);
+
+          e.currentTarget.closest("li").remove();
+        } else {
+          alert("Failed to add friend to trip");
+        }
+      });
+    });
+  });
+</script>
