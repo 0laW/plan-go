@@ -90,7 +90,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:username, :email, :user_image)
+    params.require(:user).permit(:username, :email, :user_image_url, :avatar)
   end
 
   def load_user_trips

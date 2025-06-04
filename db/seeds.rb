@@ -22,15 +22,31 @@ users = [
   { first_name: "Jordan", last_name: "Gilbert", username: "jordang" }
 ]
 
+avatar_urls = [
+  "https://res.cloudinary.com/dpekautsm/image/upload/v1748946312/duck_uzatea.png",
+  "https://res.cloudinary.com/dpekautsm/image/upload/v1748946487/giraffe_iz6dir.png",
+  "https://res.cloudinary.com/dpekautsm/image/upload/v1748946487/panda-bear_k5x6yb.png",
+  "https://res.cloudinary.com/dpekautsm/image/upload/v1748946488/dragon_vsob23.png",
+  "https://res.cloudinary.com/dpekautsm/image/upload/v1748946488/penguin_selpzx.png",
+  "https://res.cloudinary.com/dpekautsm/image/upload/v1748946488/dog_v3wmnw.png",
+  "https://res.cloudinary.com/dpekautsm/image/upload/v1748946488/jaguar_atrb2w.png",
+  "https://res.cloudinary.com/dpekautsm/image/upload/v1748946488/hippopotamus_jbd2vd.png",
+  "https://res.cloudinary.com/dpekautsm/image/upload/v1748946493/bear_pt8nwf.png",
+  "https://res.cloudinary.com/dpekautsm/image/upload/v1748946493/koala_zt8cxo.png",
+  "https://res.cloudinary.com/dpekautsm/image/upload/v1748947149/goat_jmp9oi.png",
+  "https://res.cloudinary.com/dpekautsm/image/upload/v1748947148/wolf_ydwzua.png"
+]
+
 user_records = users.map do |user|
   User.create!(
     first_name: user[:first_name],
     last_name: user[:last_name],
     email: "#{user[:first_name].downcase}@example.com",
     password: "password123",
-    user_image_url: "https://source.unsplash.com/100x100/?portrait,#{user[:first_name]}",
+    user_image_url: "#{avatar_urls.sample}",
     username: user[:username]
   )
+
 end
 
 # --- CATEGORIES AND SUBCATEGORIES ---
