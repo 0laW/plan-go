@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   get "users/search_users", to: "users#search_users"
   get "search", to: "search#index", as: :search
 
+
   # Additional routes...
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
