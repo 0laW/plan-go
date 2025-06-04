@@ -21,14 +21,14 @@
         <% remaining_friends = current_user.confirmed_friends.reject { |f| @trip.users.include?(f) } %>
         <% if remaining_friends.any? %>
           <div class="dropdown d-inline-block mb-3">
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="friendDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="color: #59683b; border-color: #59683b;">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="friendDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="color: #59683b; border-color: #59683b;">
               Add Friend to Trip
             </button>
             <ul class="dropdown-menu" aria-labelledby="friendDropdown" style="min-width: 220px;">
               <% remaining_friends.each do |friend| %>
                 <li>
                   <a href="#" class="dropdown-item d-flex align-items-center gap-2 add-friend-to-trip" data-user-id="<%= friend.id %>" style="color: #59683b;">
-                    <img src="<%= friend.user_image_url %>" alt="<%= friend.username %>'s avatar" class="rounded-circle" style="width: 28px; height: 28px; object-fit: cover;">
+                    <img src="<%= friend.user_image_url %>" alt="<%= friend.username %>'s avatar"  class="rounded-circle"  style="width: 28px; height: 28px; object-fit: cover; display: block;">
                     <span><%= friend.username %></span>
                   </a>
                 </li>
@@ -46,7 +46,7 @@
         <% end %>
       <% end %>
 
-      <ul class="list-group mx-auto" style="max-width: 500px;">
+      <ul id="trip-participants-list" class="list-group mx-auto" style="max-width: 500px;">
         <% @trip.users.each do |user| %>
           <li class="list-group-item d-flex align-items-center gap-3">
             <img src="<%= user.user_image_url %>" alt="<%= user.username %>'s avatar" class="rounded-circle" style="width: 28px; height: 28px; object-fit: cover;">
