@@ -48,10 +48,13 @@
               <ul class="list-group mt-2">
                 <% current_user.pending_friend_requests.each do |req| %>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <%= link_to req.user.username, user_path(req.user), class: "fw-semibold" %>
+                    <div class="d-flex align-items-center gap-2">
+                      <img src="<%= req.user.user_image_url %>" alt="<%= req.user.username %>'s avatar" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;" />
+                      <%= link_to req.user.username, user_path(req.user), class: "fw-semibold text-decoration-none" %>
+                    </div>
                     <div class="btn-group">
-                      <%= button_to 'Accept', friendship_path(req), method: :patch, params: { status: 'accepted' }, class: "btn btn-success btn-sm" %>
-                      <%= button_to 'Decline', friendship_path(req), method: :patch, params: { status: 'declined' }, class: "btn btn-danger btn-sm" %>
+                      <%= button_to 'Accept', friendship_path(req), method: :patch, params: { status: 'accepted' }, class: "btn btn-outline-success btn-sm me-2" %>
+                      <%= button_to 'Decline', friendship_path(req), method: :patch, params: { status: 'declined' }, class: "btn btn-outline-danger btn-sm" %>
                     </div>
                   </li>
                 <% end %>
