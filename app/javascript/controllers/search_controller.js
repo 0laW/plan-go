@@ -98,7 +98,7 @@ export default class extends Controller {
         }
 
         data.markers.forEach(markerData => {
-          const popup = new mapboxgl.Popup().setHTML(markerData.info_window_html)
+          const popup = new mapboxgl.Popup({closeButton: false}).setHTML(markerData.info_window_html)
 
           const customMarker = document.createElement("div")
           customMarker.innerHTML = markerData.marker_html

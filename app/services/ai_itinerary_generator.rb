@@ -36,13 +36,13 @@ class AiItineraryGenerator
     filtered_activities = []
 
     activities_by_day.each do |day, acts|
-      selected_acts = acts.first(3)  # exactly 3 activities per day
+      selected_acts = acts.first(3) # exactly 3 activities per day
       fixed_acts = fix_time_blocks(selected_acts, day)
       filtered_activities.concat(fixed_acts)
     end
 
     total_cost = filtered_activities.sum { |a| parse_cost(a["cost"]) }
-    scale_factor = total_cost > 0 ? @budget / total_cost : 1.0
+    scale_factor = total_cost.positive? ? @budget / total_cost : 1.0
 
     filtered_activities.each do |activity_data|
       category = Category.find_or_create_by(name: activity_data["category"])
@@ -78,11 +78,11 @@ class AiItineraryGenerator
 
   private
 
-  def fix_time_blocks(activities, day)
+  def fix_time_blocks(activities, _day)
     base_time = Time.parse("10:00")
     activities.each_with_index.map do |act, index|
-      start_time = base_time + index * 2.5 * 3600 # 2.5-hour gaps
-      end_time = start_time + 2 * 3600            # 2-hour activity
+      start_time = base_time + (index * 2.5 * 3600) # 2.5-hour gaps
+      end_time = start_time + (2 * 3600)            # 2-hour activity
       act["start_time"] = start_time.strftime("%H:%M")
       act["end_time"] = end_time.strftime("%H:%M")
       act
@@ -91,11 +91,13 @@ class AiItineraryGenerator
 
   def parse_cost(cost_str)
     return 0.0 unless cost_str.respond_to?(:gsub)
+
     cost_str.gsub(/[^\d\.]/, '').to_f
   end
 
   def format_cost(amount, original_cost_str)
     return nil unless original_cost_str.respond_to?(:strip) && !original_cost_str.strip.empty?
+
     symbol = original_cost_str.strip[0]
     "#{symbol}#{amount}"
   end
