@@ -57,8 +57,24 @@
             <h6 class="text-light fw-bold">Product</h6>
             <ul class="list-unstyled">
               <li><%= link_to root_path, class: "text-light text-decoration-none d-block mb-2" do %><i class="fas fa-home me-2"></i>Home<% end %></li>
-              <li><%= link_to "#", class: "text-light text-decoration-none d-block mb-2" do %><i class="fas fa-search me-2"></i>Search<% end %></li>
-              <li><%= link_to "#", class: "text-light text-decoration-none d-block" do %><i class="fas fa-user me-2"></i>Profile<% end %></li>
+                <li>
+                <%= link_to search_path, class: "text-light text-decoration-none d-block mb-2" do %>
+                  <i class="fas fa-search me-2"></i>Search
+                <% end %>
+                </li>
+                <% if user_signed_in? %>
+                <li>
+                  <%= link_to user_path(current_user), class: "text-light text-decoration-none d-block" do %>
+                  <i class="fas fa-user me-2"></i>Profile
+                  <% end %>
+                </li>
+                <% else %>
+                <li>
+                  <%= link_to new_user_session_path, class: "text-light text-decoration-none d-block" do %>
+                  <i class="fas fa-sign-in-alt me-2"></i>Log In
+                  <% end %>
+                </li>
+                <% end %>
             </ul>
           </div>
           <div class="col-6">
@@ -79,30 +95,9 @@
 
   <!-- Navigation, More, and Socials in one line -->
   <ul class="list-unstyled d-flex justify-content-center flex-wrap gap-4 mb-0 align-items-center footer-nav-horizontal">
-    <!-- Navigation Links -->
-    <li><%= link_to root_path, class: "text-light text-decoration-none d-block" do %><i class="fas fa-home me-2"></i>Home<% end %></li>
-    <li><%= link_to trips_path, class: "text-light text-decoration-none d-block" do %><i class="fas fa-suitcase-rolling me-2"></i>Trips<% end %></li>
-    <li><%= link_to activities_path, class: "text-light text-decoration-none d-block" do %><i class="fas fa-map-marker-alt me-2"></i>Activities<% end %></li>
-    <li><%= link_to user_path(current_user), class: "text-light text-decoration-none d-block" do %><i class="fas fa-user me-2"></i>Profile<% end %></li>
-    <li><%= link_to "#", class: "text-light text-decoration-none d-block" do %><i class="fas fa-info-circle me-2"></i>About<% end %></li>
-    <li><%= link_to search_path, class: "text-light text-decoration-none d-block" do %><i class="fas fa-question-circle me-2"></i>Help<% end %></li>
-    <li><%= link_to "#", class: "text-light text-decoration-none d-block" do %><i class="fas fa-envelope me-2"></i>Contact<% end %></li>
-    <!-- More Links -->
     <li><%= link_to "Privacy Policy", "#", class: "text-light text-decoration-none d-block" %></li>
     <li><%= link_to "Terms & Conditions", "#", class: "text-light text-decoration-none d-block" %></li>
   </ul>
-
-</div>
-
-  <!-- Socials -->
-  <div class="d-none d-md-flex flex-column align-items-center mt-3 small">
-    <ul class="list-unstyled d-flex justify-content-center flex-wrap gap-4 mb-0 align-items-center footer-nav-horizontal">
-      <li><%= link_to "https://www.instagram.com/yourprofile", target: "_blank", rel: "noopener", class: "text-light text-decoration-none" do %><i class="fab fa-instagram me-2"></i><% end %></li>
-      <li><%= link_to "https://www.facebook.com/yourprofile", target: "_blank", rel: "noopener", class: "text-light text-decoration-none" do %><i class="fab fa-facebook me-2"></i><% end %></li>
-      <li><%= link_to "https://www.linkedin.com/in/yourprofile", target: "_blank", rel: "noopener", class: "text-light text-decoration-none" do %><i class="fab fa-linkedin me-2"></i><% end %></li>
-      <li><%= link_to "https://twitter.com/yourprofile", target: "_blank", rel: "noopener", class: "text-light text-decoration-none" do %><i class="fab fa-x-twitter me-2"></i><% end %></li>
-    </ul>
-  </div>
 
 </div>
 
