@@ -87,7 +87,11 @@
                     <i class="fas fa-envelope me-2"></i>Contact Us
                 </a>
               </li>
-              <li><%= link_to "#", class: "text-light text-decoration-none d-block" do %><i class="fas fa-comment-dots me-2"></i>Give Feedback<% end %></li>
+              <li>
+                <a href="#" class="text-light text-decoration-none d-block" data-bs-toggle="modal" data-bs-target="#feedbackModal">
+                  <i class="fas fa-comment-dots me-2"></i>Give Feedback
+                </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -113,6 +117,7 @@
     <%= render 'shared/privacy_policy_modal' %>
     <%= render 'shared/terms_modal' %>
     <%= render 'shared/contact_us_modal' %>
+    <%= render 'shared/feedback_modal' %>
 </div>
 
     <div class="text-center mt-4">
