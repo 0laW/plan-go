@@ -7,21 +7,21 @@
       </div>
       <div class="modal-body">
         <%= form_with url: contact_path, method: :post, local: true do |f| %>
-          <div class="mb-3">
-            <%= f.label :name, "Your Name", class: "form-label" %>
-            <%= f.text_field :name, class: "form-control", required: true %>
+          <div class="form-floating mb-3">
+            <%= f.text_field :name, class: "form-control", id: "contactFloatingName", required: true, placeholder: "Your Name" %>
+            <%= f.label :name, "Your Name", for: "contactFloatingName" %>
           </div>
-          <div class="mb-3">
-            <%= f.label :email, "Your Email", class: "form-label" %>
-            <%= f.email_field :email, class: "form-control", required: true %>
+          <div class="form-floating mb-3">
+            <%= f.email_field :email, class: "form-control", id: "contactFloatingEmail", required: true, placeholder: "example@domain.com" %>
+            <%= f.label :email, "Your Email", for: "contactFloatingEmail" %>
           </div>
-          <div class="mb-3">
-            <%= f.label :message, "Message", class: "form-label" %>
-            <%= f.text_area :message, class: "form-control", rows: 4, required: true %>
+          <div class="form-floating mb-3">
+            <%= f.text_area :message, class: "form-control", id: "contactFloatingMessage", rows: 4, required: true, placeholder: "Write your message here...", style: "height: 100px;" %>
+            <%= f.label :message, "Message", for: "contactFloatingMessage" %>
           </div>
-          <div class="modal-footer px-0">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <%= f.submit "Send", class: "btn btn-primary" %>
+          <div class="modal-footer px-0 d-flex flex-row justify-content-center">
+            <button type="button" class="btn btn-light rounded-pill archivo mt-5 mb-2" style= "width: 150px; font-weight: 600; font-size: 18px" data-bs-dismiss="modal">Cancel</button>
+            <%= f.submit "Send", class: "btn btn-secondary rounded-pill archivo mt-5 mb-2", style: "width: 150px; font-weight: 600; font-size: 18px" %>
           </div>
         <% end %>
       </div>
