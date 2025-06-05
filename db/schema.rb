@@ -54,6 +54,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_04_152405) do
     t.float "latitude"
     t.float "longitude"
     t.string "image_url"
+    t.string "cost"
     t.string "price_level"
     t.index ["category_id"], name: "index_activities_on_category_id"
   end
