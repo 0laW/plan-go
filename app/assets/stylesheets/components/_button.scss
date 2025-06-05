@@ -12,6 +12,20 @@
   transform: translateY(-2px) !important;
 }
 
+.btn-primary {
+  background-color: #798645 !important; // your custom color
+  color: #fff !important;
+  border-color: #798645 !important;
+  transition: background-color 400ms, transform 400ms !important;
+}
+
+.btn-primary:hover {
+  background-color: rgb(76, 82, 43) !important; // hover color
+  color: #fff !important;
+  border-color: rgb(76, 82, 43) !important;
+  transform: translateY(-2px) !important;
+}
+
 .btn-light {
   background-color: #F2EED7 !important; // your custom color
   color: #000 !important;
