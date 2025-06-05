@@ -128,10 +128,10 @@
                           </p>
                         <% end %>
 
-                        <% if activity.cost.present? %>
+                        <% if activity.price_level.present? %>
                           <p class="fw-semibold mb-1" style="color: #59683b;">
                             <i class="bi bi-cash me-1"></i>
-                            Estimated Cost: <%= h activity.cost %>
+                            Estimated cost: <%= h activity.price_level %>
                           </p>
                         <% end %>
                       </div>
