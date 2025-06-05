@@ -1,20 +1,17 @@
 Rails.application.routes.draw do
 
-  get  'onboarding/welcome',          to: 'onboarding#welcome'
-  get  'onboarding/interests',        to: 'onboarding#interests'
+  get 'onboarding/steps(/:step)', to: 'onboarding#steps', as: :onboarding_steps
   post 'onboarding/save_interests',   to: 'onboarding#save_interests'
 
-  get  'onboarding/sub_interests',    to: 'onboarding#sub_interests'
   post 'onboarding/save_sub_interests', to: 'onboarding#save_sub_interests'
 
-  get  'onboarding/style_and_personality', to: 'onboarding#style_and_personality'
   post 'onboarding/save_style_and_personality', to: 'onboarding#save_style_and_personality'
 
-  get  'onboarding/friends',           to: 'onboarding#friends',       as: :onboarding_friends
   post 'onboarding/friends/search',    to: 'onboarding#find_friends',  as: :onboarding_find_friends
+  post 'onboarding/save_friends', to: 'onboarding#save_friends'
+  get "search_users", to: "users#search_users"
 
-  get  'onboarding/complete',         to: 'onboarding#complete'
-  post 'onboarding/complete',         to: 'onboarding#complete'       # to handle form submission on last step
+  post 'onboarding/complete',         to: 'onboarding#complete'
 
   root to: "trips#index"
 

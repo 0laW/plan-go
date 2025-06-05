@@ -37,6 +37,9 @@ class UsersController < ApplicationController
 
     user = User.find_by("LOWER(username) = ?", username)
 
+    users = User.where("username ILIKE ?", "%#{params[:q]}%").where.not(id: current_user.id).limit(10)
+    render json: users.select(:id, :username)
+
     unless user
       Rails.logger.warn "⚠️ User not found: #{username}"
       render json: { error: "User not found" }, status: :not_found and return

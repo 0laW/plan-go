@@ -1,0 +1,22 @@
+<% content_for :hide_navbar, true %>
+
+<div class="d-flex vh-100 justify-content-center align-items-center" style="background-color: white;">
+  <div class="rounded-4 p-4 shadow-lg text-center" style="backdrop-filter: blur(50px); max-width: 600px; min-width: 450px; width: 90%; color: black; height: 420px; background-color: rgba(255,255,255,0.8);">
+    <h1 class="archivo-black fw-bold fs-3 pt-2 mb-4">Connect with your Friends</h1>
+    <%= form_with url: onboarding_find_friends_path, method: :post, data: { turbo_frame: "onboarding_step" } do %>
+      <div class="mb-4">
+        <%= label_tag :friend_username, "Add a friend (optional)", class: "archivo fw-semibold" %>
+        <input type="text" id="friend-search" class="form-control rounded-pill" autocomplete="off" placeholder="Enter a username..." data-autocomplete-url="<%= search_users_path %>">
+        <div id="autocomplete-results" class="list-group position-absolute w-100" style="z-index: 10;"></div>
+        <div id="selected-friends" class="mt-3 d-flex flex-wrap gap-2"></div>
+      </div>
+      <div class="d-flex gap-3 justify-content-center">
+        <%= link_to "← Back", onboarding_steps_path(step: "style_and_personality"), data: { turbo_frame: "onboarding_step" }, class: "btn btn-light rounded-pill archivo mt-5 mb-2", style: "width: 150px; font-weight: 600; font-size: 18px" %>
+        <%= link_to "Finish →", onboarding_steps_path(step: "complete"), data: { turbo_frame: "onboarding_step" }, class: "btn btn-secondary rounded-pill archivo mt-5 mb-2", style: "width: 150px; font-weight: 600; font-size: 18px" %>
+      </div>
+    <% end %>
+    <div class="progress" style="height: 8px; border-radius: 4px; margin-top: 26.5px">
+      <div class="progress-bar" style="width: 90%; background-color: #798645;"></div>
+    </div>
+  </div>
+</div>
