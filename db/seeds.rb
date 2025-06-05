@@ -5,16 +5,30 @@ ActivityReview.destroy_all
 TripActivity.destroy_all
 TripUser.destroy_all
 Preference.destroy_all
-Friendship.destroy_all   # 👈 this is the key one
+Friendship.destroy_all
 Activity.destroy_all
 Subcategory.destroy_all
 Category.destroy_all
 Trip.destroy_all
 User.destroy_all
-ActiveRecord::Base.connection.reset_pk_sequence!('users')
+
+# Reset all PK sequences so IDs start from 1
+%w[
+  activity_reviews
+  trip_activities
+  trip_users
+  preferences
+  friendships
+  activities
+  subcategories
+  categories
+  trips
+  users
+].each do |table_name|
+  ActiveRecord::Base.connection.reset_pk_sequence!(table_name)
+end
 
 puts "Seeding..."
-
 # --- USERS ---
 users = [
   { first_name: "Diego", last_name: "Colina", username: "diegoc" },
@@ -43,7 +57,7 @@ user_records = users.map do |user|
   User.create!(
     first_name: user[:first_name],
     last_name: user[:last_name],
-    email: "#{user[:first_name].downcase}@example.com",
+    email: "#{user[:first_name].downcase}@planandgo.com",
     password: "password123",
     user_image_url: "#{avatar_urls.sample}",
     username: user[:username]
