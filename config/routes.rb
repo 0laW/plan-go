@@ -45,6 +45,7 @@ Rails.application.routes.draw do
   resources :activities
 
   resources :friendships, only: [:create, :update]
+  resources :feedbacks, only: [:create]
 
 
   resources :trips, only: [:new, :create, :show] do # location/budget/dates
