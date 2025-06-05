@@ -1,0 +1,10 @@
+<div class="video-bg-container d-flex vh-100 justify-content-center align-items-center px-3" style="position: relative; overflow: hidden; margin-top: -70px;">
+  <video autoplay muted loop playsinline class="video-bg">
+    <source src="https://res.cloudinary.com/dpekautsm/video/upload/v1749052735/11265370-uhd_4096_2160_30fps_1_grvogp.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <turbo-frame id="onboarding_step" class="d-flex vh-100 justify-content-center align-items-center w-100">
+    <%= render "onboarding/#{@onboarding_step}" %>
+  </turbo-frame>
+</div>
