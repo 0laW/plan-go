@@ -1,20 +1,23 @@
 class OnboardingController < ApplicationController
   before_action :authenticate_user!
 
-  def interests
-    @categories = Category.all
-  end
+  def steps
+    @onboarding_step = params[:step] || "welcome"
 
-  def style_and_personality
-    style_category = Category.find_by(name: "Style")
-    personality_category = Category.find_by(name: "Personality")
+    case @onboarding_step
+    when "interests"
+      @categories = Category.all
+    when "sub_interests"
+      @selected_category_ids = session[:selected_category_ids] || []
+      @subcategories = Subcategory.where(category_id: @selected_category_ids)
+    when "style_and_personality"
+      style_category = Category.find_by(name: "Style")
+      personality_category = Category.find_by(name: "Personality")
+      @style_subcategories = style_category&.subcategories || []
+      @personality_subcategories = personality_category&.subcategories || []
+    end
 
-    @style_subcategories = style_category&.subcategories || []
-    @personality_subcategories = personality_category&.subcategories || []
-  end
-
-  def save_style_and_personality
-    redirect_to onboarding_friends_path
+    render :steps
   end
 
   def save_interests
@@ -25,31 +28,31 @@ class OnboardingController < ApplicationController
     end
 
     session[:selected_category_ids] = category_ids
-
-    redirect_to onboarding_sub_interests_path
-  end
-
-  def sub_interests
-    @selected_category_ids = session[:selected_category_ids] || []
-    @subcategories = Subcategory.where(category_id: @selected_category_ids)
+    redirect_to onboarding_steps_path(step: "sub_interests")
   end
 
   def save_sub_interests
     subcategory_ids = params[:subcategory_ids] || []
-
     subcategory_ids.each do |subcat_id|
       subcat = Subcategory.find_by(id: subcat_id)
       next unless subcat
-
       Preference.find_or_create_by(
         user: current_user,
         category_id: subcat.category_id,
         subcategory_id: subcat.id
       )
     end
-
-    redirect_to onboarding_style_and_personality_path
+    redirect_to onboarding_steps_path(step: "style_and_personality")
   end
+
+  def save_style_and_personality
+    redirect_to onboarding_steps_path(step: "friends")
+  end
+
+  def save_friends
+    redirect_to onboarding_steps_path(step: "complete")
+  end
+
 
   def find_friends
     if params[:username].present?

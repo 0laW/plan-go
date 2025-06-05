@@ -1,6 +1,18 @@
 class FriendshipsController < ApplicationController
   before_action :authenticate_user!
 
+  def save_friends
+    friend_ids = params[:friend_ids] || []
+    friend_ids.each do |fid|
+      Friendship.find_or_create_by(user: current_user, friend_id: fid, status: 'accepted')
+      Friendship.find_or_create_by(user_id: fid, friend_id: current_user.id, status: 'accepted')
+    end
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: turbo_stream.replace("onboarding_step", partial: "onboarding/steps/complete") }
+      format.html { redirect_to onboarding_steps_path(step: "complete") }
+    end
+  end
+
   def create
   friend = User.find(params[:friend_id])
   puts "DEBUG: Current user: #{current_user.id} - Trying to friend: #{friend.id}"

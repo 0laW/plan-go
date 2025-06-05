@@ -52,7 +52,7 @@
         <li><%= link_to "My Profile", user_path(current_user), class: "nav-link-inline p-0 mb-9", style: "font-size: 25px" %></li>
         <li><%= link_to "Plan your Trip", root_path, class: "nav-link-inline p-0", style: "font-size: 25px" %></li>
         <li><%= link_to "Search", users_path, class: "nav-link-inline p-0", style: "font-size: 25px" %></li>
-        <li><%= link_to "My Preferences", onboarding_interests_path , class: "nav-link-inline p-0", style: "font-size: 25px" %></li>
+        <li><%= link_to "My Preferences", onboarding_steps_path(step: "interests") , class: "nav-link-inline p-0", style: "font-size: 25px" %></li>
         <li><%= link_to "About Us", about_path, class: "nav-link-inline p-0",style: "font-size: 25px" %></li>
         <li><hr class="dropdown-divider"></li>
             <%= link_to "Log Out", destroy_user_session_path,

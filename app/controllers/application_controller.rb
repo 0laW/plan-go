@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     if session[:first_login].nil?
       session[:first_login] = true
-      onboarding_welcome_path
+      onboarding_steps_path(step: "welcome")
     else
       super
     end
