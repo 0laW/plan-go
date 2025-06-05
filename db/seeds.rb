@@ -10,7 +10,7 @@ Activity.destroy_all
 Subcategory.destroy_all
 Category.destroy_all
 Trip.destroy_all
-User.delete_all
+User.destroy_all
 ActiveRecord::Base.connection.reset_pk_sequence!('users')
 
 puts "Seeding..."
