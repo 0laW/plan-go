@@ -1,7 +1,7 @@
 <% content_for :hide_navbar, true %>
 
 <div class="d-flex vh-100 justify-content-center align-items-center" style="background-color: white;">
-  <div class="rounded-4 p-4 shadow-lg text-center" style="backdrop-filter: blur(50px); max-width: 600px; min-width: 450px; width: 90%; color: black; height: 420px; background-color: rgba(255,255,255,0.8);">
+  <div class="rounded-4 p-4 shadow-lg text-center" style="backdrop-filter: blur(50px); max-width: 600px; min-width: 50px; width: 90%; color: black; height: 420px; background-color: rgba(255,255,255,0.8);">
     <h1 class="archivo-black fw-bold fs-3 pt-2 mb-4">Connect with your Friends</h1>
     <%= form_with url: onboarding_find_friends_path, method: :post, data: { turbo_frame: "onboarding_step" } do %>
       <div class="mb-4">

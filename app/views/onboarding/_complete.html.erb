@@ -1,12 +1,17 @@
 <% content_for :hide_navbar, true %>
+<% content_for :hide_flash, true %>
 
 <div class="d-flex vh-100 justify-content-center align-items-center" style="background-color: white;">
-  <div class="rounded-4 p-4 shadow-lg text-center" style="backdrop-filter: blur(50px); max-width: 600px; min-width: 450px; width: 90%; color: black; height: 420px; background-color: rgba(255,255,255,0.8);">
-    <h1 class="archivo-black fw-bold fs-3 pt-2 mb-4">You're all set!</h1>
-    <p class="archivo fs-6 text-secondary" style="font-weight: 300;">Your preferences have been saved and will be applied to all your trips.</p>
-    <%= link_to "Plan my trip →", root_path, data: { turbo: false }, class: "btn btn-secondary rounded-pill archivo mt-5 mb-2", style: "width: 150px; font-weight: 600; font-size: 18px" %>
-    <div class="progress mt-5" style="height: 8px; border-radius: 4px;">
-      <div class="progress-bar" style="width: 100%; background-color: #798645;"></div>
+  <div class="rounded-4 p-4 shadow-lg text-center d-flex flex-column justify-content-between" style="backdrop-filter: blur(50px); max-width: 600px; min-width: 550px; width: 90%; color: black; height: 420px; background-color: rgba(255,255,255,0.8);">
+    <div>
+      <h1 class="archivo-black fw-bold fs-3 pt-2 mb-4">You're all set!</h1>
+      <p class="archivo fs-6 text-secondary" style="font-weight: 300;">Your preferences have been saved and will be applied to all your trips.</p>
+    </div>
+    <div>
+      <%= link_to "Plan my trip →", root_path, data: { turbo: false }, class: "btn btn-secondary rounded-pill archivo mt-5 mb-2", style: "width: 150px; font-weight: 600; font-size: 18px" %>
+      <div class="progress mt-4" style="height: 8px; border-radius: 4px;">
+        <div class="progress-bar" style="width: 100%; background-color: #798645;"></div>
+      </div>
     </div>
   </div>
 </div>
