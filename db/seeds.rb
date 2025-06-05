@@ -5,11 +5,12 @@ ActivityReview.destroy_all
 TripActivity.destroy_all
 TripUser.destroy_all
 Preference.destroy_all
+Friendship.destroy_all   # 👈 this is the key one
 Activity.destroy_all
 Subcategory.destroy_all
 Category.destroy_all
 Trip.destroy_all
-User.delete_all
+User.destroy_all
 ActiveRecord::Base.connection.reset_pk_sequence!('users')
 
 puts "Seeding..."
