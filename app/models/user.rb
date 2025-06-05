@@ -11,7 +11,7 @@ class User < ApplicationRecord
 
   validates :username, presence: true, uniqueness: true
 
-  has_many :friendships
+  has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships, source: :friend
 
   has_many :inverse_friendships, class_name: 'Friendship', foreign_key: 'friend_id'

@@ -1,0 +1,30 @@
+<div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-light text-dark">
+      <div class="modal-header">
+        <h5 class="modal-title" id="feedbackModalLabel">Give Feedback</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <%= form_with url: feedbacks_path, method: :post, local: true do |f| %>
+          <div class="mb-3">
+            <%= f.label :name, "Your Name", class: "form-label" %>
+            <%= f.text_field :name, class: "form-control", required: true, "pattern" => "[A-Za-z ]{2,}", title: "Name must contain only letters and be at least 2 characters long." %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :email, "Your Email", class: "form-label" %>
+            <%= f.email_field :email, class: "form-control", required: true, placeholder: "example@domain.com" %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :message, "Feedback", class: "form-label" %>
+            <%= f.text_area :message, class: "form-control", rows: 4, required: true, minlength: 10, title: "Feedback must be at least 10 characters long.", placeholder: "Write your feedback here..." %>
+          </div>
+          <div class="modal-footer px-0">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <%= f.submit "Send", class: "btn btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
