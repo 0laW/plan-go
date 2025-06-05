@@ -57,7 +57,7 @@
                 <span class="button-text">Plan my trip →</span>
                 <span class="spinner-border spinner-border-sm d-none" id="trip-spinner" role="status" aria-hidden="true"></span>
               </button>
-              <%= link_to "Edit trip preferences", "#", class: "archivo text-black text-decoration-none border-bottom border-0 border-black mt-3", style: "font-size: 14px; font-weight: 300;", data: { turbo: false }, onmouseover: "this.style.borderBottom='2px solid black'", onmouseout: "this.style.borderBottom='0'" %>
+              <%= link_to "Edit trip preferences", onboarding_steps_path(step: "interests"), class: "archivo text-black text-decoration-none border-bottom border-0 border-black mt-3", style: "font-size: 14px; font-weight: 300; text-decoration: none;", data: { turbo: false }, onmouseover: "this.style.borderBottom='2px solid black'", onmouseout: "this.style.borderBottom='0'" %>
             </div>
           </div>
         </div>

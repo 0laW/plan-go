@@ -18,6 +18,30 @@
 
       <div class="form-inputs" style="">
         <div class="form-floating mb-3">
+          <%= f.email_field :first_name,
+                      class: "form-control",
+                      id: "floatingFirstName",
+                      placeholder: "First name",
+                      required: true,
+                      autofocus: true,
+                      input_html: { autocomplete: "first_name" }%>
+          <%= f.label :first_name, "First Name", for: "floatingfirstname" %>
+        </div>
+
+      <div class="form-inputs" style="">
+        <div class="form-floating mb-3">
+          <%= f.email_field :last_name,
+                      class: "form-control",
+                      id: "floatingLastName",
+                      placeholder: "Last name",
+                      required: true,
+                      autofocus: true,
+                      input_html: { autocomplete: "last_name" }%>
+          <%= f.label :last_name, "Last Name", for: "floatinglastname" %>
+        </div>  
+
+      <div class="form-inputs" style="">
+        <div class="form-floating mb-3">
           <%= f.email_field :email,
                       class: "form-control",
                       id: "floatingEmail",
