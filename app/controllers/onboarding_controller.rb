@@ -46,13 +46,8 @@ class OnboardingController < ApplicationController
   end
 
   def save_style_and_personality
-    redirect_to onboarding_steps_path(step: "friends")
-  end
-
-  def save_friends
     redirect_to onboarding_steps_path(step: "complete")
   end
-
 
   def find_friends
     if params[:username].present?

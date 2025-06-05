@@ -150,23 +150,10 @@ categories_with_subs = [
       "Beauty Salons"
     ]
   },
-  {
-    name: "Preferences",
-    subcategories: [
-      "Walking",
-      "Cycling",
-      "E-Bike / Scooter",
-      "Tram",
-      "Bus",
-      "Train",
-      "Metro",
-      "Early Riser",
-      "Night Owl",
-      "Breakfast Lover",
-      "Healthy Eater"
-    ]
-  }
 ]
+
+
+
 category_records = categories_with_subs.map do |cat|
   category = Category.create!(name: cat[:name]) # name includes emoji!
   cat[:subcategories].each do |sub_name|

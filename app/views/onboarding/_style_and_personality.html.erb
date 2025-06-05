@@ -1,31 +1,36 @@
 <% content_for :hide_navbar, true %>
+<% content_for :hide_flash, true %>
 
 <div class="d-flex vh-100 justify-content-center align-items-center" style="background-color: white;">
-    <div class="bg-white bg-opacity-75 rounded-4 p-4 shadow-lg text-center" style="backdrop-filter: blur(50px); max-width: 600px;  min-width: 450px; width: 90%; color: black; height: 420px;">
-      <h1 class="archivo-black fw-bold fs-3 mb-4">What's your travel style?</h1>
+    <div class="bg-white bg-opacity-75 rounded-4 p-4 shadow-lg text-center" style="backdrop-filter: blur(50px); max-width: 600px;  min-width: 550px; width: 90%; color: black; height: 420px;">
+      <h1 class="archivo-black fw-bold fs-3 mb-4">Tell us more about yourself</h1>
 
-      <%= form_with url:  onboarding_save_style_and_personality_path, method: :post, data: { turbo_frame: "onboarding_step" } do %>
-        <div class="overflow-auto" style="max-height: 60vh;">
-          <h5 class="archivo-black mt-3">Style</h5>
-          <div class="d-flex flex-wrap gap-2 justify-content-center mb-5">
-            <% @style_subcategories.each do |subcat| %>
-              <%= check_box_tag "style_subcategory_ids[]", subcat.id, false, class: "btn-check", id: "style_subcat_#{subcat.id}", autocomplete: "off" %>
-              <%= label_tag "style_subcat_#{subcat.id}", subcat.name, class: "btn-outline-custom rounded-pill px-4 py-2 archivo fw-semibold" %>
-            <% end %>
-          </div>
+      <% categories = [
+        { name: "I prefer to get around by...", subcategories: ["Walking", "Cycling", "E-Bike / Scooter", "Tram", "Bus", "Train", "Metro"] },
+        { name: "In a day I can walk for...", subcategories: [">30mins", "30-60mins", "1-2hrs", "2-3hrs", "+3hrs"] },
+        { name: "I wake up at...", subcategories: ["05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00"] },
+        { name: "I go to bed at...", subcategories: ["19:00", "20:00", "21:00", "22:00", "23:00", "24:00", "01:00", "02:00", "No bed time"] },
+        { name: "Special Requirements", subcategories: ["Wheelchair Accessible", "Pet Friendly", "Family Friendly", "LGBTQ+ Friendly", "Vegan", "Vegetarian", "Halal"] },
+      ] %>
 
-          <h5 class="archivo-black mt-3">Personality</h5>
-          <div class="d-flex flex-wrap gap-2 justify-content-center">
-            <% @personality_subcategories.each do |subcat| %>
-              <%= check_box_tag "personality_subcategory_ids[]", subcat.id, false, class: "btn-check", id: "personality_subcat_#{subcat.id}", autocomplete: "off" %>
-              <%= label_tag "personality_subcat_#{subcat.id}", subcat.name, class: "btn-outline-custom rounded-pill px-4 py-2 archivo fw-semibold" %>
-            <% end %>
-          </div>
+      <%= form_with url: onboarding_save_style_and_personality_path, method: :post, data: { turbo_frame: "onboarding_step" } do %>
+        <div class="overflow-auto custom-scrollbar" style="max-height: 174px;">
+          <% categories.each_with_index do |category, cat_idx| %>
+            <h5 class="archivo-black mt-3"><%= category[:name] %></h5>
+            <div class="d-flex flex-wrap gap-2 justify-content-center mb-5">
+              <% category[:subcategories].each_with_index do |subcat, sub_idx| %>
+                <% input_id = "subcat_#{cat_idx}_#{sub_idx}" %>
+                <%= check_box_tag "subcategory_names[]", "#{category[:name]}:#{subcat}", false, class: "btn-check", id: input_id, autocomplete: "off" %>
+                <%= label_tag input_id, subcat, class: "btn-outline-custom rounded-pill px-4 py-2 archivo fw-semibold" %>
+              <% end %>
+            </div>
+          <% end %>
         </div>
+
 
         <div class="d-flex gap-3 justify-content-center", style="margin-top: 10px">
           <%= link_to "← Back", onboarding_steps_path(step: "sub_interests"), data: { turbo_frame: "onboarding_step" }, class: "btn btn-light rounded-pill archivo mt-5 mb-2", style: "width: 150px; font-weight: 600; font-size: 18px" %>
-          <%= submit_tag "Next →", class: "btn btn-secondary rounded-pill archivo mt-5 mb-2", style: "width: 150px; font-weight: 600; font-size: 18px" %>
+          <%= submit_tag "Finish →", class: "btn btn-secondary rounded-pill archivo mt-5 mb-2", style: "width: 150px; font-weight: 600; font-size: 18px" %>
         </div>
       <% end %>
 
