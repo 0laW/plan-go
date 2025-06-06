@@ -8,20 +8,15 @@ export default class extends Controller {
   connect() {
     this.map = window.mapInstance
     this.clearTimer = null
-    window.userMarkers = window.userMarkers || []
-    window.locationMarkers = window.locationMarkers || []
+    window.userMarkers = []
+    window.locationMarkers = []
 
     if (this.map) {
       this.initGeocoder()
       this.hideGeocoderInput()
     }
 
-    this.inputTarget.addEventListener("input", () => {
-      this.clearMarkers(window.userMarkers)
-      window.userMarkers.length = 0
-      this.clearMarkers(window.locationMarkers)
-      window.locationMarkers.length = 0
-    })
+    this.inputTarget.addEventListener("input", () => this.clearAllMarkers())
 
     this.inputTarget.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
@@ -33,37 +28,52 @@ export default class extends Controller {
         }
       }
     })
+    window.addEventListener('map:updateMarkers', this.handleUpdateMarkers.bind(this))
   }
+
+  handleUpdateMarkers(event) {
+  const markersData = event.detail.markers
+  if (!markersData || !Array.isArray(markersData)) return
+
+  this.clearAllMarkers()
+
+  markersData.forEach(markerData => {
+    const popup = new mapboxgl.Popup({ closeButton: false }).setHTML(markerData.info_window_html)
+
+    const customMarker = document.createElement("div")
+    customMarker.innerHTML = markerData.marker_html
+
+    const marker = new mapboxgl.Marker(customMarker)
+      .setLngLat([markerData.lng, markerData.lat])
+      .setPopup(popup)
+      .addTo(this.map)
+
+    window.userMarkers.push(marker)
+  })
+}
 
   initGeocoder() {
     this.geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
       flyTo: true,
-      marker: false // We'll use our own custom marker
+      marker: false
     })
 
     this.map.addControl(this.geocoder)
 
     this.geocoder.on("result", (e) => {
-      this.clearMarkers(window.locationMarkers)
-      window.locationMarkers.length = 0
-
       const coords = e.result.center
-
       const el = document.createElement("div")
       el.className = "custom-marker"
       el.innerHTML = `<i class="fas fa-map-marker-alt fa-2x" style="color: #3b82f6;"></i>`
 
-      const locationMarker = new mapboxgl.Marker(el)
-        .setLngLat(coords)
-        .addTo(this.map)
+      this.clearAllMarkers()
 
-      window.locationMarkers.push(locationMarker)
+      const marker = new mapboxgl.Marker(el).setLngLat(coords).addTo(this.map)
+      window.locationMarkers.push(marker)
 
-      // Clear user markers too
-      this.clearMarkers(window.userMarkers)
-      window.userMarkers.length = 0
+      this.clearUserUI()
     })
   }
 
@@ -72,76 +82,96 @@ export default class extends Controller {
     if (geocoderEl) geocoderEl.style.display = "none"
   }
 
-  handleSearch(query) {
-    clearTimeout(this.clearTimer)
-    this.clearTimer = setTimeout(() => {
-      this.inputTarget.value = ""
-    }, 60000)
+ handleSearch(query) {
+  this.clearAllMarkers()
+  clearTimeout(this.clearTimer)
 
-    this.clearMarkers(window.userMarkers)
-    window.userMarkers.length = 0
-    this.clearMarkers(window.locationMarkers)
-    window.locationMarkers.length = 0
+  this.clearTimer = setTimeout(() => {
+    this.inputTarget.value = ""
+    this.clearUserUI()
+  }, 60000)
 
-    fetch(`/users/search_users?username=${encodeURIComponent(query)}`)
-      .then(res => res.ok ? res.json() : null)
-      .then(data => {
-        const infoBox = document.getElementById("user-info-box")
-        if (!data) {
-          if (infoBox) infoBox.innerHTML = ""
-          this.fallbackToGeocoder(query)
-          return
-        }
+  this.tryUsernameSearch(query)
+}
 
-        if (data.center) {
-          this.map.flyTo({ center: data.center, zoom: 6 })
-        }
-
-        data.markers.forEach(markerData => {
-          const popup = new mapboxgl.Popup({closeButton: false}).setHTML(markerData.info_window_html)
-
-          const customMarker = document.createElement("div")
-          customMarker.innerHTML = markerData.marker_html
-
-          const marker = new mapboxgl.Marker(customMarker)
-            .setLngLat([markerData.lng, markerData.lat])
-            .setPopup(popup)
-            .addTo(this.map)
-
-          window.userMarkers.push(marker)
-        })
-
-        if (infoBox) {
-          infoBox.innerHTML = data.user_info_box_html || "<p class='text-muted'>No user info available.</p>"
-        }
-      })
-      .catch(err => {
-        console.error("Unexpected error during search:", err)
+tryUsernameSearch(query) {
+  fetch(`/users/search_users?username=${encodeURIComponent(query)}`)
+    .then(res => (res.ok ? res.json() : null))
+    .then(data => {
+      if (!data) {
+        this.clearUserUI()
         this.fallbackToGeocoder(query)
-      })
+        return
+      }
+
+      this.displayUserData(data)
+    })
+    .catch(err => {
+      console.error("Search error:", err)
+      this.clearUserUI()
+      this.fallbackToGeocoder(query)
+    })
+}
+
+displayUserData(data) {
+  if (data.center && this.map) {
+    this.map.flyTo({ center: data.center, zoom: 6 })
+  }
+
+  this.clearMarkers(this.userMarkers)
+  this.userMarkers = []
+
+  data.markers.forEach(markerData => {
+    const popup = new mapboxgl.Popup({ closeButton: false }).setHTML(markerData.info_window_html)
+
+    const customMarker = document.createElement("div")
+    customMarker.innerHTML = markerData.marker_html
+
+    const marker = new mapboxgl.Marker(customMarker)
+      .setLngLat([markerData.lng, markerData.lat])
+      .setPopup(popup)
+      .addTo(this.map)
+
+    this.userMarkers.push(marker)
+  })
+
+  const infoBox = document.getElementById("user-info-box")
+  if (infoBox) {
+    infoBox.innerHTML = data.user_info_box_html || ""
+    infoBox.style.display = "block"
+  }
+
+  const mapContainer = document.getElementById("map-container")
+  if (mapContainer) mapContainer.classList.add("shrunk")
+}
+
+  clearUserUI() {
+    const infoBox = document.getElementById("user-info-box")
+    const mapContainer = document.getElementById("map-container")
+    if (infoBox) infoBox.innerHTML = ""
+    if (mapContainer) mapContainer.classList.remove("shrunk")
   }
 
   fallbackToGeocoder(query) {
-    if (!this.geocoder || typeof this.geocoder.query !== "function") {
-      console.warn("Geocoder not available or not ready.")
-      return
-    }
+    if (!this.geocoder || typeof this.geocoder.query !== "function") return
 
-    this.clearMarkers(window.userMarkers)
-    window.userMarkers.length = 0
-    this.clearMarkers(window.locationMarkers)
-    window.locationMarkers.length = 0
-
+    this.clearAllMarkers()
     try {
       this.geocoder.query(query)
     } catch (err) {
-      console.error("Fallback geocoder query failed:", err)
+      console.error("Geocoder failed:", err)
     }
   }
 
-  clearMarkers(markerArray) {
-    if (Array.isArray(markerArray)) {
-      markerArray.forEach(marker => marker.remove())
-    }
+  clearAllMarkers() {
+    this.clearMarkers(window.userMarkers)
+    this.clearMarkers(window.locationMarkers)
+    window.userMarkers = []
+    window.locationMarkers = []
+  }
+
+  clearMarkers(markers) {
+    if (!Array.isArray(markers)) return
+    markers.forEach(marker => marker.remove())
   }
 }

@@ -1,4 +1,21 @@
 class User < ApplicationRecord
+  AVATAR_URLS = [
+    "https://res.cloudinary.com/dpekautsm/image/upload/v1748946312/duck_uzatea.png",
+    "https://res.cloudinary.com/dpekautsm/image/upload/v1748946487/giraffe_iz6dir.png",
+    "https://res.cloudinary.com/dpekautsm/image/upload/v1748946487/panda-bear_k5x6yb.png",
+    "https://res.cloudinary.com/dpekautsm/image/upload/v1748946488/dragon_vsob23.png",
+    "https://res.cloudinary.com/dpekautsm/image/upload/v1748946488/penguin_selpzx.png",
+    "https://res.cloudinary.com/dpekautsm/image/upload/v1748946488/dog_v3wmnw.png",
+    "https://res.cloudinary.com/dpekautsm/image/upload/v1748946488/jaguar_atrb2w.png",
+    "https://res.cloudinary.com/dpekautsm/image/upload/v1748946488/hippopotamus_jbd2vd.png",
+    "https://res.cloudinary.com/dpekautsm/image/upload/v1748946493/bear_pt8nwf.png",
+    "https://res.cloudinary.com/dpekautsm/image/upload/v1748946493/koala_zt8cxo.png",
+    "https://res.cloudinary.com/dpekautsm/image/upload/v1748947149/goat_jmp9oi.png",
+    "https://res.cloudinary.com/dpekautsm/image/upload/v1748947148/wolf_ydwzua.png"
+  ]
+
+  before_create :assign_random_avatar
+
   has_many :preferences
   has_many :trips
 
@@ -53,5 +70,10 @@ class User < ApplicationRecord
     when 35..42 then "Nomad"
     else "World Conqueror"
     end
+  end
+
+  private
+  def assign_random_avatar
+    self.user_image_url ||= AVATAR_URLS.sample
   end
 end

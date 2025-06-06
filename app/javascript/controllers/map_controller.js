@@ -26,6 +26,16 @@ export default class extends Controller {
       this.#initializeMarkers()
       this.#maybeAddGeocoder()
     })
+    window.addEventListener('map:updateMarkers', (event) => {
+    const markers = event.detail.markers
+    this.updateMarkers(markers)
+  })
+}
+
+  updateMarkers(newMarkers) {
+    this.markersValue = newMarkers
+    this.#addMarkersToMap()
+    this.#fitMapToMarkers()
   }
 
   #initializeMarkers() {
@@ -63,26 +73,35 @@ export default class extends Controller {
     }
   }
 
-  #addMarkersToMap() {
-    this.markersValue.forEach((marker) => {
-      const popup = new mapboxgl.Popup({ closeButton: false }).setHTML(marker.info_window_html)
+#addMarkersToMap() {
+  // Clear existing user markers if you’re tracking them
+  if (!this.userMarkers) this.userMarkers = []
+  this.userMarkers.forEach(marker => marker.remove())
+  this.userMarkers = []
 
-      popup.on("open", () => {
-        if (this.currentPopup && this.currentPopup.isOpen()) {
-          this.currentPopup.remove()
-        }
-        this.currentPopup = popup
-      })
+  this.markersValue.forEach((marker) => {
+    if (!marker || !marker.lat || !marker.lng) return
 
-      const customMarker = document.createElement("div")
-      customMarker.innerHTML = marker.marker_html
+    const popup = new mapboxgl.Popup({ closeButton: false }).setHTML(marker.info_window_html)
 
-      new mapboxgl.Marker(customMarker)
-        .setLngLat([marker.lng, marker.lat])
-        .setPopup(popup)
-        .addTo(this.map)
+    popup.on("open", () => {
+      if (this.currentPopup && this.currentPopup.isOpen()) {
+        this.currentPopup.remove()
+      }
+      this.currentPopup = popup
     })
-  }
+
+    const customMarker = document.createElement("div")
+    customMarker.innerHTML = marker.marker_html || '<div class="default-marker" style="width: 20px; height: 20px; background: red;"></div>'
+
+    const mapboxMarker = new mapboxgl.Marker(customMarker)
+      .setLngLat([marker.lng, marker.lat])
+      .setPopup(popup)
+      .addTo(this.map)
+
+    this.userMarkers.push(mapboxMarker)
+  })
+}
 
   #fitMapToMarkers() {
     const bounds = new mapboxgl.LngLatBounds()
