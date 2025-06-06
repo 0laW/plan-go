@@ -6,7 +6,7 @@ class OnboardingController < ApplicationController
 
     case @onboarding_step
     when "interests"
-      @categories = Category.all
+      @categories = Category.order(:name)
     when "sub_interests"
       @selected_category_ids = session[:selected_category_ids] || []
       @subcategories = Subcategory.where(category_id: @selected_category_ids)
