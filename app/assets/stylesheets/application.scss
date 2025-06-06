@@ -58,3 +58,7 @@ button:focus {
   box-shadow: none !important;
   outline: none !important;
 }
+
+.mapboxgl-ctrl-geocoder--suggestions {
+  display: none !important;
+}

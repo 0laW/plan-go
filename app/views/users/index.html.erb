@@ -1,64 +1,125 @@
-<div class="container py-4" style="max-width: 100%;">
-  <!-- Search Bar -->
-  <div data-controller="search" class="mb-3 px-3 search-bar-wrapper">
-    <div class="input-group search-bar-inner">
-      <%= text_field_tag :username, nil,
-        placeholder: "Search by place or friend",
-        class: "form-control rounded-start",
-        data: { search_target: "input" },
-        autocomplete: "off" %>
+<!-- app/views/your_controller/index.html.erb -->
 
-      <%= button_tag "Search",
-        type: "button",
-        class: "btn btn-primary rounded-end",
-        style: "background-color: #798645; border-color: #798645;",
-        data: { action: "click->search#handleSearch" } %>
+<!-- Map Wrapper Container -->
+<div id="map-wrapper" class="m-5">
+
+  <div id="map-container" class="d-flex position-relative">
+
+    <!-- Search Bar (locked top-left) -->
+    <div
+      data-controller="search"
+      class="position-absolute search-bar">
+      <div class="input-group">
+        <%= text_field_tag :username, nil,
+          placeholder: "Search by place or friend",
+          class: "form-control rounded-start",
+          autocomplete: "off",
+          data: { search_target: "input" } %>
+
+        <%= button_tag "Search",
+          type: "button",
+          class: "btn btn-primary rounded-end btn-search",
+          data: { action: "click->search#handleSearch" } %>
+      </div>
     </div>
-  </div>
 
-  <!-- Flex layout: Map on left, Info card on right -->
-  <div class="d-flex flex-row px-3" id="map-and-info" style="gap: 1.5rem; flex-wrap: wrap;">
-    <!-- Map -->
+    <!-- The Actual Map -->
     <div
       id="map"
-      class="flex-grow-1 shadow-sm"
-      style="height: 550px; border-radius: 16px; overflow: hidden; transition: width 0.3s ease;"
+      class="shadow-sm"
       data-controller="map"
       data-map-api-key-value="<%= ENV['MAPBOX_API_KEY'] %>"
       data-map-markers-value="<%= @markers.to_json %>">
     </div>
 
-    <!-- User Info Box -->
-    <div id="user-info-box" style="width: 320px;"></div>
+    <!-- User Info Box (hidden by default) -->
+    <div id="user-info-box">
+      <!-- Content replaced dynamically -->
+    </div>
   </div>
+
 </div>
 
+<!-- Custom Styles -->
 <style>
-  .search-bar-inner {
-    max-width: 400px;
+ #map-wrapper {
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border: 1px solid #ddd;
+  padding: 12px;
+  max-width: 100%;
+}
+
+#map-container {
+  display: flex;
+  width: 100%;
+  height: 550px;
+  position: relative;
+  gap: 20px; /* gap between map and info box */
+}
+
+.search-bar {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  width: 300px;
+}
+
+.btn-search {
+  background-color: #798645;
+  border-color: #798645;
+}
+
+#map {
+  flex-grow: 1;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: width 0.3s ease;
+}
+
+#user-info-box {
+  width: 320px;
+  height: 100%;
+  overflow-y: auto;
+  border-radius: 16px;
+  display: none; /* hidden by default */
+  flex-shrink: 0; /* prevent shrinking */
+}
+
+#map-container.shrunk #user-info-box {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  #map-wrapper {
+    padding: 8px;
+    border-radius: 12px;
+  }
+
+  #map-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  #map {
+    height: 400px;
+    border-radius: 12px;
+  }
+
+  #user-info-box {
     width: 100%;
+    height: auto;
+    display: block !important;
+    margin-top: 1rem;
   }
 
-  @media (max-width: 768px) {
-    #map-and-info {
-      flex-direction: column !important;
-      align-items: center !important;
-    }
-
-    #map {
-      width: 100% !important;
-      max-width: 100% !important;
-    }
-
-    #user-info-box {
-      width: 100% !important;
-      max-width: 320px;
-      margin-top: 1rem;
-    }
-
-    .search-bar-wrapper {
-      display: flex;
-      justify-content: center;
-    }
+  .search-bar {
+    position: relative;
+    width: 100%;
+    margin-bottom: 1rem;
+    left: auto;
+    top: auto;
   }
+}
 </style>
