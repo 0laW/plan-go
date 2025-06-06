@@ -1228,65 +1228,66 @@ end
 trip_countries = country_activities.keys
 trip_records = []
 
+# Build a big list of all city-country pairs
+all_city_country_pairs = []
+trip_countries.each do |country|
+  country_activities[country].keys.each do |city|
+    all_city_country_pairs << [country, city]
+  end
+end
+
+# Shuffle for randomness
+all_city_country_pairs.shuffle!
+
 user_records.each do |user|
-  # Pick 3 *random* countries per user
-  visited_countries = trip_countries.shuffle.take(3)
+  # Pick 5 unique cities per user
+  user_cities = all_city_country_pairs.sample(5)
 
-  visited_countries.each do |country|
-    cities = country_activities[country].keys
+  user_cities.each do |country, city|
+    city_activities = country_activities[country][city]
 
-    # Pick 3 *random* cities per country
-    visited_cities = cities.shuffle.take(3)
+    start_date = Date.today - rand(60..120)
+    end_date = start_date + rand(5..15)
+    budget = %w[low medium high].sample
 
-    visited_cities.each do |city|
-      city_activities = country_activities[country][city]
+    trip = Trip.create!(
+      start_date: start_date,
+      end_date: end_date,
+      location: "#{city}, #{country}",
+      budget: budget,
+      user: user
+    )
 
-      start_date = Date.today - rand(60..120)
-      end_date = start_date + rand(5..15)
-      budget = %w[low medium high].sample
+    city_activities.each do |activity_attrs|
+      activity = Activity.find_by(name: activity_attrs[:name], location: city)
+      next unless activity
 
-      trip = Trip.create!(
-        start_date: start_date,
-        end_date: end_date,
-        location: "#{city}, #{country}",
-        budget: budget,
-        user: user
+      TripActivity.create!(
+        trip: trip,
+        activity: activity,
+        start_time: start_date.to_datetime + rand(9..17).hours,
+        end_time: start_date.to_datetime + rand(18..22).hours
       )
-
-      # Associate activities with the trip
-      city_activities.each do |activity_attrs|
-        activity = Activity.find_by(name: activity_attrs[:name], location: city)
-        next unless activity
-
-        TripActivity.create!(
-          trip: trip,
-          activity: activity,
-          start_time: start_date.to_datetime + rand(9..17).hours,
-          end_time: start_date.to_datetime + rand(18..22).hours
-        )
-      end
-
-      # Estimate trip lat/lon
-      lat, lon = avg_lat_lon(city_activities.map { |a| Activity.find_by(name: a[:name], location: city) }.compact)
-      trip.update(latitude: lat, longitude: lon) if lat && lon
-
-      # Add a few reviews from this user
-      review_count = [city_activities.size, 3].min
-      city_activities.first(review_count).each do |activity_attrs|
-        activity = Activity.find_by(name: activity_attrs[:name], location: city)
-        next unless activity
-
-        ActivityReview.create!(
-          activity: activity,
-          user: user,
-          rating: rand(3.0..5.0).round(1),
-          comment: ["Great experience!", "Highly recommend!", "Loved it!", "Would do it again!", "Amazing!"].sample,
-          date: trip.start_date + rand(0..(trip.end_date - trip.start_date).to_i)
-        )
-      end
-
-      trip_records << trip
     end
+
+    lat, lon = avg_lat_lon(city_activities.map { |a| Activity.find_by(name: a[:name], location: city) }.compact)
+    trip.update(latitude: lat, longitude: lon) if lat && lon
+
+    review_count = [city_activities.size, 3].min
+    city_activities.first(review_count).each do |activity_attrs|
+      activity = Activity.find_by(name: activity_attrs[:name], location: city)
+      next unless activity
+
+      ActivityReview.create!(
+        activity: activity,
+        user: user,
+        rating: rand(3.0..5.0).round(1),
+        comment: ["Great experience!", "Highly recommend!", "Loved it!", "Would do it again!", "Amazing!"].sample,
+        date: trip.start_date + rand(0..(trip.end_date - trip.start_date).to_i)
+      )
+    end
+
+    trip_records << trip
   end
 end
 

@@ -1,118 +1,90 @@
-// map_controller.js
 import { Controller } from "@hotwired/stimulus"
 import mapboxgl from "mapbox-gl"
-import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder"
 
 export default class extends Controller {
   static values = {
-    apiKey: String,
-    markers: { type: Array, default: [] }
+    apiKey: String
   }
 
   connect() {
     mapboxgl.accessToken = this.apiKeyValue
+
+    this.markers = []
     this.currentPopup = null
 
     this.map = new mapboxgl.Map({
       container: this.element,
       style: "mapbox://styles/mapbox/streets-v12",
-      center: [2.2137, 46.2276], // Default: France center
+      center: [2.2137, 46.2276], // France center
       zoom: 4
     })
 
     window.mapInstance = this.map
 
     this.map.on("load", () => {
-      this.#initializeMarkers()
-      this.#maybeAddGeocoder()
+      // No initial markers, wait for search events
     })
-    window.addEventListener('map:updateMarkers', (event) => {
-    const markers = event.detail.markers
-    this.updateMarkers(markers)
-  })
-}
 
-  updateMarkers(newMarkers) {
-    this.markersValue = newMarkers
-    this.#addMarkersToMap()
-    this.#fitMapToMarkers()
+    window.addEventListener("map:updateMarkers", (event) => {
+      const { markers, skipFitBounds = false } = event.detail
+      this.updateMarkers(markers, skipFitBounds)
+    })
   }
 
-  #initializeMarkers() {
-    // Parse markers if needed
-    if (typeof this.markersValue === "string") {
-      try {
-        this.markersValue = JSON.parse(this.markersValue)
-      } catch (e) {
-        console.error("Invalid JSON for markers", e)
-        this.markersValue = []
-      }
+  updateMarkers(markers, skipFitBounds = false) {
+    // Clear old markers
+    this.clearMarkers()
+
+    if (!markers || markers.length === 0) {
+      if (!skipFitBounds) this.resetMapView()
+      return
     }
 
-    if (!this.markersValue || this.markersValue.length === 0) {
-      this.map.setCenter([2.2137, 46.2276]) // fallback center France
-      this.map.setZoom(4)
-    } else {
-      this.#addMarkersToMap()
-      this.#fitMapToMarkers()
-    }
-  }
+    markers.forEach(m => {
+      if (typeof m.lng !== "number" || typeof m.lat !== "number") return
 
-  #maybeAddGeocoder() {
-    try {
-      this.geocoder = new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        mapboxgl: mapboxgl,
-        marker: false,
-        placeholder: "Search for a place..."
+      const popup = new mapboxgl.Popup({ closeButton: false })
+        .setHTML(m.info_window_html || "")
+
+      popup.on("open", () => {
+        if (this.currentPopup && this.currentPopup.isOpen()) {
+          this.currentPopup.remove()
+        }
+        this.currentPopup = popup
       })
 
-      this.map.addControl(this.geocoder)
-    } catch (error) {
-      console.warn("⚠️ Geocoder failed to initialize:", error)
-    }
+      const el = document.createElement("div")
+      el.innerHTML = m.marker_html || `<div style="width:20px;height:20px;background:#798645;border-radius:50%;"></div>`
+
+      const marker = new mapboxgl.Marker(el)
+        .setLngLat([m.lng, m.lat])
+        .setPopup(popup)
+        .addTo(this.map)
+
+      this.markers.push(marker)
+    })
+
+    if (!skipFitBounds) this.fitBoundsToMarkers()
   }
 
-#addMarkersToMap() {
-  // Clear existing user markers if you’re tracking them
-  if (!this.userMarkers) this.userMarkers = []
-  this.userMarkers.forEach(marker => marker.remove())
-  this.userMarkers = []
+  clearMarkers() {
+    this.markers.forEach(m => m.remove())
+    this.markers = []
+  }
 
-  this.markersValue.forEach((marker) => {
-    if (!marker || !marker.lat || !marker.lng) return
+  fitBoundsToMarkers() {
+    if (this.markers.length === 0) {
+      this.resetMapView()
+      return
+    }
 
-    const popup = new mapboxgl.Popup({ closeButton: false }).setHTML(marker.info_window_html)
-
-    popup.on("open", () => {
-      if (this.currentPopup && this.currentPopup.isOpen()) {
-        this.currentPopup.remove()
-      }
-      this.currentPopup = popup
-    })
-
-    const customMarker = document.createElement("div")
-    customMarker.innerHTML = marker.marker_html || '<div class="default-marker" style="width: 20px; height: 20px; background: red;"></div>'
-
-    const mapboxMarker = new mapboxgl.Marker(customMarker)
-      .setLngLat([marker.lng, marker.lat])
-      .setPopup(popup)
-      .addTo(this.map)
-
-    this.userMarkers.push(mapboxMarker)
-  })
-}
-
-  #fitMapToMarkers() {
     const bounds = new mapboxgl.LngLatBounds()
-    this.markersValue.forEach(marker => {
-      bounds.extend([marker.lng, marker.lat])
-    })
+    this.markers.forEach(m => bounds.extend(m.getLngLat()))
+    this.map.fitBounds(bounds, { padding: 60, maxZoom: 12 })
+  }
 
-    this.map.fitBounds(bounds, {
-      padding: 70,
-      maxZoom: 15,
-      duration: 0
-    })
+  resetMapView() {
+    this.map.setCenter([2.2137, 46.2276])
+    this.map.setZoom(4)
   }
 }
