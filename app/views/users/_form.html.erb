@@ -1,8 +1,8 @@
 <turbo-frame id="user_profile_<%= @user.id %>">
   <%= form_with(model: user, local: false) do |form| %>
-    <div class="mb-3" style="max-width: 600px; margin: auto;  width: 100%; margin: auto; padding: 40px;">
+    <div class="mb-3" style="max-width: 600px; margin: auto;  width: 100%; padding: 8px">
 
-      <div class="row row-cols-5 g-2 mb-2"">
+      <div class="row row-cols-5 g-2 mb-2">
         <% avatar_urls = [
           "https://res.cloudinary.com/dpekautsm/image/upload/v1748946312/duck_uzatea.png",
           "https://res.cloudinary.com/dpekautsm/image/upload/v1748946487/giraffe_iz6dir.png",
@@ -32,18 +32,19 @@
           </button>
 
 
-
-          <ul class="dropdown-menu pb-3" aria-labelledby="avatarDropdown" style="min-width: 200px; width: 98.3%;">
-            <div class="row row-cols-3 g-2 align-items-center justify-content-center" style="width: 95%; margin: auto;">
-              <% avatar_urls.each do |url| %>
-                <div class="col d-flex justify-content-center align-items-center" style="height: 80px; width: 95px;">
-                  <a href="#" data-turbo="false" class="avatar-option" data-avatar-url="<%= url %>" style="display: inline-block; height: 60px">
-                    <img src="<%= url %>" alt="Avatar" style="width: 75px; height: 75px; border-radius: 50%; padding: 5px">
-                  </a>
-                </div>
-              <% end %>
+          <div>
+            <div class="dropdown-menu pb-3" aria-labelledby="avatarDropdown" style="min-width: 200px; width: 98.3%;">
+              <div class="row row-cols-3 g-2 align-items-center justify-content-center" style="width: 95%; margin: auto;">
+                <% avatar_urls.each do |url| %>
+                  <div class="col d-flex justify-content-center align-items-center" style="height: 80px; width: 95px;">
+                    <a href="#" data-turbo="false" class="avatar-option" data-avatar-url="<%= url %>" style="display: inline-block; height: 60px">
+                      <img src="<%= url %>" alt="Avatar" style="width: 75px; height: 75px; border-radius: 50%; padding: 5px">
+                    </a>
+                  </div>
+                <% end %>
+              </div>
             </div>
-          </ul>
+          </div>
           <%= form.hidden_field :user_image_url, value: selected_url, id: "avatarHiddenField" %>
         </div>
       </div>
@@ -79,20 +80,20 @@
       </div>
     </div>
   <% end %>
+
+  <script>
+    document.addEventListener("turbo:load", function() {
+      document.addEventListener('click', function(e) {
+        var option = e.target.closest('.avatar-option');
+        if (option) {
+          e.preventDefault();
+          var url = option.getAttribute('data-avatar-url');
+          var preview = document.getElementById('avatarPreview');
+          if (preview) preview.src = url;
+          var hidden = document.getElementById('avatarHiddenField');
+          if (hidden) hidden.value = url;
+        }
+      });
+    });
+  </script>
 </turbo-frame>
-
-<script>
-  document.addEventListener("turbo:load", function() {
-    document.body.addEventListener('click', function(e) {
-    if (e.target.closest('.avatar-option')) {
-      e.preventDefault();
-      var url = e.target.closest('.avatar-option').getAttribute('data-avatar-url');
-      var preview = document.getElementById('avatarPreview');
-      if (preview) preview.src = url;
-      var hidden = document.getElementById('avatarHiddenField');
-      if (hidden) hidden.value = url;
-    }
-  });
-
-  });
-</script>
