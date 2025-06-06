@@ -96,8 +96,15 @@ class AiItineraryGenerator
   end
 
   def parse_price_level(price_level_str)
-    return 0.0 unless price_level_str.respond_to?(:gsub)
-    price_level_str.gsub(/[^\d\.]/, '').to_f
+    return 5.0 unless price_level_str.respond_to?(:strip)
+
+    str = price_level_str.strip.downcase
+
+    return 0.0 if str == "free"
+    return 5.0 if str.match?(/^[£$€₹¥]$/)  # Only currency symbol, no number
+
+    num = str.gsub(/[^\d\.]/, '').to_f
+    num.zero? ? 5.0 : num
   end
 
   def format_price_level(amount, original_price_level_str)
@@ -183,7 +190,7 @@ class AiItineraryGenerator
       - activities are always grouped in 3's regarding the day that they are on (day 1 = 3 activities, day 2 = 3 activities ) so ensure that each 3 activities fall within 07:00 and 19:00 - and never have an activity in the same group of 3 clashing times.
       - a real location (with latitude and longitude)
       - a description (if it's a high budget input from the user, explain how the user can spend their money)
-      - a price level ($, $$, or $$$)
+      - a price level ($, $$, $$$)
       - an estimated price_level with currency symbol (rounded up to nearest pound). be smart about it, for example if somebody puts in budget 5000, don't just hike the estimated price_level up for a standard activity such as a trip to a park. Give niche things to do like expensive meals (Nusr-et for example) or specific expensive activities rather than just say Regents Park £300 for the day.
 
       Output the result as a valid JSON array of all activities, including a "day" field with values from 1 to #{days}.
