@@ -129,3 +129,14 @@ footer .accordion-button {
     font-size: 0.9rem;
   }
 }
+
+@media (max-width: 991.98px) {
+  .dropdown {
+    position: relative !important; /* ensure relative positioning */
+    z-index: 1050; /* higher than default */
+  }
+
+  .dropdown .badge {
+    z-index: 1060;
+  }
+}

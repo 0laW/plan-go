@@ -37,6 +37,8 @@ class User < ApplicationRecord
   has_many :trip_users
   has_many :participated_trips, through: :trip_users, source: :trip
 
+  has_many :notifications, dependent: :destroy
+
   def confirmed_friends
     friends = friendships.where(status: 'accepted').map(&:friend)
     inverse = inverse_friendships.where(status: 'accepted').map(&:user)

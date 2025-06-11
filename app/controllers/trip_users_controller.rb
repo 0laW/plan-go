@@ -13,6 +13,15 @@ class TripUsersController < ApplicationController
       render json: { error: "User already added" }, status: :unprocessable_entity and return
     end
 
+    trip_user = TripUser.create!(trip: trip, user: user)
+
+    render json: {
+      user_id: user.id,
+      username: user.username,
+      user_image_url: user.user_image_url
+    }, status: :ok
+  end
+
     trip.users << user
 
     render json: {

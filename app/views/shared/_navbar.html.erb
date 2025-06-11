@@ -1,76 +1,125 @@
+<% Rails.logger.debug "Current user: #{current_user&.id || 'none'}" %>
+
 <nav class="navbar fixed-top px-3 py-2 archivo-black" style="background-color: #FFF; box-shadow: 0 6px 12px rgba(80, 77, 74, 0.4);">
-  <div class="container-fluid">
-    <!-- Brand/Logo Section -->
-    <div class="d-flex align-items-center">
+  <div class="container-fluid d-flex align-items-center justify-content-between">
+
+    <% if user_signed_in? %>
+      <button class="navbar-toggler"
+              type="button"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvasNavbarLeft"
+              aria-controls="offcanvasNavbarLeft"
+              aria-label="Toggle navigation"
+              style="border:none; background:none;">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    <% else %>
+      <div style="width: 40px;"></div>
+    <% end %>
+
+    <div class="d-flex justify-content-center flex-grow-1">
       <%= link_to root_path, class: "navbar-brand archivo-black text-decoration-none d-flex align-items-center gap-2" do %>
         <%= image_tag "https://res.cloudinary.com/do2s320cj/image/upload/v1748448198/monkey_logo_q8aoke.png", alt: "Plan&Go Logo", style: "height: 35px;" %>
         <span class="fw-bold ps-2">Plan&Go</span>
       <% end %>
     </div>
 
-    <!-- Desktop Right Side: Account dropdown or Log In -->
-    <div class="d-none d-lg-flex align-items-center">
+    <div class="d-flex align-items-center gap-3">
       <% if user_signed_in? %>
-        <div class="dropdown" style="background-color: #FFF">
-          <button class="btn btn-link navbar-toggler archivo-black text-decoration-none"
-                  style="background:none;border:none;cursor:pointer;color:black;opacity:1;"
-                  type="button" data-bs-toggle="offcanvas" aria-expanded="false"
-                  data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"> </span>
+        <div class="dropdown">
+          <button class="btn position-relative dropdown-toggle"
+                  type="button"
+                  id="notificationsDropdown"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  style="background: none; border: none; box-shadow: none; outline: none;">
+            <i class="bi bi-bell" style="font-size: 1.5rem; color: black;"></i>
+            <% unread_count = current_user.notifications.where(read: false).count %>
+            <% if unread_count.positive? %>
+              <span class="position-absolute start-90 translate-middle badge rounded-circle bg-danger" style="color: white; top: 0.5rem;">
+                <%= unread_count %>
+                <span class="visually-hidden">unread notifications</span>
+              </span>
+            <% end %>
           </button>
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark"
-              style="background: #f7f6e8; color: white; box-shadow: 0 0px 15px rgba(18, 18, 18, 0.4);">
-            <li><%= link_to "My Profile", user_path(current_user), class: "dropdown-item text-style" %></li>
-            <li><%= link_to "Plan", root_path, class: "dropdown-item text-style" %></li>
-            <li><%= link_to "My Trips", "#", class: "dropdown-item text-style" %></li>
-            <li><%= link_to "About", about_path, class: "dropdown-item text-style" %></li>
+          <ul class="dropdown-menu dropdown-menu-end p-2 shadow-lg mt-2"
+              aria-labelledby="notificationsDropdown"
+              style="min-width: 300px;">
+            <% current_user.notifications.order(created_at: :desc).limit(5).each do |notification| %>
+              <% notifier = notification.notifiable&.user rescue nil %>
+              <li class="mb-2 d-flex align-items-start gap-2" style="transition: background 0.2s; cursor: pointer;" onmouseover="this.style.background='#f8f9fa'" onmouseout="this.style.background='transparent'">
+                <% if notifier.present? %>
+                  <% image_src = notifier.user_image_url.presence || asset_path("default_avatar.png") %>
+                  <%= image_tag image_src, alt: "#{notifier.username || notifier.first_name} avatar", class: "rounded-circle flex-shrink-0", style: "width: 40px; height: 40px; object-fit: cover;" %>
+                  <div class="d-flex flex-column">
+                    <% case notification.notification_type %>
+                    <% when "friend_request" %>
+                      <%= link_to user_path(notifier), class: "fw-bold text-decoration-none text-dark mb-1" do %>
+                        <%= notifier.username.presence || notifier.first_name %>
+                      <% end %>
+                      <small class="text-muted">sent you a friend request</small>
+                    <% when "friend_accepted" %>
+                      <span class="fw-bold mb-1"><%= notifier.username.presence || notifier.first_name %></span>
+                      <small class="text-muted">accepted your friend request</small>
+                    <% when "added_to_trip" %>
+                      <%= link_to "You were added to a trip", trip_path(notification.notifiable.trip_id), class: "fw-bold text-decoration-none text-dark" %>
+                    <% else %>
+                      <small>New notification</small>
+                    <% end %>
+                  </div>
+                <% else %>
+                  <small>Notifier missing for notification ID: <%= notification.id %></small>
+                <% end %>
+              </li>
+            <% end %>
             <li><hr class="dropdown-divider"></li>
-            <li><%= link_to "Log Out", destroy_user_session_path,
-                    class: "dropdown-item text-style",
-                    data: { turbo_method: :delete } %></li>
+            <li><%= link_to "View all notifications", notifications_path, class: "dropdown-item text-center small", style: "color: #59683b;" %></li>
           </ul>
         </div>
       <% else %>
         <%= link_to "Log In", new_user_session_path, class: "btn btn-secondary rounded-pill archivo", style: "width: 120px; font-weight: 600; font-size: 15px" %>
       <% end %>
     </div>
-    <button class="navbar-toggler d-lg-none" type="button"
-        data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-        aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-<div class="offcanvas offcanvas-end" style="background-color: #FFF" tabindex="-1" id="offcanvasNavbar"
-     aria-labelledby="offcanvasNavbarLabel">
-  <div class="offcanvas-header justify-content-end">
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
 
-  <div class="offcanvas-body pt-0">
-    <!-- Inline navigation links at the top -->
-    <div class="d-flex flex-wrap justify-content-start gap-5 mb-2 border-bottom pb-3">
-      <ul style="list-style-type: none;"><% if user_signed_in? %>
-        <li><%= link_to "My Profile", user_path(current_user), class: "nav-link-inline p-0 mb-9", style: "font-size: 25px" %></li>
-        <li><%= link_to "Plan your Trip", root_path, class: "nav-link-inline p-0", style: "font-size: 25px" %></li>
-        <li><%= link_to "Search", users_path, class: "nav-link-inline p-0", style: "font-size: 25px" %></li>
-        <li><%= link_to "My Preferences", onboarding_steps_path(step: "interests") , class: "nav-link-inline p-0", style: "font-size: 25px" %></li>
-        <li><%= link_to "About Us", about_path, class: "nav-link-inline p-0",style: "font-size: 25px" %></li>
-        <li><hr class="dropdown-divider"></li>
-            <%= link_to "Log Out", destroy_user_session_path,
-            class: "btn btn-outline-danger rounded-pill archivo mt-5 w-100 fw-600",
-            style: "max-width: 150px; font-weight: 600; font-size: 18px",
-            data: { turbo_method: :delete } %>
-      <% else %>
-        <div class="d-flex flex-column align-items-start gap-2">
-          <%= link_to "Home", root_path, class: "nav-link-inline p-0", style: "font-size: 25px" %>
-          <li><%= link_to "About Us", about_path, class: "nav-link-inline p-0",style: "font-size: 25px" %></li>
-          <div class="d-flex flex-row justify-content-between align-items-center">
-            <%= link_to "Log In", new_user_session_path, class: "btn btn-secondary rounded-pill archivo mb-2 mt-4 me-3",
-            style: "width: 150px; font-weight: 600; font-size: 18px" %>
-            <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-light rounded-pill archivo mt-4 mb-2 me-3", style: "width: 150px; font-weight: 600; font-size: 18px" %>
-          </div>
+    <div class="offcanvas offcanvas-start" style="background-color: #FFF" tabindex="-1" id="offcanvasNavbarLeft" aria-labelledby="offcanvasNavbarLeftLabel">
+      <div class="offcanvas-header justify-content-end">
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body pt-0">
+        <div class="d-flex flex-wrap justify-content-start gap-5 mb-2 border-bottom pb-3">
+          <ul style="list-style-type: none; padding-left: 0;">
+            <% if user_signed_in? %>
+              <li><%= link_to "My Profile", user_path(current_user), class: "nav-link-inline p-0 mb-3", style: "font-size: 25px" %></li>
+              <li><%= link_to "Plan your Trip", root_path, class: "nav-link-inline p-0 mb-3", style: "font-size: 25px" %></li>
+              <li><%= link_to "Search", users_path, class: "nav-link-inline p-0 mb-3", style: "font-size: 25px" %></li>
+              <li><%= link_to "My Preferences", onboarding_interests_path, class: "nav-link-inline p-0 mb-3", style: "font-size: 25px" %></li>
+              <li><%= link_to "About Us", about_path, class: "nav-link-inline p-0 mb-3", style: "font-size: 25px" %></li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <%= link_to "Log Out", destroy_user_session_path,
+                    class: "btn btn-outline-danger rounded-pill archivo mt-3 w-100 fw-600",
+                    style: "max-width: 150px; font-weight: 600; font-size: 18px",
+                    data: { turbo_method: :delete } %>
+              </li>
+            <% else %>
+              <li><%= link_to "Home", root_path, class: "nav-link-inline p-0 mb-3", style: "font-size: 25px" %></li>
+              <li><%= link_to "About Us", about_path, class: "nav-link-inline p-0 mb-3", style: "font-size: 25px" %></li>
+              <li class="mt-4 d-flex gap-3">
+                <%= link_to "Log In", new_user_session_path, class: "btn btn-secondary rounded-pill archivo", style: "width: 150px; font-weight: 600; font-size: 18px" %>
+                <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-light rounded-pill archivo", style: "width: 150px; font-weight: 600; font-size: 18px" %>
+              </li>
+            <% end %>
+          </ul>
         </div>
-      <% end %>
-      </ul>
+      </div>
     </div>
   </div>
 </nav>
+
+<style>
+.notification-bell {
+  position: relative;
+  z-index: 9999;
+  cursor: pointer;
+}
+</style>
