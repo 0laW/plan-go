@@ -1,10 +1,17 @@
 class TripsController < ApplicationController
   before_action :authenticate_user!
 
-  def index
-    @trip = current_user.trips.build
-    @trips = current_user.trips.order(created_at: :desc)
+def index
+  @trip = current_user.trips.build
+  @trips = current_user.trips.order(created_at: :desc)
+  @show_onboarding = !session[:onboarding_complete]
+  @step = params[:step] || "welcome"
+
+  respond_to do |format|
+    format.html
+    format.js  # for remote calls
   end
+end
 
   def create
     @trip = current_user.trips.new(trip_params)

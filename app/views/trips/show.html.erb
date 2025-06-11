@@ -29,37 +29,40 @@
       <% if current_user == @trip.user %>
         <% remaining_friends = current_user.confirmed_friends.reject { |f| @trip.users.include?(f) } %>
         <% if remaining_friends.any? %>
-          <div class="dropdown d-inline-block mb-3">
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #59683b; border-color: #59683b;">
-              Add Friend to Trip
-            </button>
-            <ul class="dropdown-menu" style="min-width: 220px;">
-              <% remaining_friends.each do |friend| %>
-                <li>
-                  <a href="#" class="dropdown-item d-flex align-items-center gap-2 add-friend-to-trip" data-user-id="<%= friend.id %>" style="color: #59683b;">
-                    <img src="<%= friend.user_image_url %>" class="rounded-circle" style="width: 28px; height: 28px; object-fit: cover;">
-                    <span><%= friend.username %></span>
-                  </a>
-                </li>
-              <% end %>
-            </ul>
-          </div>
+    <div class="dropdown d-inline-block mb-3" data-turbo="false">
+      <button
+        class="btn btn-secondary dropdown-toggle"
+        type="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+        style="color: #59683b; border-color: #59683b;"
+      >
+        Add Friend to Trip
+      </button>
+
+      <ul class="dropdown-menu" style="min-width: 220px;">
+        <% if remaining_friends.any? %>
+          <% remaining_friends.each do |friend| %>
+            <li>
+              <a
+                href="#"
+                class="dropdown-item d-flex align-items-center gap-2 add-friend-to-trip"
+                data-user-id="<%= friend.id %>"
+                style="color: #59683b;"
+              >
+                <img
+                  src="<%= friend.user_image_url %>"
+                  alt="friend-avatar"
+                  class="rounded-circle"
+                  style="width: 28px; height: 28px; object-fit: cover;"
+                >
+                <span><%= friend.username %></span>
+              </a>
+            </li>
+          <% end %>
         <% else %>
-          <p class="text-muted mb-3">No more friends to add.</p>
-        <% end %>
-      <% end %>
-
-      <ul id="trip-participants-list" class="list-group mx-auto" style="max-width: 500px;">
-        <% @trip.users.each do |user| %>
-          <li class="list-group-item d-flex align-items-center justify-content-between gap-3">
-            <div class="d-flex align-items-center gap-3">
-              <img src="<%= user.user_image_url %>" class="rounded-circle" style="width: 28px; height: 28px; object-fit: cover;">
-              <%= link_to user.username, user_path(user), class: "fw-semibold text-decoration-none", style: "color: #59683b;" %>
-            </div>
-
-            <% if current_user == @trip.user && user != @trip.user %>
-                <%= button_to "Remove", remove_user_trip_path(@trip, user_id: user.id), method: :delete, data: { confirm: "Are you sure?" }, form_class: "d-inline" , class: "btn btn-link text-danger p-0 text-decoration-none" %>
-            <% end %>
+          <li>
+            <span class="dropdown-item text-muted">No friends to add</span>
           </li>
         <% end %>
       </ul>

@@ -1,35 +1,35 @@
-<% content_for :hide_navbar, true %>
-<% content_for :hide_flash, true %>
+<div class="bg-white rounded-4 p-4 shadow-lg text-center"
+     style="backdrop-filter: blur(50px); width: 100%; max-width: 600px; color: black; background-color: rgba(255,255,255,0.8); overflow: hidden; padding-top: 40px; box-sizing: border-box;">
 
-<div class="d-flex vh-100 justify-content-center align-items-center" style="background-color: white;">
-  <div class="rounded-4 p-4 shadow-lg text-center" style="backdrop-filter: blur(50px); max-width: 600px; min-width: 550px; width: 90%; color: black; height: 420px; background-color: rgba(255,255,255,0.8);">
-    <h1 class="archivo-black fw-bold fs-3 pt-2 mb-4">Choose your specific interests</h1>
-    <%= form_with url: onboarding_save_sub_interests_path, method: :post, data: { turbo_frame: "onboarding_step" } do %>
-      <div class="overflow-auto custom-scrollbar" style="max-height: 205px;">
-        <% if @selected_category_ids.empty? %>
-          <div class="d-flex flex-column" style="height: 200px">
-            <p class="archivo fs-6 text-secondary">Please select at least one category to see specific interests.</p>
+  <h1 class="archivo-black fw-bold fs-3 pt-2 mb-4">Choose your specific interests</h1>
+
+  <%= form_with url: onboarding_save_sub_interests_path, method: :post, data: { turbo_frame: "onboarding_step" } do %>
+    <div class="overflow-auto custom-scrollbar" style="max-height: 60vh;">
+      <% if @selected_category_ids.to_a.empty? %>
+        <div class="d-flex flex-column justify-content-center" style="height: 200px;">
+          <p class="archivo fs-6 text-secondary">Please select at least one category to see specific interests.</p>
+        </div>
+      <% else %>
+        <% @selected_category_ids.each do |cat_id| %>
+          <% category = Category.find(cat_id) %>
+          <h5 class="archivo-black mt-3"><%= category.name %></h5>
+          <div class="d-flex flex-wrap gap-2 justify-content-center mb-5">
+            <% @subcategories.where(category_id: cat_id).each do |subcat| %>
+              <%= check_box_tag "subcategory_ids[]", subcat.id, false, class: "btn-check", id: "subcat_#{subcat.id}", autocomplete: "off" %>
+              <%= label_tag "subcat_#{subcat.id}", subcat.name, class: "btn-outline-custom rounded-pill px-4 py-2 archivo fw-semibold" %>
+            <% end %>
           </div>
-        <% else %>
-          <% @selected_category_ids.each do |cat_id| %>
-            <% category = Category.find(cat_id) %>
-            <h5 class="archivo-black mt-3"><%= category.name %></h5>
-            <div class="d-flex flex-wrap gap-2 justify-content-center mb-5">
-              <% @subcategories.where(category_id: cat_id).each do |subcat| %>
-                <%= check_box_tag "subcategory_ids[]", subcat.id, false, class: "btn-check", id: "subcat_#{subcat.id}", autocomplete: "off" %>
-                <%= label_tag "subcat_#{subcat.id}", subcat.name, class: "btn-outline-custom rounded-pill px-4 py-2 archivo fw-semibold" %>
-              <% end %>
-            </div>
-          <% end %>
         <% end %>
-      </div>
-      <div class="d-flex gap-3 justify-content-center">
-        <%= link_to "← Back", onboarding_steps_path(step: "interests"), data: { turbo_frame: "onboarding_step" }, class: "btn btn-light rounded-pill archivo mt-3 mb-2", style: "width: 150px; font-weight: 600; font-size: 18px" %>
-        <%= submit_tag "Next →", class: "btn btn-secondary rounded-pill archivo mt-3 mb-2", style: "width: 150px; font-weight: 600; font-size: 18px" %>
-      </div>
-    <% end %>
-    <div class="progress" style="height: 8px; border-radius: 4px; margin-top: 26.5px">
+      <% end %>
+    </div>
+
+    <div class="d-flex gap-3 justify-content-center mt-5 flex-wrap">
+      <%= link_to "← Back", onboarding_interests_path, data: { turbo_frame: "onboarding_step" }, class: "btn btn-light rounded-pill archivo", style: "flex: 1 1 120px; max-width: 150px; font-weight: 600; font-size: 18px; min-width: 120px;" %>
+      <%= submit_tag "Next →", class: "btn btn-secondary rounded-pill archivo", style: "flex: 1 1 120px; max-width: 150px; font-weight: 600; font-size: 18px; min-width: 120px;" %>
+    </div>
+
+    <div class="progress mt-4" style="height: 8px; border-radius: 4px;">
       <div class="progress-bar" style="width: 50%; background-color: #798645;"></div>
     </div>
-  </div>
+  <% end %>
 </div>

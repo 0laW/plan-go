@@ -4,6 +4,14 @@
 <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
+<% if @show_onboarding %>
+  <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1050; overflow: hidden; padding: 1rem; box-sizing: border-box;">
+    <div style="max-width: 600px; width: 100%; max-height: 90vh; border-radius: 0.5rem; position: relative; z-index: 1060; padding: 20px; box-sizing: border-box; overflow-y: auto;">
+      <%= render partial: "onboarding/#{@step}" %>
+    </div>
+  </div>
+<% end %>
+
 <div class="video-bg-container d-flex vh-100 justify-content-center align-items-center px-3" style="position: relative; overflow: hidden; ">
   <video autoplay muted loop playsinline class="video-bg">
     <source src="https://res.cloudinary.com/dpekautsm/video/upload/v1749024925/4763911-uhd_3840_2160_24fps_nzvdvc.mp4" type="video/mp4">
@@ -57,7 +65,12 @@
                 <span class="button-text">Plan my trip →</span>
                 <span class="spinner-border spinner-border-sm d-none" id="trip-spinner" role="status" aria-hidden="true"></span>
               </button>
-              <%= link_to "Edit trip preferences", onboarding_steps_path(step: "interests"), class: "archivo text-black text-decoration-none border-bottom border-0 border-black mt-3", style: "font-size: 14px; font-weight: 300; text-decoration: none;", data: { turbo: false }, onmouseover: "this.style.borderBottom='2px solid black'", onmouseout: "this.style.borderBottom='0'" %>
+              <%= link_to "Edit trip preferences", onboarding_interests_path,
+                class: "archivo text-black text-decoration-none border-bottom border-0 border-black mt-3",
+                style: "font-size: 14px; font-weight: 300; text-decoration: none;",
+                data: { turbo: false },
+                onmouseover: "this.style.borderBottom='2px solid black'",
+                onmouseout: "this.style.borderBottom='0'" %>
             </div>
           </div>
         </div>

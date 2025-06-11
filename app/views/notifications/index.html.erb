@@ -1,0 +1,49 @@
+<div class="container my-5">
+  <h2 class="mb-4 archivo-black">All Notifications</h2>
+
+  <% if @notifications.any? %>
+    <ul class="list-group  rounded">
+      <% @notifications.each do |notification| %>
+        <% notifier = notification.notifiable&.user rescue nil %>
+        <li class="list-group-item d-flex align-items-center gap-3 py-3">
+          <% if notifier.present? %>
+            <% image_src = notifier.user_image_url.presence || asset_path("default_avatar.png") %>
+            <%= image_tag image_src, alt: "#{notifier.username || notifier.first_name} avatar", class: "rounded-circle", style: "width: 50px; height: 50px; object-fit: cover;" %>
+
+            <div>
+              <div class="fw-bold">
+                <% case notification.notification_type %>
+                <% when "friend_request" %>
+                  <%= link_to notifier.username.presence || notifier.first_name, user_path(notifier), class: "text-decoration-none text-dark" %>
+                  <span> sent you a friend request</span>
+
+                <% when "friend_accepted" %>
+                  <%= link_to notifier.username.presence || notifier.first_name, user_path(notifier), class: "text-decoration-none text-dark" %>
+                  <span> accepted your friend request</span>
+
+                <% when "added_to_trip" %>
+                  <%= link_to "You were added to a trip", trip_path(notification.notifiable.trip_id), class: "text-decoration-none text-dark fw-bold" %>
+
+                <% else %>
+                  <small>New notification</small>
+                <% end %>
+              </div>
+              <small class="text-muted">
+                <%= time_ago_in_words(notification.created_at) %> ago
+              </small>
+            </div>
+          <% else %>
+            <div>
+              <strong class="text-danger">Unknown notifier</strong><br>
+              <small>Notification ID: <%= notification.id %></small>
+            </div>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <div class="alert alert-info text-center mt-4" role="alert">
+      You have no notifications yet.
+    </div>
+  <% end %>
+</div>
