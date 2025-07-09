@@ -6,12 +6,11 @@ class NotificationsController < ApplicationController
   end
 
   def mark_as_read
-  notification = current_user.notifications.find(params[:id])
-  notification.update(read: true)
-  respond_to do |format|
-    format.turbo_stream
-    format.html { redirect_to notifications_path }
+    notification = current_user.notifications.find(params[:id])
+    notification.update(read: true)
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to notifications_path }
+    end
   end
-end
-
 end

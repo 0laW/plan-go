@@ -14,9 +14,9 @@ class Friendship < ApplicationRecord
   private
 
   def not_duplicate
-    if Friendship.where(user_id: friend_id, friend_id: user_id).exists?
-      errors.add(:base, "Friendship already exists.")
-    end
+    return unless Friendship.where(user_id: friend_id, friend_id: user_id).exists?
+
+    errors.add(:base, "Friendship already exists.")
   end
 
   def create_friend_request_notification

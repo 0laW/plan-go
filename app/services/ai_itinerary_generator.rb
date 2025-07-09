@@ -76,7 +76,7 @@ class AiItineraryGenerator
             day: activity_data["day"]
           )
         end
-      rescue => e
+      rescue StandardError => e
         Rails.logger.error("Failed to save activity or trip activity: #{e.message}")
       end
     end
@@ -101,7 +101,7 @@ class AiItineraryGenerator
     str = price_level_str.strip.downcase
 
     return 0.0 if str == "free"
-    return 5.0 if str.match?(/^[£$€₹¥]$/)  # Only currency symbol, no number
+    return 5.0 if str.match?(/^[£$€₹¥]$/) # Only currency symbol, no number
 
     num = str.gsub(/[^\d\.]/, '').to_f
     num.zero? ? 5.0 : num
@@ -123,7 +123,7 @@ class AiItineraryGenerator
     Time.strptime(activity["start_time"], "%H:%M")
     Time.strptime(activity["end_time"], "%H:%M")
     true
-  rescue
+  rescue StandardError
     false
   end
 

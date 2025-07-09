@@ -55,7 +55,7 @@ class User < ApplicationRecord
 
   def friend_with?(other_user)
     Friendship.exists?(user: self, friend: other_user, status: 'accepted') ||
-    Friendship.exists?(user: other_user, friend: self, status: 'accepted')
+      Friendship.exists?(user: other_user, friend: self, status: 'accepted')
   end
 
   def level
@@ -75,6 +75,7 @@ class User < ApplicationRecord
   end
 
   private
+
   def assign_random_avatar
     self.user_image_url ||= AVATAR_URLS.sample
   end
