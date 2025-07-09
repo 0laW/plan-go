@@ -5,15 +5,11 @@ class TripUsersController < ApplicationController
     trip = Trip.find(params[:trip_id])
     user = User.find(params[:user_id])
 
-    unless trip.user == current_user || trip.users.include?(current_user)
-      return head :forbidden
-    end
+    return head :forbidden unless trip.user == current_user || trip.users.include?(current_user)
 
-    if trip.users.include?(user)
-      render json: { error: "User already added" }, status: :unprocessable_entity and return
-    end
+    render json: { error: "User already added" }, status: :unprocessable_entity and return if trip.users.include?(user)
 
-    trip_user = TripUser.create!(trip: trip, user: user)
+    TripUser.create!(trip: trip, user: user)
 
     render json: {
       user_id: user.id,
@@ -22,12 +18,11 @@ class TripUsersController < ApplicationController
     }, status: :ok
   end
 
-    trip.users << user
+  trip.users << user
 
-    render json: {
-      user_id: user.id,
-      username: user.username,
-      user_image_url: user.user_image_url
-    }
-  end
+  render json: {
+    user_id: user.id,
+    username: user.username,
+    user_image_url: user.user_image_url
+  }
 end

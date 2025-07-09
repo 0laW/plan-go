@@ -1,17 +1,17 @@
 class TripsController < ApplicationController
   before_action :authenticate_user!
 
-def index
-  @trip = current_user.trips.build
-  @trips = current_user.trips.order(created_at: :desc)
-  @show_onboarding = !session[:onboarding_complete]
-  @step = params[:step] || "welcome"
+  def index
+    @trip = current_user.trips.build
+    @trips = current_user.trips.order(created_at: :desc)
+    @show_onboarding = !session[:onboarding_complete]
+    @step = params[:step] || "welcome"
 
-  respond_to do |format|
-    format.html
-    format.js  # for remote calls
+    respond_to do |format|
+      format.html
+      format.js # for remote calls
+    end
   end
-end
 
   def create
     @trip = current_user.trips.new(trip_params)
@@ -34,18 +34,17 @@ end
   end
 
   def remove_user
-  @trip = Trip.find(params[:id])
-  user_to_remove = User.find(params[:user_id])
+    @trip = Trip.find(params[:id])
+    user_to_remove = User.find(params[:user_id])
 
-  if current_user == @trip.user
-    @trip.users.delete(user_to_remove)
-    flash[:notice] = "#{user_to_remove.username} was removed from the trip."
-  else
-    flash[:alert] = "You are not authorized to remove users from this trip."
+    if current_user == @trip.user
+      @trip.users.delete(user_to_remove)
+      flash[:notice] = "#{user_to_remove.username} was removed from the trip."
+    else
+      flash[:alert] = "You are not authorized to remove users from this trip."
+    end
+    redirect_to trip_path(@trip)
   end
-  redirect_to trip_path(@trip)
-end
-
 
   private
 

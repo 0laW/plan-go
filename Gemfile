@@ -80,6 +80,5 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "ruby-openai"
 gem 'httparty'
 gem "cloudinary"
