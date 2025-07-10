@@ -29,131 +29,123 @@
       <% if current_user == @trip.user %>
         <% remaining_friends = current_user.confirmed_friends.reject { |f| @trip.users.include?(f) } %>
         <% if remaining_friends.any? %>
-    <div class="dropdown d-inline-block mb-3" data-turbo="false">
-      <button
-        class="btn btn-secondary dropdown-toggle"
-        type="button"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-        style="color: #59683b; border-color: #59683b;"
-      >
-        Add Friend to Trip
-      </button>
+          <div class="dropdown d-inline-block mb-3" data-turbo="false">
+            <button
+              class="btn btn-secondary dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              style="color: #59683b; border-color: #59683b;"
+            >
+              Add Friend to Trip
+            </button>
 
-      <ul class="dropdown-menu" style="min-width: 220px;">
-        <% if remaining_friends.any? %>
-          <% remaining_friends.each do |friend| %>
-            <li>
-              <a
-                href="#"
-                class="dropdown-item d-flex align-items-center gap-2 add-friend-to-trip"
-                data-user-id="<%= friend.id %>"
-                style="color: #59683b;"
-              >
-                <img
-                  src="<%= friend.user_image_url %>"
-                  alt="friend-avatar"
-                  class="rounded-circle"
-                  style="width: 28px; height: 28px; object-fit: cover;"
-                >
-                <span><%= friend.username %></span>
-              </a>
-            </li>
-          <% end %>
-        <% else %>
-          <li>
-            <span class="dropdown-item text-muted">No friends to add</span>
-          </li>
-        <% end %>
-      </ul>
-    </div>
-
-    <hr class="my-4">
-
-    <% if @trip.trip_activities.any? %>
-      <% activities = @trip.trip_activities.includes(:activity).sort_by { |ta| ta.start_time || Time.new(2100) } %>
-      <% slides = activities.each_slice(3).to_a %>
-
-    <div id="activitiesCarousel" class="carousel slide" data-bs-ride="false">
-        <% if slides.size > 1 %>
-          <div class="carousel-indicators">
-            <% slides.each_with_index do |_, index| %>
-              <button type="button" data-bs-target="#activitiesCarousel" data-bs-slide-to="<%= index %>" class="<%= 'active' if index == 0 %>" aria-current="<%= 'true' if index == 0 %>" aria-label="Slide <%= index + 1 %>"></button>
-            <% end %>
+            <ul class="dropdown-menu" style="min-width: 220px;">
+              <% remaining_friends.each do |friend| %>
+                <li>
+                  <a
+                    href="#"
+                    class="dropdown-item d-flex align-items-center gap-2 add-friend-to-trip"
+                    data-user-id="<%= friend.id %>"
+                    style="color: #59683b;"
+                  >
+                    <img
+                      src="<%= friend.user_image_url %>"
+                      alt="friend-avatar"
+                      class="rounded-circle"
+                      style="width: 28px; height: 28px; object-fit: cover;"
+                    >
+                    <span><%= friend.username %></span>
+                  </a>
+                </li>
+              <% end %>
+            </ul>
           </div>
         <% end %>
 
-        <div class="carousel-inner">
-          <% slides.each_with_index do |slide, index| %>
-            <div class="carousel-item <%= 'active' if index == 0 %>">
-              <div class="d-flex justify-content-center align-items-center mb-3 position-relative">
-                <% if slides.size > 1 %>
-                  <button class="btn btn-sm btn-outline-secondary carousel-arrow me-3" type="button" data-bs-target="#activitiesCarousel" data-bs-slide="prev">
-                    <i class="bi bi-chevron-left"></i>
-                  </button>
-                <% else %>
-                  <div></div>
-                <% end %>
+        <hr class="my-4">
 
-                <h4 class="archivo-black mb-0 text-center" style="color: #59683b; min-width: 180px;">
-                  Day <%= index + 1 %> — <%= (@trip.start_date + index).strftime('%B %d, %Y') %>
-                </h4>
+        <% if @trip.trip_activities.any? %>
+          <% activities = @trip.trip_activities.includes(:activity).sort_by { |ta| ta.start_time || Time.new(2100) } %>
+          <% slides = activities.each_slice(3).to_a %>
 
-                <% if slides.size > 1 %>
-                  <button class="btn btn-sm btn-outline-secondary carousel-arrow ms-3" type="button" data-bs-target="#activitiesCarousel" data-bs-slide="next">
-                    <i class="bi bi-chevron-right"></i>
-                  </button>
-                <% else %>
-                  <div></div>
+          <div id="activitiesCarousel" class="carousel slide" data-bs-ride="false">
+            <% if slides.size > 1 %>
+              <div class="carousel-indicators">
+                <% slides.each_with_index do |_, index| %>
+                  <button type="button" data-bs-target="#activitiesCarousel" data-bs-slide-to="<%= index %>" class="<%= 'active' if index == 0 %>" aria-current="<%= 'true' if index == 0 %>" aria-label="Slide <%= index + 1 %>"></button>
                 <% end %>
               </div>
+            <% end %>
 
-              <ul class="list-group mb-4">
-                <% slide.each do |ta| %>
-                  <% activity = ta.activity %>
-                  <li class="list-group-item mb-3 rounded-3 shadow-sm border border-light">
-                    <div class="d-flex gap-3 align-items-start flex-wrap">
-                      <% if activity.image_url.present? %>
-                        <div class="activity-image flex-shrink-0">
-                          <img src="<%= activity.image_url %>" alt="<%= activity.name %> image" />
+            <div class="carousel-inner">
+              <% slides.each_with_index do |slide, index| %>
+                <div class="carousel-item <%= 'active' if index == 0 %>">
+                  <div class="d-flex justify-content-center align-items-center mb-3 position-relative">
+                    <% if slides.size > 1 %>
+                      <button class="btn btn-sm btn-outline-secondary carousel-arrow me-3" type="button" data-bs-target="#activitiesCarousel" data-bs-slide="prev">
+                        <i class="bi bi-chevron-left"></i>
+                      </button>
+                    <% end %>
+
+                    <h4 class="archivo-black mb-0 text-center" style="color: #59683b; min-width: 180px;">
+                      Day <%= index + 1 %> — <%= (@trip.start_date + index).strftime('%B %d, %Y') %>
+                    </h4>
+
+                    <% if slides.size > 1 %>
+                      <button class="btn btn-sm btn-outline-secondary carousel-arrow ms-3" type="button" data-bs-target="#activitiesCarousel" data-bs-slide="next">
+                        <i class="bi bi-chevron-right"></i>
+                      </button>
+                    <% end %>
+                  </div>
+
+                  <ul class="list-group mb-4">
+                    <% slide.each do |ta| %>
+                      <% activity = ta.activity %>
+                      <li class="list-group-item mb-3 rounded-3 shadow-sm border border-light">
+                        <div class="d-flex gap-3 align-items-start flex-wrap">
+                          <% if activity.image_url.present? %>
+                            <div class="activity-image flex-shrink-0">
+                              <img src="<%= activity.image_url %>" alt="<%= activity.name %> image" />
+                            </div>
+                          <% end %>
+
+                          <div class="flex-grow-1 d-flex flex-column gap-1">
+                            <h5 class="fw-bold mb-1" style="color: #59683b;"><%= h activity.name %></h5>
+                            <p class="fst-italic text-muted mb-1"><%= h activity.address %></p>
+                            <p class="mb-1"><%= h activity.description %></p>
+
+                            <% if ta.start_time && ta.end_time %>
+                              <p class="fw-semibold mb-1" style="color: #59683b;">
+                                <i class="bi bi-clock me-1"></i>
+                                <%= ta.start_time.strftime("%I:%M %p") %> - <%= ta.end_time.strftime("%I:%M %p") %>
+                              </p>
+                            <% end %>
+
+                            <% if activity.price_level.present? %>
+                              <p class="fw-semibold mb-1" style="color: #59683b;">
+                                <i class="bi bi-cash me-1"></i>
+                                Estimated cost: <%= h activity.price_level %>
+                              </p>
+                            <% end %>
+                          </div>
                         </div>
-                      <% end %>
-
-                      <div class="flex-grow-1 d-flex flex-column gap-1">
-                        <h5 class="fw-bold mb-1" style="color: #59683b;"><%= h activity.name %></h5>
-                        <p class="fst-italic text-muted mb-1"><%= h activity.address %></p>
-                        <p class="mb-1"><%= h activity.description %></p>
-
-                        <% if ta.start_time && ta.end_time %>
-                          <p class="fw-semibold mb-1" style="color: #59683b;">
-                            <i class="bi bi-clock me-1"></i>
-                            <%= ta.start_time.strftime("%I:%M %p") %> - <%= ta.end_time.strftime("%I:%M %p") %>
-                          </p>
-                        <% end %>
-
-                        <% if activity.price_level.present? %>
-                          <p class="fw-semibold mb-1" style="color: #59683b;">
-                            <i class="bi bi-cash me-1"></i>
-                            Estimated cost: <%= h activity.price_level %>
-                          </p>
-                        <% end %>
-                      </div>
-                    </div>
-                  </li>
-                <% end %>
-              </ul>
+                      </li>
+                    <% end %>
+                  </ul>
+                </div>
+              <% end %>
             </div>
-          <% end %>
-        </div>
-      </div>
-    <% else %>
-      <p class="text-muted fst-italic mt-4 text-center">No activities planned yet.</p>
-    <% end %>
+          </div>
+        <% else %>
+          <p class="text-muted fst-italic mt-4 text-center">No activities planned yet.</p>
+        <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
 
 <style>
-
   .activity-image img {
     border-radius: 0.5rem;
     width: 200px;
@@ -161,33 +153,25 @@
     object-fit: cover;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   }
-
   @media (max-width: 576px) {
     .list-group-item .d-flex {
       flex-direction: column !important;
       align-items: flex-start !important;
     }
-
     .activity-image img {
       width: 100%;
       height: auto;
       max-height: 300px;
     }
-
   }
-
   .carousel-arrow {
     border-color: #59683b;
   }
-
   .carousel-arrow:hover {
     background-color: #59683b;
   }
-
-
 </style>
 
-<!-- JS for adding friend to trip -->
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".add-friend-to-trip").forEach(item => {
@@ -195,7 +179,6 @@
         e.preventDefault();
         const userId = e.currentTarget.dataset.userId;
         const tripId = <%= @trip.id %>;
-
         const response = await fetch("/trip_users", {
           method: "POST",
           headers: {
@@ -204,7 +187,6 @@
           },
           body: JSON.stringify({ user_id: userId, trip_id: tripId })
         });
-
         if (response.ok) {
           const data = await response.json();
           const list = document.getElementById("trip-participants-list");
